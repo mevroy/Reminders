@@ -1,0 +1,14 @@
+<html>
+<body>
+<h2>Dear ${user.firstName},</h2>
+
+<h3>Wish you a very Happy Birthday</h3>
+
+<p>
+    Thanks for being a valued member</a>.
+</p>
+
+<p>Thanks,<br/>Mevan Dsouza</p>
+</body>
+
+</html>

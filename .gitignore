@@ -1,0 +1,12 @@
+/target
+/**/target
+/*.iml
+/**/*.iml
+/.idea
+.idea
+.DS_Store
+".DS_Store"
+"*.iml"
+"/target"
+".idea"
+"/.idea"

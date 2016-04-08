@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<import resource="classpath*:/META-INF/spring/batch/servlet/resources/*.xml" />
+	<import resource="classpath*:/META-INF/spring/batch/servlet/manager/*.xml" />
+	<import resource="classpath*:/META-INF/spring/batch/servlet/override/*.xml" />
+	<import resource="classpath*:/META-INF/spring/batch/bootstrap/**/*.xml" />
+	<import resource="classpath*:/META-INF/spring/batch/override/**/*.xml" />
+
+	<!-- Override de standard locatie van spring batch admin resources -->
+	<bean id="resourceService"
+		class="org.springframework.batch.admin.web.resources.DefaultResourceService">
+		<property name="servletPath" value="/00622239-f2b3-48e7-a55a-d7c1f65d05ad/batch" />
+	</bean>
+
+	<bean id="parameterUnpackerFilter"
+		class="org.springframework.batch.admin.web.filter.ParameterUnpackerFilter">
+		<property name="prefix" value="unpack_" />
+		<property name="putEmptyParamsInPath" value="true" />
+	</bean>
+	<bean id="dataSource" parent="dataSource" />
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+</beans>

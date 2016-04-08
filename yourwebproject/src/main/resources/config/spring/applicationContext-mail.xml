@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mail="http://www.springframework.org/schema/integration/mail"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+               http://www.springframework.org/schema/integration/mail
+            http://www.springframework.org/schema/integration/mail/spring-integration-mail-3.0.xsd 
+            http://www.springframework.org/schema/util 
+            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<!-- Commented for now import resource="applicationContext-properties.xml" 
+		/> -->
+
+    <util:properties id="javaMailProperties">
+        <prop key="mail.imap.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+        <prop key="mail.imap.socketFactory.fallback">false</prop>
+        <prop key="mail.store.protocol">imaps</prop>
+        <prop key="mail.debug">true</prop>
+    </util:properties>
+ 
+
+   <mail:inbound-channel-adapter id="imapAdapter" 
+                                      store-uri="imaps://${mail.user}:${mail.pass}@imap.googlemail.com:993/INBOX"                                     
+                                      channel="recieveEmailChannel"                                          
+                                      should-delete-messages="true"
+                                      should-mark-messages-as-read="true"                                      
+                                      auto-startup="true"
+                                      java-mail-properties="javaMailProperties"
+                                    mail-filter-expression="(subject matches '(?i)Membership') or (subject matches '(?i)membership' ) or (subject matches '(?i)MEMBERSHIP')">
+      <!--  <int:poller fixed-delay="6000" time-unit="SECONDS"/>  -->
+       <int:poller max-messages-per-poll="5" cron="30 0/1 * 1/1 * ?"/>
+  		</mail:inbound-channel-adapter>   
+
+ <!-- Commented to not for now   
+ <mail:imap-idle-channel-adapter id="customAdapter"
+      store-uri="imaps://${mail.user}:${mail.pass}@imap.googlemail.com:993/INBOX"
+      channel="recieveEmailChannel"      
+      auto-startup="true"
+      should-delete-messages="false"      
+      should-mark-messages-as-read="false"
+      java-mail-properties="javaMailProperties" 
+      mail-filter-expression="subject matches '(?i).*RSVP.*'">
+          <mail:transactional synchronization-factory="syncFactory"/>
+    </mail:imap-idle-channel-adapter>  
+     
+     
+      
+      <int:transaction-synchronization-factory id="syncFactory">
+    <int:after-commit expression="@syncProcessor.process(payload)"/>
+</int:transaction-synchronization-factory>
+
+<bean id="syncProcessor" class="com.yourpackagename.yourwebproject.common.MoveEmails"/>  
+  -->
+ 
+    <int:channel id="recieveEmailChannel">        
+        <int:interceptors>
+            <int:wire-tap channel="logger"/>
+        </int:interceptors>
+    </int:channel>
+
+    <int:logging-channel-adapter id="logger" level="DEBUG"/>
+
+ <int:service-activator input-channel="recieveEmailChannel" ref="emailReceiverService" method="receive"/>
+
+    <bean id="emailReceiverService" class="com.yourpackagename.yourwebproject.service.EmailReceiverService">
+    </bean>
+   
+       
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="protocol" value="${mail.transport.protocol}" />
+		<property name="host" value="${mail.host}" />
+		<property name="username" value="${mail.user}" />
+		<property name="password" value="${mail.pass}" />
+		<property name="port" value="${mail.port}" />
+	</bean>
+
+	<!-- bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean"> 
+		<property name="velocityProperties"> <value> resource.loader=class class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader 
+		</value> </property> </bean> -->
+
+	<!-- Configure Velocity for sending e-mail -->
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityPropertiesMap">
+			<map>
+				<entry key="resource.loader">
+					<value>ds</value>
+				</entry>
+				<entry key="ds.resource.loader.instance">
+					<ref bean="templateLoader" />
+				</entry>
+				<entry key="ds.resource.loader.resource.table">
+					<value>group_email_template</value>
+				</entry>
+				<entry key="ds.resource.loader.resource.keycolumn">
+					<value>template_name</value>
+				</entry>
+				<entry key="ds.resource.loader.resource.templatecolumn">
+					<value>template_content</value>
+				</entry>
+				<entry key="ds.resource.loader.resource.timestampcolumn">
+					<value>last_modified</value>
+				</entry>
+				<entry key="ds.resource.loader.cache">
+					<value>false</value>
+				</entry>
+				<entry key="ds.resource.loader.modificationCheckInterval">
+					<value>60</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- Configure Velocity for sending PushNotifications
+	<bean id="velocityEnginePushNotifications"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityPropertiesMap">
+			<map>
+				<entry key="resource.loader">
+					<value>ds</value>
+				</entry>
+				<entry key="ds.resource.loader.instance">
+					<ref bean="templateLoader" />
+				</entry>
+				<entry key="ds.resource.loader.resource.table">
+					<value>group_push_notification_template</value>
+				</entry>
+				<entry key="ds.resource.loader.resource.keycolumn">
+					<value>template_name</value>
+				</entry>
+				<entry key="ds.resource.loader.resource.templatecolumn">
+					<value>template_content</value>
+				</entry>
+				<entry key="ds.resource.loader.resource.timestampcolumn">
+					<value>last_modified</value>
+				</entry>
+				<entry key="ds.resource.loader.cache">
+					<value>false</value>
+				</entry>
+				<entry key="ds.resource.loader.modificationCheckInterval">
+					<value>60</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+-->
+
+	<!-- Velocity Database Template Loader -->
+	<bean id="templateLoader"
+		class="org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+</beans>

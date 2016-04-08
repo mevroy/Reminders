@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+		          http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<!-- Commented for now import resource="applicationContext-repository.xml" 
+		/> <import resource="applicationContext-mail.xml" /> -->
+
+
+	<!-- Added for Batch task Start -->
+	<task:annotation-driven />
+	<context:annotation-config />
+
+	<!-- Added for Batch task End -->
+	<context:component-scan base-package="com.yourpackagename.yourwebproject.scheduler" />
+
+	<!-- JOB DEFINITIONS -->
+	<job id="genericJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="local.job">
+			<tasklet transaction-manager="transactionManager">
+				<chunk reader="getReader" processor="getProcessor" writer="getWriter"
+					commit-interval="1" />
+			</tasklet>
+		</step>
+	</job>
+
+	<!-- <job id="genericJob" xmlns="http://www.springframework.org/schema/batch"> 
+		<step id="local.job"> <partition step="partioned.job" partitioner="rangePartitioner" 
+		handler="jobPartitionHandler" /> </step> </job> 
+
+	<bean id="jobPartitionHandler"
+		class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+		scope="step">
+		<property name="taskExecutor" ref="taskExecutor" />
+		<property name="step" ref="partioned.job" />
+		<property name="gridSize" value="2" />
+	</bean>
+
+	<step id="partioned.job" xmlns="http://www.springframework.org/schema/batch">
+		<tasklet transaction-manager="transactionManager">
+			<chunk reader="getPartinonedReader" processor="getProcessor"
+				writer="getWriter" commit-interval="50" skip-limit="2">
+
+				<batch:skippable-exception-classes>
+					<batch:include class="java.lang.Exception" />
+				</batch:skippable-exception-classes>
+			</chunk>
+			<listeners>
+				<listener ref="stepSummaryListener" />
+			</listeners>
+		</tasklet>
+	</step>
+	-->
+
+
+	<!-- <job id="emailProcessorJob" xmlns="http://www.springframework.org/schema/batch"> 
+		<step id="local.email.job"> <tasklet transaction-manager="transactionManager"> 
+		<chunk reader="getReader" processor="getEmailOutProcessor" writer="getEmailOutWriter" 
+		commit-interval="10" /> </tasklet> </step> </job> -->
+
+
+	<!-- the below is for multithreaded chunking -->
+	<!-- <job id="emailProcessorJob" xmlns="http://www.springframework.org/schema/batch"> 
+		<step id="local.email.job"> <tasklet task-executor="taskExecutor" throttle-limit="3" 
+		transaction-manager="transactionManager"> <chunk reader="getMultithreadedReader" 
+		processor="getEmailOutProcessor" writer="getEmailOutWriter" commit-interval="20" 
+		/> <listeners> <listener ref="stepSummaryListener" /> </listeners> </tasklet> 
+		</step> </job> -->
+
+	<!-- Below is for partioning -->
+	<job id="emailProcessorJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="local.email.job">
+			<partition step="partioned.email.job" partitioner="rangePartitioner"
+				handler="emailJobPartitionHandler" />
+
+			<!-- <handler grid-size="#{jobParameters['gridSize']}" task-executor="taskExecutor" 
+				/> </partition> -->
+		</step>
+	</job>
+
+	<step id="partioned.email.job" xmlns="http://www.springframework.org/schema/batch">
+		<tasklet transaction-manager="transactionManager">
+			<chunk reader="getPartinonedReader" processor="getEmailOutProcessor"
+				writer="getEmailOutWriter" commit-interval="2" skip-limit="2">
+
+				<batch:skippable-exception-classes>
+					<batch:include class="java.lang.Exception" />
+				</batch:skippable-exception-classes>
+			</chunk>
+			<listeners>
+				<listener ref="stepSummaryListener" />
+			</listeners>
+		</tasklet>
+	</step>
+	<bean id="rangePartitioner"
+		class="com.yourpackagename.yourwebproject.scheduler.partitioners.RangePartitioner">
+		<property name="noOfRecordsperPartition" value="10" />
+	</bean>
+	<bean id="getPartinonedReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString" value="#{jobParameters['queryString']}" />
+		<property name="name" value="partioner" />
+		<property name="saveState" value="true" />
+
+	</bean>
+
+	<bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+
+	<bean id="emailJobPartitionHandler"
+		class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+		scope="step">
+		<property name="taskExecutor" ref="taskExecutor" />
+		<property name="step" ref="partioned.email.job" />
+		<!-- <property name="gridSize" value="#{jobParameters['numberOfPartitions']}" 
+			/> -->
+		<property name="gridSize" value="3" />
+	</bean>
+	<!-- Partitioning end -->
+
+
+
+
+	<bean id="getMultithreadedReader"
+		class="com.yourpackagename.yourwebproject.scheduler.readers.SynchronizedItemReader">
+		<constructor-arg>
+			<bean
+				class="org.springframework.batch.item.database.HibernateCursorItemReader"
+				scope="step">
+				<property name="sessionFactory" ref="sessionFactory" />
+				<property name="queryString" value="#{jobParameters['queryString']}" />
+				<property name="fetchSize" value="100"></property>
+				<property name="saveState" value="false" />
+				<property name="useStatelessSession" value="false"></property>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<!-- JOB BEANS Generic Read, process and write -->
+	<bean id="getReader"
+		class="org.springframework.batch.item.database.HibernateCursorItemReader"
+		scope="step">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="queryString" value="#{jobParameters['queryString']}" />
+		<property name="fetchSize" value="100"></property>
+		<property name="saveState" value="false" />
+		<property name="useStatelessSession" value="false"></property>
+	</bean>
+	<!-- bean id="getReader" class="com.yourpackagename.yourwebproject.scheduler.readers.GenericItemReader" 
+		scope="step" /> -->
+	<bean id="getProcessor"
+		class="com.yourpackagename.yourwebproject.scheduler.processors.GenericItemProcessor"
+		scope="step" />
+	<bean id="getWriter"
+		class="com.yourpackagename.yourwebproject.scheduler.writers.GenericItemWriter"
+		scope="step" />
+
+
+	<!-- Processor for sending emails -->
+	<bean id="getEmailOutProcessor"
+		class="com.yourpackagename.yourwebproject.scheduler.processors.EmailOutItemProcessor"
+		scope="step" />
+
+	<bean id="getEmailOutWriter"
+		class="com.yourpackagename.yourwebproject.scheduler.writers.EmailOutItemWriter"
+		scope="step" />
+
+
+
+	<!-- Spring batch context -->
+
+	<!-- THe below one is the for jobs stored in DB. Need to run mysql scripts 
+		for initializing tables -->
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="transactionManager" ref="transactionManagerRLess" />
+		<property name="databaseType" value="mysql"></property>
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+
+<!-- 	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean"> 
+		<property name="transactionManager" ref="transactionManagerRLess" /> </bean> -->
+
+	<bean id="transactionManagerRLess"
+		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	<bean
+		class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+		<property name="jobRegistry" ref="jobRegistry" />
+	</bean>
+
+	<bean id="jobRegistry"
+		class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+
+
+	<!-- run every 10 seconds -->
+	<bean id="scheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger" />
+			</list>
+		</property>
+	</bean>
+<!--  
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetail" />
+		
+		<property name="cronExpression" value="0 0/3 * 1/1 * ? *" />
+	</bean>
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass"
+			value="com.yourpackagename.yourwebproject.scheduler.EmailOutQuartzBatchScheduler" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="emailProcessorJob" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+-->
+	<bean class="org.springframework.batch.core.scope.StepScope" />
+
+	<bean id="stepSummaryListener"
+		class="com.yourpackagename.yourwebproject.scheduler.listeners.StepSummaryListner" />
+</beans>

@@ -1,0 +1,170 @@
+2014-12-20 06:52:29,929 INFO [main] c.y.y.s.CronBatchesTiggerer [CronBatchesTiggerer.java:36] Starting in Main
+2014-12-20 06:52:30,006 INFO [main] o.q.s.SimpleThreadPool [SimpleThreadPool.java:270] Job execution threads will use class loader of thread: main
+2014-12-20 06:52:30,041 INFO [main] o.q.c.SchedulerSignalerImpl [SchedulerSignalerImpl.java:60] Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2014-12-20 06:52:30,041 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:222] Quartz Scheduler v.1.8.5 created.
+2014-12-20 06:52:30,044 INFO [main] o.q.s.RAMJobStore [RAMJobStore.java:139] RAMJobStore initialized.
+2014-12-20 06:52:30,044 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:244] Scheduler meta-data: Quartz Scheduler (v1.8.5) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2014-12-20 06:52:30,044 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1280] Quartz scheduler 'DefaultQuartzScheduler' initialized from default resource file in Quartz package: 'quartz.properties'
+2014-12-20 06:52:30,044 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1284] Quartz scheduler version: 1.8.5
+2014-12-20 06:52:30,046 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:500] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2014-12-20 06:52:30,276 ERROR [DefaultQuartzScheduler_Worker-1] o.q.c.JobRunShell [JobRunShell.java:225] Job quartz-batch.JobName threw an unhandled Exception: 
+java.lang.NullPointerException: null
+	at com.yourpackagename.yourwebproject.scheduler.QuartzBatchScheduler.executeInternal(QuartzBatchScheduler.java:42) ~[classes/:na]
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:113) ~[spring-context-support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:216) ~[quartz-1.8.5.jar:na]
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:549) [quartz-1.8.5.jar:na]
+2014-12-20 06:52:30,279 ERROR [DefaultQuartzScheduler_Worker-1] o.q.c.ErrorLogger [QuartzScheduler.java:2339] Job (quartz-batch.JobName threw an exception.
+org.quartz.SchedulerException: Job threw an unhandled exception.
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:227) ~[quartz-1.8.5.jar:na]
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:549) [quartz-1.8.5.jar:na]
+Caused by: java.lang.NullPointerException: null
+	at com.yourpackagename.yourwebproject.scheduler.QuartzBatchScheduler.executeInternal(QuartzBatchScheduler.java:42) ~[classes/:na]
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:113) ~[spring-context-support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:216) ~[quartz-1.8.5.jar:na]
+	... 1 common frames omitted
+2014-12-20 06:53:00,004 ERROR [DefaultQuartzScheduler_Worker-2] o.q.c.JobRunShell [JobRunShell.java:225] Job quartz-batch.JobName threw an unhandled Exception: 
+java.lang.NullPointerException: null
+	at com.yourpackagename.yourwebproject.scheduler.QuartzBatchScheduler.executeInternal(QuartzBatchScheduler.java:42) ~[classes/:na]
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:113) ~[spring-context-support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:216) ~[quartz-1.8.5.jar:na]
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:549) [quartz-1.8.5.jar:na]
+2014-12-20 06:53:00,005 ERROR [DefaultQuartzScheduler_Worker-2] o.q.c.ErrorLogger [QuartzScheduler.java:2339] Job (quartz-batch.JobName threw an exception.
+org.quartz.SchedulerException: Job threw an unhandled exception.
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:227) ~[quartz-1.8.5.jar:na]
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:549) [quartz-1.8.5.jar:na]
+Caused by: java.lang.NullPointerException: null
+	at com.yourpackagename.yourwebproject.scheduler.QuartzBatchScheduler.executeInternal(QuartzBatchScheduler.java:42) ~[classes/:na]
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:113) ~[spring-context-support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:216) ~[quartz-1.8.5.jar:na]
+	... 1 common frames omitted
+2014-12-20 06:53:30,005 ERROR [DefaultQuartzScheduler_Worker-3] o.q.c.JobRunShell [JobRunShell.java:225] Job quartz-batch.JobName threw an unhandled Exception: 
+java.lang.NullPointerException: null
+	at com.yourpackagename.yourwebproject.scheduler.QuartzBatchScheduler.executeInternal(QuartzBatchScheduler.java:42) ~[classes/:na]
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:113) ~[spring-context-support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:216) ~[quartz-1.8.5.jar:na]
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:549) [quartz-1.8.5.jar:na]
+2014-12-20 06:53:30,006 ERROR [DefaultQuartzScheduler_Worker-3] o.q.c.ErrorLogger [QuartzScheduler.java:2339] Job (quartz-batch.JobName threw an exception.
+org.quartz.SchedulerException: Job threw an unhandled exception.
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:227) ~[quartz-1.8.5.jar:na]
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:549) [quartz-1.8.5.jar:na]
+Caused by: java.lang.NullPointerException: null
+	at com.yourpackagename.yourwebproject.scheduler.QuartzBatchScheduler.executeInternal(QuartzBatchScheduler.java:42) ~[classes/:na]
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:113) ~[spring-context-support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:216) ~[quartz-1.8.5.jar:na]
+	... 1 common frames omitted
+2014-12-20 06:59:31,683 INFO [main] c.y.y.s.CronBatchesTiggerer [CronBatchesTiggerer.java:36] Starting in Main
+2014-12-20 06:59:31,731 INFO [main] o.q.s.SimpleThreadPool [SimpleThreadPool.java:270] Job execution threads will use class loader of thread: main
+2014-12-20 06:59:31,751 INFO [main] o.q.c.SchedulerSignalerImpl [SchedulerSignalerImpl.java:60] Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2014-12-20 06:59:31,754 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:222] Quartz Scheduler v.1.8.5 created.
+2014-12-20 06:59:31,756 INFO [main] o.q.s.RAMJobStore [RAMJobStore.java:139] RAMJobStore initialized.
+2014-12-20 06:59:31,761 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:244] Scheduler meta-data: Quartz Scheduler (v1.8.5) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2014-12-20 06:59:31,761 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1280] Quartz scheduler 'DefaultQuartzScheduler' initialized from default resource file in Quartz package: 'quartz.properties'
+2014-12-20 06:59:31,761 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1284] Quartz scheduler version: 1.8.5
+2014-12-20 06:59:31,761 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:500] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2014-12-20 07:00:00,127 ERROR [DefaultQuartzScheduler_Worker-1] o.q.c.JobRunShell [JobRunShell.java:225] Job quartz-batch.processorJob threw an unhandled Exception: 
+java.lang.NullPointerException: null
+	at com.yourpackagename.yourwebproject.scheduler.QuartzBatchScheduler.executeInternal(QuartzBatchScheduler.java:42) ~[classes/:na]
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:113) ~[spring-context-support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:216) ~[quartz-1.8.5.jar:na]
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:549) [quartz-1.8.5.jar:na]
+2014-12-20 07:00:00,129 ERROR [DefaultQuartzScheduler_Worker-1] o.q.c.ErrorLogger [QuartzScheduler.java:2339] Job (quartz-batch.processorJob threw an exception.
+org.quartz.SchedulerException: Job threw an unhandled exception.
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:227) ~[quartz-1.8.5.jar:na]
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:549) [quartz-1.8.5.jar:na]
+Caused by: java.lang.NullPointerException: null
+	at com.yourpackagename.yourwebproject.scheduler.QuartzBatchScheduler.executeInternal(QuartzBatchScheduler.java:42) ~[classes/:na]
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:113) ~[spring-context-support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:216) ~[quartz-1.8.5.jar:na]
+	... 1 common frames omitted
+2014-12-20 07:00:30,008 ERROR [DefaultQuartzScheduler_Worker-2] o.q.c.JobRunShell [JobRunShell.java:225] Job quartz-batch.processorJob threw an unhandled Exception: 
+java.lang.NullPointerException: null
+	at com.yourpackagename.yourwebproject.scheduler.QuartzBatchScheduler.executeInternal(QuartzBatchScheduler.java:42) ~[classes/:na]
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:113) ~[spring-context-support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:216) ~[quartz-1.8.5.jar:na]
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:549) [quartz-1.8.5.jar:na]
+2014-12-20 07:00:30,008 ERROR [DefaultQuartzScheduler_Worker-2] o.q.c.ErrorLogger [QuartzScheduler.java:2339] Job (quartz-batch.processorJob threw an exception.
+org.quartz.SchedulerException: Job threw an unhandled exception.
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:227) ~[quartz-1.8.5.jar:na]
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:549) [quartz-1.8.5.jar:na]
+Caused by: java.lang.NullPointerException: null
+	at com.yourpackagename.yourwebproject.scheduler.QuartzBatchScheduler.executeInternal(QuartzBatchScheduler.java:42) ~[classes/:na]
+	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:113) ~[spring-context-support-3.1.1.RELEASE.jar:3.1.1.RELEASE]
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:216) ~[quartz-1.8.5.jar:na]
+	... 1 common frames omitted
+2014-12-20 07:01:01,229 INFO [main] c.y.y.s.CronBatchesTiggerer [CronBatchesTiggerer.java:36] Starting in Main
+2014-12-20 07:01:01,287 INFO [main] o.q.s.SimpleThreadPool [SimpleThreadPool.java:270] Job execution threads will use class loader of thread: main
+2014-12-20 07:01:01,322 INFO [main] o.q.c.SchedulerSignalerImpl [SchedulerSignalerImpl.java:60] Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2014-12-20 07:01:01,325 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:222] Quartz Scheduler v.1.8.5 created.
+2014-12-20 07:01:01,327 INFO [main] o.q.s.RAMJobStore [RAMJobStore.java:139] RAMJobStore initialized.
+2014-12-20 07:01:01,330 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:244] Scheduler meta-data: Quartz Scheduler (v1.8.5) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2014-12-20 07:01:01,330 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1280] Quartz scheduler 'DefaultQuartzScheduler' initialized from default resource file in Quartz package: 'quartz.properties'
+2014-12-20 07:01:01,330 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1284] Quartz scheduler version: 1.8.5
+2014-12-20 07:01:01,332 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:500] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2014-12-20 07:52:02,657 INFO [main] c.y.y.s.CronBatchesTiggerer [CronBatchesTiggerer.java:36] Starting in Main
+2014-12-20 07:52:02,890 INFO [main] o.q.s.SimpleThreadPool [SimpleThreadPool.java:270] Job execution threads will use class loader of thread: main
+2014-12-20 07:52:02,960 INFO [main] o.q.c.SchedulerSignalerImpl [SchedulerSignalerImpl.java:60] Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2014-12-20 07:52:02,962 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:222] Quartz Scheduler v.1.8.5 created.
+2014-12-20 07:52:02,972 INFO [main] o.q.s.RAMJobStore [RAMJobStore.java:139] RAMJobStore initialized.
+2014-12-20 07:52:02,975 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:244] Scheduler meta-data: Quartz Scheduler (v1.8.5) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2014-12-20 07:52:02,975 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1280] Quartz scheduler 'DefaultQuartzScheduler' initialized from default resource file in Quartz package: 'quartz.properties'
+2014-12-20 07:52:02,975 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1284] Quartz scheduler version: 1.8.5
+2014-12-20 07:52:02,975 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:500] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2014-12-20 07:55:02,082 INFO [main] c.y.y.s.CronBatchesTiggerer [CronBatchesTiggerer.java:36] Starting in Main
+2014-12-20 07:55:02,167 INFO [main] o.q.s.SimpleThreadPool [SimpleThreadPool.java:270] Job execution threads will use class loader of thread: main
+2014-12-20 07:55:02,215 INFO [main] o.q.c.SchedulerSignalerImpl [SchedulerSignalerImpl.java:60] Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2014-12-20 07:55:02,217 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:222] Quartz Scheduler v.1.8.5 created.
+2014-12-20 07:55:02,227 INFO [main] o.q.s.RAMJobStore [RAMJobStore.java:139] RAMJobStore initialized.
+2014-12-20 07:55:02,227 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:244] Scheduler meta-data: Quartz Scheduler (v1.8.5) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2014-12-20 07:55:02,227 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1280] Quartz scheduler 'DefaultQuartzScheduler' initialized from default resource file in Quartz package: 'quartz.properties'
+2014-12-20 07:55:02,227 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1284] Quartz scheduler version: 1.8.5
+2014-12-20 07:55:02,227 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:500] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+2014-12-22 01:57:59,623 INFO [main] o.q.s.SimpleThreadPool [SimpleThreadPool.java:270] Job execution threads will use class loader of thread: main
+2014-12-22 01:57:59,667 INFO [main] o.q.c.SchedulerSignalerImpl [SchedulerSignalerImpl.java:60] Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2014-12-22 01:57:59,668 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:222] Quartz Scheduler v.1.8.5 created.
+2014-12-22 01:57:59,669 INFO [main] o.q.s.RAMJobStore [RAMJobStore.java:139] RAMJobStore initialized.
+2014-12-22 01:57:59,670 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:244] Scheduler meta-data: Quartz Scheduler (v1.8.5) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2014-12-22 01:57:59,671 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1280] Quartz scheduler 'DefaultQuartzScheduler' initialized from default resource file in Quartz package: 'quartz.properties'
+2014-12-22 01:57:59,671 INFO [main] o.q.i.StdSchedulerFactory [StdSchedulerFactory.java:1284] Quartz scheduler version: 1.8.5
+2014-12-22 01:57:59,671 INFO [main] o.q.c.QuartzScheduler [QuartzScheduler.java:500] Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.

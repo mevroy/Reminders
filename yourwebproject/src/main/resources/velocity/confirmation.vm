@@ -1,0 +1,14 @@
+<html>
+<body>
+<h2>Hi ${user.userName}!</h2>
+
+<h3>Welcome aboard to my web page.</h3>
+
+<p>
+    Thanks for confirming your email address.</a>.
+</p>
+
+<p>Thanks,<br/>Mevan Dsouza</p>
+</body>
+
+</html>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<definition name="blankbase" template="/WEB-INF/views/layout/blankweb.jsp">
+		<put-attribute name="content" value="" />
+	</definition>
+
+	<definition name="base" template="/WEB-INF/views/layout/web.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/common/headerDynamic.web.jsp" />
+		<put-attribute name="message"
+			value="/WEB-INF/views/common/message.web.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/common/footer.web.jsp" />
+	</definition>
+
+	<definition name="home" extends="base">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="content" value="/WEB-INF/views/web/home.web.jsp" />
+	</definition>
+
+	<definition name="userRegistration" extends="base">
+		<put-attribute name="title" value="User Registration" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/userRegistration.web.jsp" />
+	</definition>
+
+	<definition name="dashboard" extends="base">
+		<put-attribute name="title" value="Dashboard" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/dashboard.web.jsp" />
+	</definition>
+	<definition name="addGroupMember" extends="base">
+		<put-attribute name="title" value="Add Group Member" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupMember.web.jsp" />
+	</definition>
+	<definition name="addGroup" extends="base">
+		<put-attribute name="title" value="Add Group" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroup.web.jsp" />
+	</definition>
+	<definition name="viewGroupMembers" extends="base">
+		<put-attribute name="title" value="View Members" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupMembers.web.jsp" />
+	</definition>
+	<definition name="addGroupEvent" extends="base">
+		<put-attribute name="title" value="Add Group Event" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupEvent.web.jsp" />
+	</definition>
+	<definition name="addGroupEventCron" extends="base">
+		<put-attribute name="title" value="Add Group Cron Job" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupEventCron.web.jsp" />
+	</definition>
+	<definition name="addGroupEmailTemplate" extends="base">
+		<put-attribute name="title" value="Add Group Email Template" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupEmailTemplate.web.jsp" />
+	</definition>
+	<definition name="addGroupMemberCategory" extends="base">
+		<put-attribute name="title" value="Add Group Member Category" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupMemberCategory.web.jsp" />
+	</definition>
+	<definition name="addGroupEventInvite" extends="base">
+		<put-attribute name="title" value="Create Group Event Invite" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupEventInvite.web.jsp" />
+	</definition>
+	<definition name="viewGroupEventInvites" extends="base">
+		<put-attribute name="title" value="View Group Event Invite" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupEventInvites.web.jsp" />
+	</definition>
+	<definition name="viewGroupEventPasses" extends="base">
+		<put-attribute name="title" value="View Group Event Passes" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupEventPasses.web.jsp" />
+	</definition>	
+	
+	<definition name="viewGroupEventFeedback" extends="base">
+		<put-attribute name="title" value="View Group Event Feedback" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupEventFeedback.web.jsp" />
+	</definition>
+	<definition name="createGroupEventInviteEmails" extends="base">
+		<put-attribute name="title" value="Create Group Event Invite Emails" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/createGroupEventInvitesEmails.web.jsp" />
+	</definition>
+	<definition name="login" extends="base">
+		<put-attribute name="title" value="User Login" />
+		<put-attribute name="content" value="/WEB-INF/views/web/login.web.jsp" />
+	</definition>
+	<definition name="viewRegisteredInterests" extends="base">
+		<put-attribute name="title" value="Registered Interests" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewRegisteredInterests.web.jsp" />
+	</definition>
+	<definition name="addGroupEmailAccount" extends="base">
+		<put-attribute name="title" value="Create Group Email Account" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupEmailAccount.web.jsp" />
+	</definition>
+	<definition name="viewGroupEvents" extends="base">
+		<put-attribute name="title" value="Group Events" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupEvents.web.jsp" />
+	</definition>
+	<definition name="viewGroupEmailTemplates" extends="base">
+		<put-attribute name="title" value="Group Email Templates" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupEmailTemplates.web.jsp" />
+	</definition>
+	<definition name="viewGroupEmails" extends="base">
+		<put-attribute name="title" value="Group Invite Emails" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupEventInviteEmails.web.jsp" />
+	</definition>
+	<definition name="registerGroupEventInvites" extends="base">
+		<put-attribute name="title" value="Register Attendance" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/registerGroupEventInvites.web.jsp" />
+	</definition>
+	<definition name="viewGroupInterests" extends="base">
+		<put-attribute name="title" value="Group Interests" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupInterests.web.jsp" />
+	</definition>
+	<definition name="viewSearchedGroupMember" extends="base">
+		<put-attribute name="title" value="Searched Group Member Result" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewSearchedMember.web.jsp" />
+	</definition>
+		<definition name="addGroupEventPassesToGroupMembers" extends="base">
+		<put-attribute name="title" value="Add Event Passes to Members" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupEventPassesToMembers.web.jsp" />
+	</definition>
+		<definition name="viewAuditLogs" extends="base">
+		<put-attribute name="title" value="View Audit Logs" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewAuditLogs.web.jsp" />
+	</definition>
+	<definition name="viewGroupContent" extends="base">
+		<put-attribute name="title" value="Manage Group Content" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupContent.web.jsp" />
+	</definition>
+	<definition name="viewNavigationLinksAndRoleAccesses" extends="base">
+		<put-attribute name="title" value="View Navigation Links and Role Access" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewNavigationLinksAndRoleAccesses.web.jsp" />
+	</definition>
+	<definition name="viewGroupScannerDevices" extends="base">
+		<put-attribute name="title" value="View Scanner Devices" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupScannerDevices.web.jsp" />
+	</definition>
+
+
+	<definition name="createRSVP" extends="base">
+		<put-attribute name="title" value="RSVP" />
+	<!-- 	<put-attribute name="header"
+			value="/WEB-INF/views/common/headerPreLogin.web.jsp" />  -->
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/createRSVP.web.jsp" />
+	</definition>
+	<definition name="registerInterest" extends="base">
+		<put-attribute name="title" value="Register Interest" />
+	<!-- 	<put-attribute name="header"
+			value="/WEB-INF/views/common/headerPreLogin.web.jsp" />  -->
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/registerInterest.web.jsp" />
+	</definition>
+	<definition name="newFeedback" extends="base">
+		<put-attribute name="title" value="Feedback" />
+	<!-- 	<put-attribute name="header"
+			value="/WEB-INF/views/common/headerPreLogin.web.jsp" />  -->
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/newFeedback.web.jsp" />
+	</definition>
+	<definition name="errorAnonymous" extends="base">
+		<put-attribute name="title" value="Error" />
+	<!-- 	<put-attribute name="header"
+			value="/WEB-INF/views/common/headerPreLogin.web.jsp" />		 -->
+		<put-attribute name="content" value="/WEB-INF/views/web/error.web.jsp" />
+	</definition>
+	<definition name="loadContentBasedPage" extends="base">
+		<put-attribute name="title" value="Content" />
+			<!-- 	<put-attribute name="header"
+			value="/WEB-INF/views/common/headerPreLogin.web.jsp" />		 -->
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/content.blankweb.jsp" />
+	</definition>
+	
+	<definition name="error" extends="base">
+		<put-attribute name="title" value="Error" />
+		<put-attribute name="content" value="/WEB-INF/views/web/error.web.jsp" />
+	</definition>
+
+
+
+
+	<!-- empty page templates loading from Velocity Templates -->
+	<definition name="loadEmailWebversion" extends="blankbase">
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/loadEmailWebversion.blankweb.jsp" />
+	</definition>
+	<definition name="loadBlankPage" extends="blankbase">
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/content.blankweb.jsp" />
+	</definition>
+</tiles-definitions>
