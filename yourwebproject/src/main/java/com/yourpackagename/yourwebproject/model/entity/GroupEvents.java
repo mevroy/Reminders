@@ -15,8 +15,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -93,10 +97,19 @@ public class GroupEvents extends JpaEntity<Long> implements Serializable {
 	private boolean paidEvent;
 
 	@Column
+	private int transactionExpiryInMinutes;
+	
+	@Column
 	private double amountPerAdulthead;
 
 	@Column
 	private double amountPerKidHead;
+	
+	@Column
+	private double amountPerNMAdulthead;
+
+	@Column
+	private double amountPerNMKidHead;
 
 	@Column
 	private double amountPerFamily;
@@ -110,14 +123,29 @@ public class GroupEvents extends JpaEntity<Long> implements Serializable {
 	@Column 
 	private String autoResponseRSVPTemplate;
 	
+	@Column
+	private String processCompletionTemplate;
+	
 	@Column(columnDefinition = "int default 0")
 	private int groupEventInviteCodeLength;
+	
+	@Column(columnDefinition = "int default 0")
+	private int maxNumberOfPasses;
 	
 	@Column
 	private Date expiryDate;
 	
 	@Column
 	private String externalSurveyRedirectUrl;
+	
+	@Transient
+	@JsonIgnore
+	private List<GroupEventPassCategory> groupEventPassCategories;
+	
+	@OneToMany(targetEntity = GroupEventPaymentType.class)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinColumn(name = "groupEventId", referencedColumnName = "id")
+	private List<GroupEventPaymentType> groupEventPaymentTypes;
 	
 	/**
 	 * @return the eventCode
@@ -457,5 +485,106 @@ public class GroupEvents extends JpaEntity<Long> implements Serializable {
 	public void setExternalSurveyRedirectUrl(String externalSurveyRedirectUrl) {
 		this.externalSurveyRedirectUrl = externalSurveyRedirectUrl;
 	}
+
+	/**
+	 * @return the maxNumberOfPasses
+	 */
+	public int getMaxNumberOfPasses() {
+		return maxNumberOfPasses;
+	}
+
+	/**
+	 * @param maxNumberOfPasses the maxNumberOfPasses to set
+	 */
+	public void setMaxNumberOfPasses(int maxNumberOfPasses) {
+		this.maxNumberOfPasses = maxNumberOfPasses;
+	}
+
+	/**
+	 * @return the amountPerNMAdulthead
+	 */
+	public double getAmountPerNMAdulthead() {
+		return amountPerNMAdulthead;
+	}
+
+	/**
+	 * @param amountPerNMAdulthead the amountPerNMAdulthead to set
+	 */
+	public void setAmountPerNMAdulthead(double amountPerNMAdulthead) {
+		this.amountPerNMAdulthead = amountPerNMAdulthead;
+	}
+
+	/**
+	 * @return the amountPerNMKidHead
+	 */
+	public double getAmountPerNMKidHead() {
+		return amountPerNMKidHead;
+	}
+
+	/**
+	 * @param amountPerNMKidHead the amountPerNMKidHead to set
+	 */
+	public void setAmountPerNMKidHead(double amountPerNMKidHead) {
+		this.amountPerNMKidHead = amountPerNMKidHead;
+	}
+
+	/**
+	 * @return the groupEventPassCategories
+	 */
+	public List<GroupEventPassCategory> getGroupEventPassCategories() {
+		return groupEventPassCategories;
+	}
+
+	/**
+	 * @param groupEventPassCategories the groupEventPassCategories to set
+	 */
+	public void setGroupEventPassCategories(
+			List<GroupEventPassCategory> groupEventPassCategories) {
+		this.groupEventPassCategories = groupEventPassCategories;
+	}
+
+	/**
+	 * @return the groupEventPaymentTypes
+	 */
+	public List<GroupEventPaymentType> getGroupEventPaymentTypes() {
+		return groupEventPaymentTypes;
+	}
+
+	/**
+	 * @param groupEventPaymentTypes the groupEventPaymentTypes to set
+	 */
+	public void setGroupEventPaymentTypes(
+			List<GroupEventPaymentType> groupEventPaymentTypes) {
+		this.groupEventPaymentTypes = groupEventPaymentTypes;
+	}
+
+	/**
+	 * @return the processCompletionTemplate
+	 */
+	public String getProcessCompletionTemplate() {
+		return processCompletionTemplate;
+	}
+
+	/**
+	 * @param processCompletionTemplate the processCompletionTemplate to set
+	 */
+	public void setProcessCompletionTemplate(String processCompletionTemplate) {
+		this.processCompletionTemplate = processCompletionTemplate;
+	}
+
+	/**
+	 * @return the transactionExpiryInMinutes
+	 */
+	public int getTransactionExpiryInMinutes() {
+		return transactionExpiryInMinutes;
+	}
+
+	/**
+	 * @param transactionExpiryInMinutes the transactionExpiryInMinutes to set
+	 */
+	public void setTransactionExpiryInMinutes(int transactionExpiryInMinutes) {
+		this.transactionExpiryInMinutes = transactionExpiryInMinutes;
+	}
+
 
 }

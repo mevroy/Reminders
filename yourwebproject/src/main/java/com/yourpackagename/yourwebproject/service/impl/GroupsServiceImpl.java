@@ -38,6 +38,11 @@ public class GroupsServiceImpl extends BaseJpaServiceImpl<Groups, Long>
 		return groupsRepository.findByGroupCode(groupCode);
 	}
 
+	public Groups findByGroupCodeActive(String groupCode)
+	{
+		return groupsRepository.findByGroupCodeActive(groupCode);
+	}
+	
 	public List<Groups> findGroups() {
 		return groupsRepository.findGroups();
 	}

@@ -3,10 +3,13 @@
  */
 package com.yourpackagename.yourwebproject.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import com.yourpackagename.framework.data.BaseService;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
+import com.yourpackagename.yourwebproject.model.entity.GroupEventPass;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
 import com.yourpackagename.yourwebproject.model.entity.GroupMember;
 
@@ -21,4 +24,5 @@ public interface GroupEventInviteService extends BaseService<GroupEventInvite, S
 	public List<GroupEventInvite> findByGroupMember(GroupMember groupMember);
 	public GroupEventInvite findByGroupMemberAndGroupEvent(GroupMember groupMember, GroupEvents groupEvent);
 	public GroupEventInvite findByGroupEventInviteCode(String groupEventInviteCode);
+	public ByteArrayOutputStream generateTicketPDF(GroupEventInvite gei, List<GroupEventPass> groupEventPasses) throws IOException;
 }

@@ -93,8 +93,8 @@
 									required : false
 								},
 								username : {
-									required : true,
-									email : true
+									required : true
+									//email : true
 								},
 								host : {
 									required : true

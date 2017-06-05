@@ -67,7 +67,7 @@
 	<!-- Below is for partioning -->
 	<job id="emailProcessorJob" xmlns="http://www.springframework.org/schema/batch">
 		<step id="local.email.job">
-			<partition step="partioned.email.job" partitioner="rangePartitioner10"
+			<partition step="partioned.email.job" partitioner="rangePartitioner3"
 				handler="emailJobPartitionHandler" />
 
 			<!-- <handler grid-size="#{jobParameters['gridSize']}" task-executor="taskExecutor" 
@@ -80,15 +80,15 @@
 
 	<job id="emailProcessorJobExpress" xmlns="http://www.springframework.org/schema/batch">
 		<step id="local.email.job.express">
-			<partition step="partioned.email.job" partitioner="rangePartitioner1"
+			<partition step="partioned.email.job" partitioner="rangePartitioner8"
 				handler="emailJobPartitionHandler" />
 
 			<!-- <handler grid-size="#{jobParameters['gridSize']}" task-executor="taskExecutor" 
 				/> </partition> -->
 		</step>
-			<listeners>
+<!-- 			<listeners>
 				<listener ref="jobSummaryListener" />
-			</listeners>
+			</listeners> -->
 		
 	</job>
 
@@ -101,18 +101,90 @@
 					<batch:include class="java.lang.Exception" />
 				</batch:skippable-exception-classes>
 			</chunk>
-			<listeners>
+		<!-- 	<listeners>
 				<listener ref="stepSummaryListener"/>
-			</listeners>
+			</listeners>  -->
 		</tasklet>
 	</step>
-	<bean id="rangePartitioner10"
+	
+	
+	<!-- Partitioned Step for SMS Outbound -->
+	
+		<job id="smsProcessorJobExpress" xmlns="http://www.springframework.org/schema/batch">
+		<step id="local.sms.job.express">
+			<partition step="partioned.sms.job" partitioner="rangePartitioner8"
+				handler="smsJobPartitionHandler" />
+
+			<!-- <handler grid-size="#{jobParameters['gridSize']}" task-executor="taskExecutor" 
+				/> </partition> -->
+		</step>
+<!-- 			<listeners>
+				<listener ref="jobSummaryListener" />
+			</listeners> -->
+		
+	</job>
+	
+	
+	
+		<step id="partioned.sms.job" xmlns="http://www.springframework.org/schema/batch">
+		<tasklet transaction-manager="transactionManager">
+			<chunk reader="getPartinonedReader" processor="getSMSOutProcessor"
+				writer="getSMSOutWriter" commit-interval="1" skip-limit="2">
+
+				<batch:skippable-exception-classes>
+					<batch:include class="java.lang.Exception" />
+				</batch:skippable-exception-classes>
+			</chunk>
+	<!-- 		<listeners>
+				<listener ref="stepSummaryListener"/>
+			</listeners>  -->
+		</tasklet>
+	</step>
+	
+	
+	
+		<!-- Partitioned Step for Payment TRansactions -->
+	
+		<job id="paymentProcessorJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="local.payment.job.express">
+			<partition step="partioned.paymentTransaction.job" partitioner="rangePartitioner8"
+				handler="paymentTransactionJobPartitionHandler" />
+
+			<!-- <handler grid-size="#{jobParameters['gridSize']}" task-executor="taskExecutor" 
+				/> </partition> -->
+		</step>
+<!-- 			<listeners>
+				<listener ref="jobSummaryListener" />
+			</listeners> -->
+		
+	</job>
+	
+	<step id="partioned.paymentTransaction.job" xmlns="http://www.springframework.org/schema/batch">
+		<tasklet transaction-manager="transactionManager">
+			<chunk reader="getPartinonedReader" processor="getPaymentTransactionProcessor"
+				writer="getPaymentTransactionWriter" commit-interval="1" skip-limit="2">
+
+				<batch:skippable-exception-classes>
+					<batch:include class="java.lang.Exception" />
+				</batch:skippable-exception-classes>
+			</chunk>
+	<!-- 		<listeners>
+				<listener ref="stepSummaryListener"/>
+			</listeners>  -->
+		</tasklet>
+	</step>
+	
+	<bean id="rangePartitioner3"
 		class="com.yourpackagename.yourwebproject.scheduler.partitioners.RangePartitioner">
-		<property name="noOfRecordsperPartition" value="40" />
+		<property name="noOfRecordsperPartition" value="3" />
+	</bean>
+	<bean id="rangePartitioner8"
+		class="com.yourpackagename.yourwebproject.scheduler.partitioners.RangePartitioner">
+		<property name="noOfRecordsperPartition" value="8" />
 	</bean>
 	<bean id="rangePartitioner1"
 		class="com.yourpackagename.yourwebproject.scheduler.partitioners.RangePartitioner">
-		<property name="noOfRecordsperPartition" value="5" />
+		<property name="noOfRecordsperPartition" value="1" />
 	</bean>
 	<bean id="getPartinonedReader"
 		class="org.springframework.batch.item.database.HibernateCursorItemReader"
@@ -131,6 +203,26 @@
 		scope="step">
 		<property name="taskExecutor" ref="taskExecutor" />
 		<property name="step" ref="partioned.email.job" />
+		<!-- <property name="gridSize" value="#{jobParameters['numberOfPartitions']}" 
+			/> -->
+		<property name="gridSize" value="3" />
+	</bean>
+	
+	
+	<bean id="smsJobPartitionHandler"
+		class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+		scope="step">
+		<property name="taskExecutor" ref="taskExecutor" />
+		<property name="step" ref="partioned.sms.job" />
+		<property name="gridSize" value="1" />
+	</bean>
+	
+	
+	<bean id="paymentTransactionJobPartitionHandler"
+		class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler"
+		scope="step">
+		<property name="taskExecutor" ref="taskExecutor" />
+		<property name="step" ref="partioned.paymentTransaction.job" />
 		<!-- <property name="gridSize" value="#{jobParameters['numberOfPartitions']}" 
 			/> -->
 		<property name="gridSize" value="3" />
@@ -185,12 +277,33 @@
 		scope="step" />
 
 
+	<!-- Processor for sending SMS -->
+	<bean id="getSMSOutProcessor"
+		class="com.yourpackagename.yourwebproject.scheduler.processors.SMSOutItemProcessor"
+		scope="step" />
+
+	<bean id="getSMSOutWriter"
+		class="com.yourpackagename.yourwebproject.scheduler.writers.SMSOutItemWriter"
+		scope="step" />
+
+
+	<!-- Processor for Processing Payment Transactions-->
+	<bean id="getPaymentTransactionProcessor"
+		class="com.yourpackagename.yourwebproject.scheduler.processors.PaymentTransactionItemProcessor"
+		scope="step" />
+
+	<bean id="getPaymentTransactionWriter"
+		class="com.yourpackagename.yourwebproject.scheduler.writers.PaymentTransactionItemWriter"
+		scope="step" />
+
+
+
 	<!-- Job for emailing Lists out together -->
 	<job id="genericGroupMemberListGroupEmailJob" xmlns="http://www.springframework.org/schema/batch">
 		<step id="launchable_GroupMemberList-GroupEmail_step">
 			<tasklet transaction-manager="transactionManager">
 				<chunk reader="getReaderGroupMemberList" processor="getProcessorGroupMemberList"
-					writer="getEmailOutWriter" commit-interval="1" />
+					writer="getWriter" commit-interval="1" />
 			</tasklet>
 		</step>
 	</job>

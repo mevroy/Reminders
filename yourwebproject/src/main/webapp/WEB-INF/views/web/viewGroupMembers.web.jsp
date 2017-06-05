@@ -167,7 +167,7 @@
 										hidden : false,
 										editable : false,
 										formatter: function(cellValue, options, rowObject) {
-
+								
 										    var membershipIdentifier = rowObject.membershipIdentifier;
 										    var url = "scanGroupMember?value="+membershipIdentifier ;
 										    return "<a href='"+url+"'  class='btn btn-warning btn-mini' >"+membershipIdentifier+"</a>"
@@ -179,8 +179,15 @@
 										index : 'activeMember',
 										width : 50,
 										sortable : true,
+										align: 'center',
 										editable : false,
 										formatter : formatBoolean,
+										formatter: function(cellValue, options, rowObject) {
+											
+										    var membershipIdentifier = rowObject.serialNumber;
+										    var url = "generateMembershipFormPDF?serialNumber="+membershipIdentifier ;
+										    return "<a href='#' onclick='window.open(\""+url+"\",\"printwindow\",\"toolbar=no , location=no , width=200, height=200, id=printer, top=100, left=400\");'  class='btn btn-warning btn-mini' >"+formatBoolean(rowObject.activeMember)+"</a>"
+										    }
 									},									
 									{
 										label : 'Birth Day',

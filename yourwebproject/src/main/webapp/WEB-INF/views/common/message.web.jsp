@@ -2,26 +2,30 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:if test="${error}">
-	<div class="alert alert-error">
-		<a class="close" data-dismiss="alert">x</a><i class="icon-exclamation-sign"></i> ${errorMessage}
+	<div class="alert alert-danger">
+		<a class="close" data-dismiss="alert">x</a><i
+			class="icon-exclamation-sign"></i> ${errorMessage}
 	</div>
 </c:if>
 
 <c:if test="${alert}">
 	<div class="alert">
-		<a class="close" data-dismiss="alert">x</a><i class="icon-exclamation-sign"></i> ${alertMessage}
+		<a class="close" data-dismiss="alert">x</a><i
+			class="icon-exclamation-sign"></i> ${alertMessage}
 	</div>
 </c:if>
 
 <c:if test="${success}">
 	<div class="alert alert-success">
-		<a class="close" data-dismiss="alert">x</a><i class="icon-exclamation-sign"></i> ${successMessage}
+		<a class="close" data-dismiss="alert">x</a><i
+			class="icon-exclamation-sign"></i> ${successMessage}
 	</div>
 </c:if>
 
 <c:if test="${info}">
 	<div class="alert alert-info">
-		<a class="close" data-dismiss="alert">x</a><i class="icon-exclamation-sign"></i> ${infoMessage}
+		<a class="close" data-dismiss="alert">x</a><i
+			class="icon-exclamation-sign"></i> ${infoMessage}
 	</div>
 </c:if>
 
@@ -29,16 +33,15 @@
 	<div class="alert alert-block alert-info fade in">
 		<button class="close" data-dismiss="alert">&times;</button>
 		<h4 class="alert-heading">${infoWithActionHeading}</h4>
-		<p><i class="icon-exclamation-sign"></i> ${infoWithActionContent}</p>
+		<p>
+			<i class="icon-exclamation-sign"></i> ${infoWithActionContent}
+		</p>
 		<p>
 			<a class="btn btn-info" href="${infoWithActionPrimaryActionLink}">${infoWithActionPrimaryAction}</a>
 			<a class="btn" href="${infoWithActionSecActionLink}">${infoWithActionSecAction}</a>
 		</p>
 	</div>
 </c:if>
-
-
-
 
 
 
@@ -58,7 +61,9 @@
 			<div id="modalMessageGrid">
 				<div class="alert alert-error">
 					<div style="line-height: 27px; font-size: 18px;">
-					<div id="myModalMessageBody"><i class="icon-exclamation-sign"></i> ${popupMessage} </div>
+						<div id="myModalMessageBody">
+							<i class="icon-exclamation-sign"></i> ${popupMessage}
+						</div>
 					</div>
 				</div>
 			</div>

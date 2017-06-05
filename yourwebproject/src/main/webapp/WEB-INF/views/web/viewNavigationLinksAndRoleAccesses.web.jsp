@@ -388,7 +388,7 @@
 // 																sorttype : 'string'
 // 															}
 															],
-													rowNum : 10,
+													rowNum : 20,
 													pager : pager_id,
 													//	sortname: 'num',
 													sortorder : "asc",

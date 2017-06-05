@@ -5,6 +5,7 @@ package com.yourpackagename.yourwebproject.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,17 +14,18 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.yourpackagename.framework.data.JpaEntity;
 import com.yourpackagename.framework.data.NoIDEntity;
 
 /**
@@ -65,6 +67,9 @@ public class GroupEmail extends NoIDEntity implements Serializable {
 	@Column(columnDefinition="TEXT") @NotNull @NotEmpty
 	@JsonIgnore
 	private String body;
+	
+	@Column(columnDefinition="TEXT")
+	private String prefillData;
 	
 	@Column
 	private String footer;
@@ -118,6 +123,9 @@ public class GroupEmail extends NoIDEntity implements Serializable {
 	@JoinColumn(name = "serialNumber")
 	private GroupMember groupMember;
 
+/*	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = GroupEmailActivity.class)
+	@JoinColumn(name = "groupEmailId", referencedColumnName = "groupEmailId")
+	private List<GroupEmailActivity> groupEmailActivity;*/
 	
 /*	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "groupEventInviteId")
@@ -460,4 +468,33 @@ public class GroupEmail extends NoIDEntity implements Serializable {
 		this.expressEmail = expressEmail;
 	}
 
+	/**
+	 * @return the prefillData
+	 */
+	public String getPrefillData() {
+		return prefillData;
+	}
+
+	/**
+	 * @param prefillData the prefillData to set
+	 */
+	public void setPrefillData(String prefillData) {
+		this.prefillData = prefillData;
+	}
+
+/*	*//**
+	 * @return the groupEmailActivity
+	 *//*
+	public List<GroupEmailActivity> getGroupEmailActivity() {
+		return groupEmailActivity;
+	}
+
+	*//**
+	 * @param groupEmailActivity the groupEmailActivity to set
+	 *//*
+	public void setGroupEmailActivity(List<GroupEmailActivity> groupEmailActivity) {
+		this.groupEmailActivity = groupEmailActivity;
+	}
+
+*/
 }

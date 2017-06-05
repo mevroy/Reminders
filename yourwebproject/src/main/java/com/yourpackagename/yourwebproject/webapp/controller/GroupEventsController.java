@@ -25,10 +25,12 @@ import com.yourpackagename.yourwebproject.common.CheckPermission;
 import com.yourpackagename.yourwebproject.model.entity.GroupCronJob;
 import com.yourpackagename.yourwebproject.model.entity.GroupEmailTemplate;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
+import com.yourpackagename.yourwebproject.model.entity.GroupSMSTemplate;
 import com.yourpackagename.yourwebproject.model.entity.enums.Role;
 import com.yourpackagename.yourwebproject.service.GroupCronJobService;
 import com.yourpackagename.yourwebproject.service.GroupEmailTemplateService;
 import com.yourpackagename.yourwebproject.service.GroupEventsService;
+import com.yourpackagename.yourwebproject.service.GroupSMSTemplateService;
 
 /**
  * @author mevan.d.souza
@@ -40,6 +42,7 @@ public class GroupEventsController extends BaseWebAppController {
 	private @Autowired GroupEventsService groupEventsService;
 	private @Autowired GroupCronJobService groupCronJobService;
 	private @Autowired GroupEmailTemplateService groupEmailTemplateService;
+	private @Autowired GroupSMSTemplateService groupSMSTemplateService;
 
 	@RequestMapping(value = "/addGroupEvent", method = RequestMethod.GET)
 	public String addGroupEvent(Locale locale, Model model,
@@ -100,7 +103,7 @@ public class GroupEventsController extends BaseWebAppController {
 			addSuccess(
 					"Cron Job \""
 							+ groupCron.getJobDescription()
-							+ "\" has been successfully added. Make sure the server is restarted for the job to take effect",
+							+ "\" has been successfully added. Cron scheduler run once every 10 mins and your job should be scheduled within the next 10 minutes.",
 					model);
 			model.addAttribute("groupCronJob", new GroupCronJob());
 			return "addGroupEventCron";
@@ -237,6 +240,51 @@ public class GroupEventsController extends BaseWebAppController {
 						.getGroupEventCode())) {
 					defaultOptGroup = groupEventsService.findByGroupEventCode(
 							groupEmailTemplate.getGroupEventCode())
+							.getEventName();
+					
+				}
+				eventName.put(currentTemplateEventCode, defaultOptGroup);
+				listOfOptions.add(hm);
+				optGroupHashMap.put(defaultOptGroup, listOfOptions);
+			}
+		}
+
+		return optGroupHashMap;
+	}
+
+	
+	@RequestMapping(value = "/json/viewGroupSMSTemplates", method = RequestMethod.GET)
+	public @ResponseBody HashMap<String, List<HashMap<String, Object>>> viewGroupSMSTemplates(
+			Locale locale, Model model, @PathVariable String groupCode,
+			@RequestParam String groupEventCode) {
+		List<GroupSMSTemplate> get = new ArrayList<GroupSMSTemplate>();
+		if ("ALL".equalsIgnoreCase(groupEventCode)) {
+			get = groupSMSTemplateService.findbyGroupCode(groupCode);
+		} else {
+			get = groupSMSTemplateService.findbyGroupCodeAndGroupEventCode(
+					groupCode, groupEventCode);
+		}
+		HashMap<String, String> eventName = new HashMap<String, String>();
+		HashMap<String, List<HashMap<String, Object>>> optGroupHashMap = new HashMap<String, List<HashMap<String, Object>>>();
+
+		for (GroupSMSTemplate groupSMSTemplate : get) {
+			List<HashMap<String, Object>> listOfOptions = new ArrayList<HashMap<String, Object>>();
+			HashMap<String, Object> hm = new HashMap<String, Object>();
+			hm.put("label", groupSMSTemplate.getTemplateName());
+			hm.put("value", groupSMSTemplate.getTemplateName());
+			String currentTemplateEventCode = StringUtils.defaultIfEmpty(groupSMSTemplate.getGroupEventCode(), "Default");
+			if (eventName.containsKey(currentTemplateEventCode) && optGroupHashMap.containsKey(eventName.get(currentTemplateEventCode))) {
+				listOfOptions.addAll(optGroupHashMap.get(eventName.get(currentTemplateEventCode)));
+				listOfOptions.add(hm);
+				optGroupHashMap.put(eventName.get(currentTemplateEventCode),
+						listOfOptions);
+
+			} else {
+				String defaultOptGroup = currentTemplateEventCode;
+				if (StringUtils.isNotBlank(groupSMSTemplate
+						.getGroupEventCode())) {
+					defaultOptGroup = groupEventsService.findByGroupEventCode(
+							groupSMSTemplate.getGroupEventCode())
 							.getEventName();
 					
 				}

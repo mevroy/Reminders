@@ -8,6 +8,17 @@
 		<put-attribute name="content" value="" />
 	</definition>
 
+	<definition name="mobilebase" template="/WEB-INF/views/layout/mobileweb.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/common/mobileheaderDynamic.web.jsp" />
+		<put-attribute name="message"
+			value="/WEB-INF/views/common/mobilemessage.web.jsp" />
+		<put-attribute name="content" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/common/footer.web.jsp" />
+	</definition>
+
 	<definition name="base" template="/WEB-INF/views/layout/web.jsp">
 		<put-attribute name="title" value="" />
 		<put-attribute name="header"
@@ -19,7 +30,7 @@
 			value="/WEB-INF/views/common/footer.web.jsp" />
 	</definition>
 
-	<definition name="home" extends="base">
+	<definition name="home" extends="mobilebase">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="content" value="/WEB-INF/views/web/home.web.jsp" />
 	</definition>
@@ -35,11 +46,18 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/dashboard.web.jsp" />
 	</definition>
-	<definition name="addGroupMember" extends="base">
+	<definition name="addGroupMember" extends="mobilebase">
 		<put-attribute name="title" value="Add Group Member" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/addGroupMember.web.jsp" />
 	</definition>
+
+	<definition name="loadUpdateGroupMember" extends="mobilebase">
+		<put-attribute name="title" value="Update Member Info" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/memberUpdate.web.jsp" />
+	</definition>
+
 	<definition name="addGroup" extends="base">
 		<put-attribute name="title" value="Add Group" />
 		<put-attribute name="content"
@@ -80,12 +98,23 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/viewGroupEventInvites.web.jsp" />
 	</definition>
+	<definition name="viewAndModifyGroupEventPaymentTransactions" extends="base">
+		<put-attribute name="title" value="View Group Event Payment Transactions" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewAndModifyPaymentTransactions.web.jsp" />
+	</definition>	
+	
 	<definition name="viewGroupEventPasses" extends="base">
 		<put-attribute name="title" value="View Group Event Passes" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/viewGroupEventPasses.web.jsp" />
-	</definition>	
-	
+	</definition>
+	<definition name="viewGroupEventTableAllocations" extends="base">
+		<put-attribute name="title" value="View Group Event Passes" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupEventTableAllocations.web.jsp" />
+	</definition>
+
 	<definition name="viewGroupEventFeedback" extends="base">
 		<put-attribute name="title" value="View Group Event Feedback" />
 		<put-attribute name="content"
@@ -96,7 +125,12 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/createGroupEventInvitesEmails.web.jsp" />
 	</definition>
-	<definition name="login" extends="base">
+	<definition name="createGroupEventInviteSMS" extends="base">
+		<put-attribute name="title" value="Create Group Event SMS" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/createGroupEventSMS.web.jsp" />
+	</definition>
+	<definition name="login" extends="mobilebase">
 		<put-attribute name="title" value="User Login" />
 		<put-attribute name="content" value="/WEB-INF/views/web/login.web.jsp" />
 	</definition>
@@ -125,6 +159,12 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/viewGroupEventInviteEmails.web.jsp" />
 	</definition>
+	<definition name="viewGroupSMS" extends="base">
+		<put-attribute name="title" value="Group Invite SMS" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupEventInviteSMS.web.jsp" />
+	</definition>
+
 	<definition name="registerGroupEventInvites" extends="base">
 		<put-attribute name="title" value="Register Attendance" />
 		<put-attribute name="content"
@@ -140,12 +180,21 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/viewSearchedMember.web.jsp" />
 	</definition>
-		<definition name="addGroupEventPassesToGroupMembers" extends="base">
+	<definition name="addGroupEventPassesToGroupMembers"
+		extends="base">
 		<put-attribute name="title" value="Add Event Passes to Members" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/addGroupEventPassesToMembers.web.jsp" />
 	</definition>
-		<definition name="viewAuditLogs" extends="base">
+	<definition name="addUnAssignedGroupEventPassesToGroupMembers"
+		extends="base">
+		<put-attribute name="title"
+			value="Add Un-Assigned Event Passes to Members" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupEventPassesToMembersAutoLookup.web.jsp" />
+	</definition>
+
+	<definition name="viewAuditLogs" extends="base">
 		<put-attribute name="title" value="View Audit Logs" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/viewAuditLogs.web.jsp" />
@@ -155,8 +204,10 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/viewGroupContent.web.jsp" />
 	</definition>
-	<definition name="viewNavigationLinksAndRoleAccesses" extends="base">
-		<put-attribute name="title" value="View Navigation Links and Role Access" />
+	<definition name="viewNavigationLinksAndRoleAccesses"
+		extends="base">
+		<put-attribute name="title"
+			value="View Navigation Links and Role Access" />
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/viewNavigationLinksAndRoleAccesses.web.jsp" />
 	</definition>
@@ -167,44 +218,72 @@
 	</definition>
 
 
-	<definition name="createRSVP" extends="base">
+	<definition name="createRSVP" extends="mobilebase">
 		<put-attribute name="title" value="RSVP" />
-	<!-- 	<put-attribute name="header"
-			value="/WEB-INF/views/common/headerPreLogin.web.jsp" />  -->
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/createRSVP.web.jsp" />
 	</definition>
-	<definition name="registerInterest" extends="base">
+	<definition name="buy" extends="mobilebase">
+		<put-attribute name="title" value="Buy" />
+		<put-attribute name="content" value="/WEB-INF/views/web/buy.web.jsp" />
+	</definition>
+	<definition name="verifyPage" extends="mobilebase">
+		<put-attribute name="title" value="Payment Summary" />
+		<put-attribute name="content" value="/WEB-INF/views/web/verifyPage.web.jsp" />
+	</definition>	
+	<definition name="paymentPage" extends="mobilebase">
+		<put-attribute name="title" value="Payment Summary" />
+		<put-attribute name="content" value="/WEB-INF/views/web/paymentPage.web.jsp" />
+	</definition>	
+	
+	<definition name="registerInterest" extends="mobilebase">
 		<put-attribute name="title" value="Register Interest" />
-	<!-- 	<put-attribute name="header"
-			value="/WEB-INF/views/common/headerPreLogin.web.jsp" />  -->
+		<!-- <put-attribute name="header" value="/WEB-INF/views/common/headerPreLogin.web.jsp" 
+			/> -->
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/registerInterest.web.jsp" />
 	</definition>
 	<definition name="newFeedback" extends="base">
 		<put-attribute name="title" value="Feedback" />
-	<!-- 	<put-attribute name="header"
-			value="/WEB-INF/views/common/headerPreLogin.web.jsp" />  -->
+		<!-- <put-attribute name="header" value="/WEB-INF/views/common/headerPreLogin.web.jsp" 
+			/> -->
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/newFeedback.web.jsp" />
 	</definition>
-	<definition name="errorAnonymous" extends="base">
+	<definition name="errorAnonymous" extends="mobilebase">
 		<put-attribute name="title" value="Error" />
-	<!-- 	<put-attribute name="header"
-			value="/WEB-INF/views/common/headerPreLogin.web.jsp" />		 -->
+		<!-- <put-attribute name="header" value="/WEB-INF/views/common/headerPreLogin.web.jsp" 
+			/> -->
 		<put-attribute name="content" value="/WEB-INF/views/web/error.web.jsp" />
 	</definition>
-	<definition name="loadContentBasedPage" extends="base">
+	<definition name="loadContentBasedPage" extends="mobilebase">
 		<put-attribute name="title" value="Content" />
-			<!-- 	<put-attribute name="header"
-			value="/WEB-INF/views/common/headerPreLogin.web.jsp" />		 -->
+		<!-- <put-attribute name="header" value="/WEB-INF/views/common/headerPreLogin.web.jsp" 
+			/> -->
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/content.blankweb.jsp" />
 	</definition>
-	
-	<definition name="error" extends="base">
+
+	<definition name="loadCustomInvite" extends="mobilebase">
+		<put-attribute name="title" value="You are Invited" />
+		<!-- <put-attribute name="header" value="/WEB-INF/views/common/headerPreLogin.web.jsp" 
+			/> -->
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/loadCustomInvite.web.jsp" />
+	</definition>
+
+	<definition name="error" extends="mobilebase">
 		<put-attribute name="title" value="Error" />
 		<put-attribute name="content" value="/WEB-INF/views/web/error.web.jsp" />
+	</definition>
+
+
+	<definition name="seatingSearch" extends="mobilebase">
+		<put-attribute name="title" value="Seating Arrangements" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/common/mobileheaderDynamic.web.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/seatingSearch.mobileweb.jsp" />
 	</definition>
 
 

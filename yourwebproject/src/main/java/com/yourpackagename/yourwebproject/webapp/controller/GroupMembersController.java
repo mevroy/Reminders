@@ -38,6 +38,7 @@ import com.yourpackagename.yourwebproject.model.entity.GroupEventPass;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
 import com.yourpackagename.yourwebproject.model.entity.GroupMember;
 import com.yourpackagename.yourwebproject.model.entity.GroupMemberCategory;
+import com.yourpackagename.yourwebproject.model.entity.GroupSMS;
 import com.yourpackagename.yourwebproject.model.entity.RegisterInterest;
 import com.yourpackagename.yourwebproject.model.entity.embedded.Address;
 import com.yourpackagename.yourwebproject.model.entity.enums.Role;
@@ -49,6 +50,7 @@ import com.yourpackagename.yourwebproject.service.GroupEventPassesService;
 import com.yourpackagename.yourwebproject.service.GroupEventsService;
 import com.yourpackagename.yourwebproject.service.GroupMemberCategoryService;
 import com.yourpackagename.yourwebproject.service.GroupMembersService;
+import com.yourpackagename.yourwebproject.service.GroupSMSService;
 import com.yourpackagename.yourwebproject.service.RegisterInterestService;
 
 /**
@@ -71,6 +73,7 @@ public class GroupMembersController extends BaseWebAppController {
 	private @Autowired GroupEventInviteService groupEventInviteService;
 	private @Autowired GroupEventsService groupEventsService;
 	private @Autowired GroupEventPassesService groupEventPassesService;
+	private @Autowired GroupSMSService groupSMSService;
 
 	@RequestMapping(value = { "/addGroupMember" }, method = RequestMethod.GET)
 	public String addGroupMember(Locale locale, Model model,
@@ -81,8 +84,137 @@ public class GroupMembersController extends BaseWebAppController {
 		model.addAttribute("groupMember", gm);
 		return "addGroupMember";
 	}
-	
-	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN, Role.SUPER_USER })
+
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER, Role.ANONYMOUS })
+	@RequestMapping(value = { "/loadGroupMember" }, method = RequestMethod.GET)
+	public String loadGroupMember(Locale locale, Model model,
+			@PathVariable String groupCode,
+			@RequestParam(required = false) String serialNumber) {
+		GroupMember gm = new GroupMember();
+		if (StringUtils.isNotBlank(serialNumber)) {
+			try {
+				gm = groupMembersService.findById(serialNumber);
+			} catch (Exception e) {
+				gm.setGroupCode(groupCode);
+				gm.setAddress(new Address());
+				e.printStackTrace();
+			}
+		}
+		model.addAttribute("groupMember", gm);
+		model.addAttribute("groupDependents", new GroupDependents());
+		return "loadUpdateGroupMember";
+	}
+
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER, Role.ANONYMOUS })
+	@RequestMapping(value = "/json/updateGroupMember", method = RequestMethod.POST)
+	public @ResponseBody String updateGroupMemberJson(Locale locale,
+			Model model,
+			@ModelAttribute("groupMember") GroupMember groupMember,
+			BindingResult results) throws Exception {
+		try {
+			GroupMember gm = groupMembersService.findById(groupMember
+					.getSerialNumber());
+
+			gm.setFirstName(groupMember.getFirstName());
+			gm.setLastName(groupMember.getLastName());
+			gm.setBirthday(groupMember.getBirthday());
+			if (!StringUtils.equalsIgnoreCase(gm.getPrimaryEmail(),
+					groupMember.getPrimaryEmail())) {
+				gm.setPrimaryEmailVerified(true);
+			}
+			gm.setPrimaryEmail(groupMember.getPrimaryEmail());
+			gm.setMobilephone(groupMember.getMobilephone());
+			gm.setOtherPhone(groupMember.getOtherPhone());
+			gm.setAliasName(groupMember.getAliasName());
+
+			if (results.hasErrors()) {
+				return "error";
+			}
+			try {
+				groupMember.setUpdatedAt(Calendar.getInstance().getTime());
+				GroupMember addedGroupMember = groupMembersService.update(gm);
+			} catch (Exception e) {
+				addAlert("Updating GroupMember Failed", model);
+				return "Update request failed. Please try again!";
+			}
+		} catch (Exception e) {
+			return "Unable to locate member";
+		}
+
+		return "success";
+
+	}
+
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER, Role.ANONYMOUS })
+	@RequestMapping(value = "/json/updateDependent", method = RequestMethod.POST)
+	public @ResponseBody String updateDependent(Locale locale, Model model,
+			@ModelAttribute("groupMember") GroupMember groupMember, @RequestParam(required = false) String mode,
+			BindingResult results) throws Exception {
+		try {
+			GroupMember gm = groupMembersService.findById(groupMember
+					.getSerialNumber());
+
+			for (GroupDependents groupDependent : groupMember
+					.getGroupDependents()) {
+				if (groupDependent != null
+						&& StringUtils.isNotBlank(groupDependent
+								.getDependentserialNumber())) {
+					try {
+						GroupDependents gd = groupDependentsService
+								.findById(groupDependent
+										.getDependentserialNumber());
+						gd.setFirstName(groupDependent.getFirstName());
+						gd.setLastName(groupDependent.getLastName());
+						gd.setBirthday(groupDependent.getBirthday());
+						gd.setEmail(groupDependent.getEmail());
+						gd.setMobilephone(groupDependent.getMobilephone());
+						gd.setRelationship(groupDependent.getRelationship());
+
+						try {
+							gd.setGroupCode(gm.getGroupCode());
+							gd.setUpdatedAt(Calendar.getInstance().getTime());
+							groupDependentsService.insertOrUpdate(gd);
+						}
+
+						catch (Exception e) {
+							return "Dependent update failed. Please try again!";
+						}
+					} catch (Exception e) {
+						return "Unable to find the dependent";
+					}
+				}
+			}
+			/*
+			 * gm.setFirstName(groupMember.getFirstName());
+			 * gm.setLastName(groupMember.getLastName());
+			 * gm.setBirthday(groupMember.getBirthday()); if
+			 * (!StringUtils.equalsIgnoreCase(gm.getPrimaryEmail(),
+			 * groupMember.getPrimaryEmail())) {
+			 * gm.setPrimaryEmailVerified(true); }
+			 * gm.setPrimaryEmail(groupMember.getPrimaryEmail());
+			 * gm.setMobilephone(groupMember.getMobilephone());
+			 * gm.setOtherPhone(groupMember.getOtherPhone());
+			 * 
+			 * if (results.hasErrors()) { return "error"; }
+			 */
+			/*
+			 * try { groupMember.setUpdatedAt(Calendar.getInstance().getTime());
+			 * GroupMember addedGroupMember = groupMembersService .update(gm); }
+			 * catch (Exception e) { addAlert("Updating GroupMember Failed",
+			 * model); return "Update request failed. Please try again!"; }
+			 */} catch (Exception e) {
+			return "Unable to locate member";
+		}
+
+		return "success";
+
+	}
+
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER })
 	@RequestMapping(value = "/viewAllGroupMember", method = RequestMethod.GET)
 	public String viewAllGroupMember(Locale locale, Model model,
 			@PathVariable String groupCode) {
@@ -92,14 +224,17 @@ public class GroupMembersController extends BaseWebAppController {
 		return "viewGroupMembers";
 	}
 
-	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN, Role.SUPER_USER })
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER })
 	@RequestMapping(value = "/loadScanGroupMember", method = RequestMethod.GET)
 	public String loadScanGroupMember(Locale locale, Model model,
-			@RequestParam(required = false) String groupEventCode, @PathVariable String groupCode, @RequestParam(required=false) String membershipIdentifier) {
+			@RequestParam(required = false) String groupEventCode,
+			@PathVariable String groupCode,
+			@RequestParam(required = false) String membershipIdentifier) {
 		GroupMember gm = new GroupMember();
-		if(StringUtils.isNotBlank(membershipIdentifier))
-		{
-			return this.scanGroupMember(locale, model, membershipIdentifier, groupEventCode);
+		if (StringUtils.isNotBlank(membershipIdentifier)) {
+			return this.scanGroupMember(locale, model, membershipIdentifier,
+					groupEventCode);
 		}
 		gm.setGroupCode(groupCode);
 		model.addAttribute("groupMember", gm);
@@ -110,8 +245,10 @@ public class GroupMembersController extends BaseWebAppController {
 		return "viewSearchedGroupMember";
 	}
 
-	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN , Role.SUPER_USER})
-	@RequestMapping(value = "/scanGroupMember", method = RequestMethod.POST)
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER })
+	@RequestMapping(value = "/scanGroupMember", method = { RequestMethod.GET,
+			RequestMethod.POST })
 	public String scanGroupMember(Locale locale, Model model,
 			@RequestParam(required = true) String value,
 			@RequestParam(required = false) String groupEventCode) {
@@ -145,20 +282,40 @@ public class GroupMembersController extends BaseWebAppController {
 								+ value);
 						GroupEventPass gep = groupEventPassesService
 								.findByPassBarcode(value);
-						if(gep==null)
-						{
-							gep = groupEventPassesService.findByPassIdentifier(value);
+						if (gep == null) {
+							gep = groupEventPassesService
+									.findByPassIdentifier(value);
 						}
 						if (gep != null) {
-							if(gep.getTrackingDate()!=null)
-							{
-								if(gep.getGroupMember()!=null)
-								{
-									addError("Pass "+gep.getPassBarcode()+" has already been scanned at "+CommonUtils.printDateInHomeTimeZone(gep.getTrackingDate())+", against user, "+gep.getGroupMember().getFirstName()+" "+gep.getGroupMember().getLastName()+". Please verify before proceeding!", model);
+							if (gep.getTrackingDate() != null) {
+								if (gep.getGroupMember() != null) {
+									addError(
+											"Pass "
+													+ gep.getPassBarcode()
+													+ " has already been scanned at "
+													+ CommonUtils
+															.printDateInHomeTimeZone(gep
+																	.getTrackingDate())
+													+ ", against user, "
+													+ gep.getGroupMember()
+															.getFirstName()
+													+ " "
+													+ gep.getGroupMember()
+															.getLastName()
+													+ ". Please verify before proceeding!",
+											model);
+								} else {
+
+									addError(
+											"Pass "
+													+ gep.getPassBarcode()
+													+ " has already been scanned at "
+													+ CommonUtils
+															.printDateInHomeTimeZone(gep
+																	.getTrackingDate())
+													+ " against an unknown user. Please verify before proceeding!",
+											model);
 								}
-								else {
-									
-								addError("Pass "+gep.getPassBarcode()+" has already been scanned at "+CommonUtils.printDateInHomeTimeZone(gep.getTrackingDate())+" against an unknown user. Please verify before proceeding!", model);}
 							}
 							passScanned = true;
 							model.addAttribute("passScan", true);
@@ -167,9 +324,14 @@ public class GroupMembersController extends BaseWebAppController {
 								gei = gep.getGroupEventInvite();
 								gm = gep.getGroupEventInvite().getGroupMember();
 							} else {
-								if(gep.isPassInvalidated())
-								{
-									addError("Pass "+gep.getPassBarcode()+" is an invalid pass. This pass had a comment - "+gep.getSoldBy()+". Please do not proceed without authorizing!", model);
+								if (gep.isPassInvalidated()) {
+									addError(
+											"Pass "
+													+ gep.getPassBarcode()
+													+ " is an invalid pass. This pass had a comment - "
+													+ gep.getSoldBy()
+													+ ". Please do not proceed without authorizing!",
+											model);
 								}
 								log.error("Found Event Pass but its not associated to any event or member:"
 										+ value);
@@ -221,27 +383,33 @@ public class GroupMembersController extends BaseWebAppController {
 			GroupEvents gEvent = groupEventsService.findByGroupEventCode(gei
 					.getGroupEventCode());
 
-			if (gEvent != null && gEvent.getEventDate() != null
-					&& gEvent.getEventDate().before(DateTime.now().plusHours(-6).toDate())) {
+			if (gEvent != null
+					&& gEvent.getEventDate() != null
+					&& gEvent.getEventDate().before(
+							DateTime.now().plusHours(-6).toDate())) {
 				addAlert(
 						"The Event \""
 								+ gEvent.getEventName()
 								+ "\" occured on "
-								+CommonUtils.printDateInHomeTimeZone(gEvent.getEventDate())+ " and registration window is open upto 6 hours after the event. Please verify before proceeding!",
+								+ CommonUtils.printDateInHomeTimeZone(gEvent
+										.getEventDate())
+								+ " and registration window is open upto 6 hours after the event. Please verify before proceeding!",
 						model);
 				model.addAttribute("groupEvent", gEvent);
-			} 
-			else if(gEvent != null && gEvent.getEventDate() != null
-					&& gEvent.getEventDate().after(DateTime.now().plusHours(6).toDate()))
-			{
+			} else if (gEvent != null
+					&& gEvent.getEventDate() != null
+					&& gEvent.getEventDate().after(
+							DateTime.now().plusHours(6).toDate())) {
 				addAlert(
 						"The Event \""
 								+ gEvent.getEventName()
-								+ "\" is in future ("+CommonUtils.printDateInHomeTimeZone(gEvent.getEventDate())+") and registration is allowed only 6 hours before the event. Please verify before proceeding!",
+								+ "\" is in future ("
+								+ CommonUtils.printDateInHomeTimeZone(gEvent
+										.getEventDate())
+								+ ") and registration is allowed only 6 hours before the event. Please verify before proceeding!",
 						model);
-				model.addAttribute("groupEvent", gEvent);	
-			}
-			else {
+				model.addAttribute("groupEvent", gEvent);
+			} else {
 				if (gei.isMarkAttended()) {
 					addInfo(gei.getGroupMember().getFirstName()
 							+ " "
@@ -249,22 +417,24 @@ public class GroupMembersController extends BaseWebAppController {
 							+ " is already registered for the event. Please verify! Amount paid for the event is "
 							+ gei.getPaidAmount(), model);
 				} else {
-					if(!passScanned){
-						//If a pass is scanned. Then do not auto register. Do it when the pass is registered.
-					gei.setMarkAttended(true);
-					gei.setUpdatedAt(Calendar.getInstance().getTime());
-					try {
-						groupEventInviteService.update(gei);
-						addSuccess(
-								gei.getGroupMember().getFirstName()
-										+ " "
-										+ gei.getGroupMember().getLastName()
-										+ " has now been successfully registered for the event. Amount paid for the event is "
-										+ gei.getPaidAmount(), model);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						// e.printStackTrace();
-					}
+					if (!passScanned) {
+						// If a pass is scanned. Then do not auto register. Do
+						// it when the pass is registered.
+						gei.setMarkAttended(true);
+						gei.setUpdatedAt(Calendar.getInstance().getTime());
+						try {
+							groupEventInviteService.update(gei);
+							addSuccess(
+									gei.getGroupMember().getFirstName()
+											+ " "
+											+ gei.getGroupMember()
+													.getLastName()
+											+ " has now been successfully registered for the event. Amount paid for the event is "
+											+ gei.getPaidAmount(), model);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							// e.printStackTrace();
+						}
 					}
 				}
 
@@ -276,7 +446,8 @@ public class GroupMembersController extends BaseWebAppController {
 		return "viewSearchedGroupMember";
 	}
 
-	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN, Role.SUPER_USER })
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER })
 	@RequestMapping(value = "/saveScannedGroupMember", method = RequestMethod.POST)
 	public String saveScannedGroupMember(Locale locale, Model model,
 			@ModelAttribute("groupMember") GroupMember groupMember,
@@ -384,12 +555,14 @@ public class GroupMembersController extends BaseWebAppController {
 									.getGroupCode());
 							groupEventInvite = groupEventInviteService
 									.insert(groupEventInvite);
-							if(ges!=null && ges.getGroupEventInviteCodeLength()>0){
-							groupEventInvite
-									.setGroupEventInviteCode(groupEventInvite
-											.getGroupEventInviteId()
-											.substring(0, eventCodeLength)
-											.toUpperCase());}
+							if (ges != null
+									&& ges.getGroupEventInviteCodeLength() > 0) {
+								groupEventInvite
+										.setGroupEventInviteCode(groupEventInvite
+												.getGroupEventInviteId()
+												.substring(0, eventCodeLength)
+												.toUpperCase());
+							}
 							groupEventInvite = groupEventInviteService
 									.update(groupEventInvite);
 							model.addAttribute("groupEventInvite",
@@ -413,7 +586,9 @@ public class GroupMembersController extends BaseWebAppController {
 		return "viewSearchedGroupMember";
 
 	}
-	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN , Role.SUPER_USER})
+
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER })
 	@RequestMapping(value = "/json/viewAllGroupMember/{memberCategoryCode}", method = RequestMethod.GET)
 	public @ResponseBody List<GroupMember> viewAllgroupMemberJson(
 			Locale locale, Model model,
@@ -527,7 +702,8 @@ public class GroupMembersController extends BaseWebAppController {
 
 	}
 
-	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN, Role.SUPER_USER })
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER })
 	@RequestMapping(value = "/json/viewGroupDependents", method = RequestMethod.GET)
 	public @ResponseBody List<GroupDependents> getGroupDependentsByGroupMember(
 			Locale locale, Model model, @PathVariable String groupCode,
@@ -547,6 +723,8 @@ public class GroupMembersController extends BaseWebAppController {
 		return gD;
 	}
 
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER, Role.ANONYMOUS })
 	@RequestMapping(value = "/updateGroupDependents", method = RequestMethod.POST)
 	public @ResponseBody String updateGroupDependents(Locale locale,
 			Model model,
@@ -661,7 +839,7 @@ public class GroupMembersController extends BaseWebAppController {
 		return "viewGroupEventFeedback";
 	}
 
-	@RequestMapping(value = "/json/viewGroupEventFeedbackList/{groupEventCode}/{memberCategoryCode}", method = RequestMethod.POST)
+	@RequestMapping(value = "/json/viewGroupEventFeedbackList/{groupEventCode}/{memberCategoryCode}", method = RequestMethod.GET)
 	public @ResponseBody List<Feedback> viewGroupEventFeedbackList(
 			Locale locale, Model model, @PathVariable String groupCode,
 			@PathVariable String memberCategoryCode,
@@ -679,7 +857,7 @@ public class GroupMembersController extends BaseWebAppController {
 		return feedback;
 	}
 
-	@RequestMapping(value = "/json/viewGroupEventFeedbackList/{groupEventCode}", method = RequestMethod.POST)
+	@RequestMapping(value = "/json/viewGroupEventFeedbackList/{groupEventCode}", method = RequestMethod.GET)
 	public @ResponseBody List<Feedback> viewGroupEventFeedbackList(
 			Locale locale, Model model, @PathVariable String groupCode,
 			@PathVariable String groupEventCode) {
@@ -697,6 +875,41 @@ public class GroupMembersController extends BaseWebAppController {
 		// attribute/command parametr)
 		model.addAttribute("groupEventInvite", new GroupEventInvite());
 		return "viewGroupEmails";
+	}
+
+	@RequestMapping(value = "/viewGroupSMS", method = RequestMethod.GET)
+	public String viewGroupSMS(Locale locale, Model model,
+			@PathVariable String groupCode) {
+		model.addAttribute("groupEventInvite", new GroupEventInvite());
+		return "viewGroupSMS";
+	}
+
+	@RequestMapping(value = "/json/viewGroupSMS/{groupEventCode}/{memberCategoryCode}", method = RequestMethod.GET)
+	public @ResponseBody List<GroupSMS> viewGroupSMS(Locale locale,
+			Model model, @PathVariable String groupCode,
+			@PathVariable String memberCategoryCode,
+			@PathVariable String groupEventCode) {
+		if (!StringUtils.isBlank(memberCategoryCode)) {
+			return groupSMSService
+					.findSMSByMemberCategoryCodeAndGroupEventCode(
+							memberCategoryCode, groupEventCode);
+		} else {
+			return groupSMSService.findSMSByGroupEventCode(groupEventCode);
+		}
+
+	}
+
+	@RequestMapping(value = "/json/viewGroupSMS/{groupEventCode}", method = RequestMethod.GET)
+	public @ResponseBody List<GroupSMS> viewGroupSMSbyGroupEventCode(
+			Locale locale, Model model, @PathVariable String groupCode,
+			@PathVariable String groupEventCode) {
+
+		if ("NULL".equalsIgnoreCase(groupEventCode)) {
+			return groupSMSService.findUnassignedSMSByGroupCode(groupCode);
+		} else {
+			return groupSMSService.findSMSByGroupEventCode(groupEventCode);
+		}
+
 	}
 
 	@RequestMapping(value = "/json/viewGroupEmails/{groupEventCode}/{memberCategoryCode}", method = RequestMethod.GET)

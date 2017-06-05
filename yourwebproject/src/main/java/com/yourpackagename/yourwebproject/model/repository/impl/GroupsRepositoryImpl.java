@@ -27,6 +27,13 @@ public class GroupsRepositoryImpl extends BaseHibernateJpaRepository<Groups, Lon
         return  groups;
 	}
 
+	public Groups findByGroupCodeActive(String groupCode)
+	{
+		Query q = sessionFactory.getCurrentSession().createQuery("from Groups g where g.groupCode = ? and g.startDate<=CURDATE() and g.expiryDate>=CURDATE()").setString(0,
+        		groupCode);
+		Groups groups = (Groups)q.uniqueResult();
+        return  groups;
+	}
 	public List<Groups> findGroups() {
 		Query q = sessionFactory.getCurrentSession().createQuery("from Groups g where g.startDate<=CURDATE() and g.expiryDate>=CURDATE()");
 		List<Groups> groups = q.list();

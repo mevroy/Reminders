@@ -140,11 +140,11 @@
 										editable : true
 									} ],
 							height : 'auto',
-							rowNum : 30,
+							rowNum : 50,
 							rownumbers : true,
 							rownumWidth : 25,
 							width : 937,
-							rowList : [1, 10, 25, 50 ],
+							rowList : [50, 100, 150, 250 ],
 							pager : '#p' + gridId,
 							//	sortname : 'firstName',
 							autoencode : false,

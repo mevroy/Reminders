@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<div class="row">
-	<div class="span12">
-		<div class="hero-unit">
+<div class="jumbotron">
+	<div>
+		<div>
 			<form name="loginUserForm2" action="loginUser" method="post"
 				id="loginUserForm2">
 				<fieldset>
@@ -14,21 +14,21 @@
 
 
 
-					<div class="span5">
-						<div class="control-group" id="usernameCtl">
+					<div>
+						<div class="form-group" id="usernameCtl">
 							<label class="control-label" for="usernameLabel">Username
 								</label>
 
 							<div class="controls">
-								<input type="text" name="username" class="input-xlarge"
+								<input type="text" name="username" class="form-control"
 									id="username" placeholder="Enter Username" />
 							</div>
 						</div>
-						<div class="control-group" id="passwordCtl">
+						<div class="form-group" id="passwordCtl">
 							<label class="control-label" for="passwordLabel">Password</label>
 
 							<div class="controls">
-								<input type="password" name="password" class="input-xlarge"
+								<input type="password" name="password" class="form-control"
 									id="password" placeholder="Enter Password" />
 							</div>
 						</div>
@@ -36,9 +36,11 @@
 
 					</div>
 				</fieldset>
+				<div class="form-group">
 				<input class="btn btn-primary btn-large" type="submit"
 					value="SUBMIT" />
-				<a href="${pageContext.request.contextPath}/${sessionScope.groupCode}/" class="btn btn-large">CANCEL</a>
+				<a href="${pageContext.request.contextPath}/${sessionScope.groupCode}/" class="btn btn-large btn-default">CANCEL</a>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -56,8 +58,8 @@
 		                    required:true
 		                }
 		            },
-							errorClass : "control-group error",
-							validClass : "control-group success",
+							errorClass : "control-group has-error",
+							validClass : "control-group has-success",
 							errorElement : "span",
 							highlight : function(element, errorClass,
 									validClass) {

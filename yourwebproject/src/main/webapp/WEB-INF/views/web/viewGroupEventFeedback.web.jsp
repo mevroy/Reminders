@@ -23,7 +23,7 @@
 
 							<form:select path="memberCategoryCode" cssClass="input-xlarge"
 								id="memberCategoryCode"
-								onchange="loadDiv();buildGroupEventsOptionsByMemberCategory(this.value, 'groupEventCode');">
+								onchange="loadDiv();buildGroupEventsOptionsByMemberCategoryIncludingExpired(this.value, 'groupEventCode');">
 								<option>Select One</option>
 							</form:select>
 						</div>

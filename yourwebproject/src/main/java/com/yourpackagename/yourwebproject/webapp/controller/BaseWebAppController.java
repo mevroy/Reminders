@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 /**
  * Class to be extended by each of the controller implementing WebApp methods
@@ -49,7 +50,7 @@ import java.util.Locale;
  * @created: 3/11/12 12:41 AM
  * @company: &copy; 2012, Kaleidosoft Labs
  */
-@RequestMapping(value = { "/{groupCode}" }, method = RequestMethod.GET)
+@RequestMapping(value = { "/{groupCode}" })
 public class BaseWebAppController extends BaseController {
 	private Logger log = LoggerFactory.getLogger(BaseWebAppController.class);
 	protected @Autowired ExceptionHandlerAdvice exceptionHandlerAdvice;
@@ -61,15 +62,15 @@ public class BaseWebAppController extends BaseController {
 
 	@InitBinder
 	public void initBinder(final WebDataBinder binder) {
-		//final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		//dateFormat.setLenient(false);
+		// final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		// dateFormat.setLenient(false);
 		// true passed to CustomDateEditor constructor means convert empty
 		// String to null
-		//binder.registerCustomEditor(Date.class, new CustomDateEditor(
-		//		dateFormat, true));
+		// binder.registerCustomEditor(Date.class, new CustomDateEditor(
+		// dateFormat, true));
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				new CustomDateFormatBinder(), true));
-		
+
 		binder.registerCustomEditor(int.class, new CustomNumberEditorBinder(
 				Integer.class, false));
 		binder.registerCustomEditor(double.class, new CustomNumberEditorBinder(
@@ -81,7 +82,8 @@ public class BaseWebAppController extends BaseController {
 	}
 
 	@ExceptionHandler(Exception.class)
-	public ModelAndView exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception ex, Locale locale) {
+	public ModelAndView exceptionHandler(HttpServletRequest request,
+			HttpServletResponse response, Exception ex, Locale locale) {
 		ModelAndView mav = new ModelAndView(View.error);
 		StringBuilder stack = new StringBuilder();
 
@@ -97,14 +99,15 @@ public class BaseWebAppController extends BaseController {
 		AuditLog alog = new AuditLog(request);
 		alog.setClazz("ExceptionHandler");
 		alog.setError(true);
-		alog.setErrorTrace(StringUtils.isNotBlank(errorTrace) && errorTrace.trim().length()>=250?errorTrace.substring(0, 249):errorTrace);
-		try{
+		alog.setErrorTrace(StringUtils.isNotBlank(errorTrace)
+				&& errorTrace.trim().length() >= 250 ? errorTrace.substring(0,
+				249) : errorTrace);
+		try {
 			loggerService.insertOrUpdate(alog);
 		} catch (Exception exc) {
 			log.error("Unable to create entry into Audit Log");
 		}
 
-		
 		return mav;
 	}
 
@@ -136,7 +139,7 @@ public class BaseWebAppController extends BaseController {
 		model.addAttribute("info", true);
 		model.addAttribute("infoMessage", message);
 	}
-	
+
 	public void addPopupModal(String title, String message, Model model) {
 		model.addAttribute("popupModal", true);
 		model.addAttribute("popupTitle", title);
@@ -184,4 +187,5 @@ public class BaseWebAppController extends BaseController {
 			return new User();
 		}
 	}
+
 }

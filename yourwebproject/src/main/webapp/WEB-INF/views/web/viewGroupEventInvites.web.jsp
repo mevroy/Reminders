@@ -142,7 +142,9 @@ var gridDiv = "";
 										index : 'groupMember.lastName',
 										hidden : false,
 										editable : false,
-										width: 130
+										width: 130,
+										summaryType:'count',
+										summaryTpl : 'Total - '
 									},
 									{
 										label : 'Adults',
@@ -150,6 +152,7 @@ var gridDiv = "";
 										index : 'groupMember.adultCount',
 										width : 40,
 										sortable : false,
+										align: 'center',
 										editable : true,
 										sorttype : "int",
 										formatter : "integer",
@@ -157,12 +160,13 @@ var gridDiv = "";
 											integer : true
 										},
 										summaryType : 'sum',
-										summaryTpl : '<b>Total: {0}</b>'
+										summaryTpl : '<b>{0}</b>'
 									},
 									{
 										label : 'Kids',
 										name : 'groupMember.kidCount',
 										index : 'groupMember.kidCount',
+										align: 'center',
 										width : 40,
 										sortable : false,
 										editable : true,
@@ -172,7 +176,7 @@ var gridDiv = "";
 										},
 										formatter : "integer",
 										summaryType : 'sum',
-										summaryTpl : '<b>Total: {0}</b>'
+										summaryTpl : '<b>{0}</b>'
 									},
 									{
 										label : 'Membership End Date',
@@ -408,7 +412,21 @@ var gridDiv = "";
 								}
 							},
 							editurl : "server.php",
-							caption : captionVal
+							caption : captionVal,
+							 footerrow: true, // the footer will be used for Grand Total
+				                userDataOnFooter: true,
+							loadComplete: function () {
+
+							    var sumOfKids = jQuery("#"+gridId).jqGrid('getCol', 'groupMember.kidCount', false, 'sum');
+							    var sumOfAdults = jQuery("#"+gridId).jqGrid('getCol', 'groupMember.adultCount', false, 'sum');
+
+							    jQuery("#"+gridId).jqGrid('footerData', 'set', 
+							    { 
+							    	'groupMember.firstName': 'Total Expected:',
+							    	'groupMember.kidCount': sumOfKids, 
+							    	'groupMember.adultCount': sumOfAdults
+							    });
+							}
 						});
 		jQuery("#" + gridId).jqGrid('navGrid', "#pgrid", {
 			edit : false,
@@ -445,18 +463,21 @@ var gridDiv = "";
 											index : 'groupMember.lastName',
 											hidden : false,
 											editable : false,
-											width: 100
+											width: 100,
+											summaryType:'count',
+											summaryTpl : 'Total - '
 										},
 										{
 											label : 'Adult Count',
 											name : 'adultCount',
 											index : 'adultCount',
+											align: 'center',
 											width: 75,
 											hidden : false,
 											editable : false,
 											formatter: 'integer',
 											summaryType : 'sum',
-											summaryTpl : '<b>Total: {0}</b>'
+											summaryTpl : '<b>{0}</b>'
 											
 										},
 										{
@@ -464,11 +485,12 @@ var gridDiv = "";
 											name : 'kidsCount',
 											index : 'kidsCount',
 											width: 75,
+											align: 'center',
 											hidden : false,
 											editable : false,
 											formatter: 'integer',
 											summaryType : 'sum',
-											summaryTpl : '<b>Total: {0}</b>'
+											summaryTpl : '<b>{0}</b>'
 										},
 //	 									{
 //	 										label : 'Invite Held',

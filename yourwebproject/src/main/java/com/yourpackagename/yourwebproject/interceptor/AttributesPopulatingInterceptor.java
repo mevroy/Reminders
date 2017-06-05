@@ -39,7 +39,7 @@ public class AttributesPopulatingInterceptor implements HandlerInterceptor {
 		if (request.getSession().getAttribute(Key.groupCode) == null) {
 			String groupCode = request.getParameter(Key.groupCode);
 			if (StringUtils.isNotBlank(groupCode)) {
-				Groups group = groupsService.findByGroupCode(groupCode);
+				Groups group = groupsService.findByGroupCodeActive(groupCode);
 				if (group != null) {
 					request.getSession().setAttribute(Key.groupName,
 							group.getGroupLongName());

@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.DateTime;
@@ -176,7 +177,7 @@ public class OpenController extends BaseController {
 	// Logic Simply added to redirect URL path to request Param as Submit form
 	// doesn't work too well with path param. If you need to redirect to group
 	// context then append "/{groupCode" to the redirect.
-	@RequestMapping(value = "/createRSVP/{groupEventInviteId}")
+	@RequestMapping(value = "/createRSVP/{groupEventInviteId}",method = RequestMethod.GET)
 	public String createRSVP(Model model,
 			@PathVariable String groupEventInviteId,
 			@RequestParam(required = false) String rsvpMessage)
@@ -206,7 +207,57 @@ public class OpenController extends BaseController {
 
 	}
 
-	@RequestMapping(value = "/groupEventFeedback/{groupEventInviteId}")
+	
+	@RequestMapping(value = "/pass/{groupEventInviteIdOrEventCode}",method = RequestMethod.GET)
+	public String passPDF(Model model,
+			@PathVariable String groupEventInviteIdOrEventCode
+			)
+			throws Exception {
+
+		try {
+			GroupEventInvite gei = groupEventInviteService
+					.findByGroupEventInviteCode(groupEventInviteIdOrEventCode);
+			if (gei == null) {
+				gei = groupEventInviteService.findById(groupEventInviteIdOrEventCode);
+			}
+			GroupEvents ge = groupEventsService.findByGroupEventCode(gei.getGroupEventCode());
+			if(ge!=null && !CommonUtils.isValidDates(null, ge.getExpiryDate()))
+			{
+				model.addAttribute("exception",
+						"Sorry! This event has already occured in the past and you will no longer be able to download the passes.");
+				return "error";
+			}
+			List<GroupEventPass> gep = groupEventPassesService
+					.findApprovedPassesByGroupEventInvite(gei);
+			if(CollectionUtils.isEmpty(gep))
+			{
+				model.addAttribute("exception",
+						"Sorry! You do not have passes to download for this event.");
+				return "error";	
+			}
+			return Key.redirect
+					+ "/"
+					+ gei.getGroupCode()
+					+ "/generatePasses?groupEventInviteIdOrEventCode="
+					+ groupEventInviteIdOrEventCode
+					;
+		} catch (Exception ex) {
+
+			
+			model.addAttribute("exception",
+					"Sorry! An error has occured. Make sure you copy paste the full URL that you received in the email to download your tickets.");
+			return "error";
+
+			/*
+			 * throw new UserPermissionException(
+			 * "Sorry! You do not have a valid invite to RSVP for this event.");
+			 */
+		}
+
+	}
+	
+	
+	@RequestMapping(value = "/groupEventFeedback/{groupEventInviteId}", method = RequestMethod.GET)
 	public String groupEventFeedback(Model model,
 			@PathVariable String groupEventInviteId,
 			@RequestParam(required = false) String redirectURL)
@@ -231,7 +282,7 @@ public class OpenController extends BaseController {
 
 	}
 
-	@RequestMapping(value = "/viewEmail/{groupEmailId}")
+	@RequestMapping(value = "/viewEmail/{groupEmailId}", method = RequestMethod.GET)
 	public @ResponseBody String viewEmail(Model model,
 			@PathVariable String groupEmailId, HttpServletRequest request)
 			throws Exception {
@@ -255,10 +306,11 @@ public class OpenController extends BaseController {
 				+ "/res/custom/images/email/generic/facebook.png";
 	}
 
-	@RequestMapping(value = "/loadEmailWebversion/{groupEmailId}")
+	@RequestMapping(value = "/loadEmailWebversion/{groupEmailId}", method = RequestMethod.GET)
 	public String loadEmailWebversion(Model model,
 			@PathVariable String groupEmailId, HttpServletRequest request)
 			throws Exception {
+		try{
 		GroupEmail groupEmail = groupEmailsService.findById(groupEmailId);
 		if (groupEmail != null) {
 			model.addAttribute("emailHTML", groupEmail.getBody());
@@ -276,11 +328,17 @@ public class OpenController extends BaseController {
 					}
 				}
 			}
-		}
 		return "loadEmailWebversion";
+		}
+		}
+		catch(Exception e)
+		{
+			model.addAttribute("exception", "Oops! Looks like you are trying to dig into an old email. This email has been archived! Sorry about that.");
+		}
+		return "error";
 	}
 
-	@RequestMapping(value = "/loadEmailTemplate/{templateName}")
+	@RequestMapping(value = "/loadEmailTemplate/{templateName}", method = RequestMethod.GET)
 	public String loadEmailTemplate(Model model,
 			@PathVariable String templateName, HttpServletRequest request)
 			throws Exception {
@@ -325,12 +383,15 @@ public class OpenController extends BaseController {
 		GroupEventInvite gei = null;
 		try {
 			gei = groupEventInviteService.findById(value);
-			List<GroupEventPass> groupEventPasses = groupEventPassesService
-					.findByGroupEventInvite(gei);
 			GroupEvents ge = groupEventsService.findByGroupEventCode(gei
 					.getGroupEventCode());
 			gm = gei.getGroupMember();
+			
+			if(ge.getExpiryDate()==null || ge.getExpiryDate().after(Calendar.getInstance().getTime())){
+			List<GroupEventPass> groupEventPasses = groupEventPassesService
+					.findByGroupEventInvite(gei);
 			mdl.put("groupEventPasses", groupEventPasses);
+			}
 			mdl.put("groupEventInvite", gei);
 			mdl.put("groupEvent", ge);
 			mdl.put("groupMember", gm);
@@ -713,7 +774,7 @@ public class OpenController extends BaseController {
 
 		// Check for Scanner needs to be put here because the groupCode is
 		// required to identify the device.
-		if (gm != null) {
+		if (gm != null && StringUtils.isNotBlank(udid)) {
 			ExternalScanner extScanner = imprintAndValidateScanner(
 					gm.getGroupCode(), udid, scannedData);
 			if (!CommonUtils.isValidDates(extScanner.getAccessStartDate(),
@@ -946,4 +1007,6 @@ public class OpenController extends BaseController {
 		return extScanner;
 
 	}
+	
+
 }

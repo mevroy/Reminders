@@ -44,4 +44,9 @@ public class GroupEmailsRepositoryImpl extends BaseHibernateJpaRepository<GroupE
 		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("from GroupEmail ge where ge.emailAccountCode in (select gea.emailAccountCode from GroupEmailAccount gea where gea.groupCode = ? ) and ( ge.groupEventInviteId = null or ge.groupEventInviteId = '')").setParameter(0, groupCode).list();
 	}
 
+	public List<GroupEmail> findEmailsByGroupEventCodeAndSerialNumber(
+			String groupEventCode, String serialNumber) {
+		return (List<GroupEmail>)sessionFactory.getCurrentSession().createQuery("select ge from GroupEmail ge, GroupEventInvite gei where  ge.groupEventInviteId = gei.groupEventInviteId and gei.groupEventCode = ? and gei.groupMember.serialNumber = ?").setParameter(0, groupEventCode).setParameter(1, serialNumber).list();
+	}
+
 }

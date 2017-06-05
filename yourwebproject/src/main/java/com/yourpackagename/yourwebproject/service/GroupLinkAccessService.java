@@ -35,4 +35,6 @@ public interface GroupLinkAccessService extends BaseService<GroupLinkAccess, Lon
 			boolean includeExpired, Role role);
 	
 	public boolean isURLAccessibleForUser(String url, User user, Groups group, boolean subLinkAccess);
+	
+	public boolean isActualURLAccessibleForAnonymousRole(String url, Groups group, boolean includeExpired);
 }

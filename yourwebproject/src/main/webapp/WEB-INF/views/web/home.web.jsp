@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<div class="row">
+<div class="jumbotron">
 
-	<div class="span12">
-		<div class="hero-unit">
+	<div>
+		<div>
 
 			<c:choose>
 				<c:when test="${sessionScope.groupName ne null}">
@@ -25,7 +25,7 @@
 						team will be in touch with you.
 					</p>
 					
-					<a href="registerInterest"  class="btn btn-primary btn-large" >REGISTER INTEREST</a>&nbsp;<c:if test="${sessionScope.user eq null || empty sessionScope.user}" ><a href="login" class="btn btn-primary btn-large" >LOGIN</a> </c:if>
+					<a href="registerInterest"  class="btn btn-primary btn-lg" >REGISTER INTEREST</a>&nbsp;<c:if test="${sessionScope.user eq null || empty sessionScope.user}" ><a href="login" class="btn btn-primary btn-lg" >LOGIN</a> </c:if>
 				<!-- 	<button type="button" id="myButton" data-loading-text="<span class='spinner'><i  class='icon-spin icon-repeat icon-play-circle'></i></span> Loading.." class="btn btn-primary btn-large has-spinner"  >
   Loading state
 </button>
@@ -44,8 +44,10 @@
             </ul>  -->
 					<br />
 					<!-- a class="btn btn-large btn-primary" href="userRegistration">Register
-						Now!</a>  -->
-				</c:when>
+						Now!</a> 
+						<a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-animation="true" data-trigger="focus" title="EMAIL ACTIVITY" data-content="Hi" data-emailID="bf26021c-6296-4cfc-b166-7d8bfcd1017d">EMAIL ACTIVITY</a>
+			 -->	</c:when>
+				
 				<c:otherwise>
 					<h2>Page Not Found!</h2>
 					<br />

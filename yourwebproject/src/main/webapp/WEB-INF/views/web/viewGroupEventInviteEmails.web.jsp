@@ -73,7 +73,14 @@
 					url : 'json/viewGroupEmails/' + groupEventCode + '/'
 							+ groupMemCatCode,
 					datatype : "json",
-					colModel : [ {
+					colModel : [{
+						label : 'Email ID',
+						name : 'groupEmailId',
+						index : 'groupEmailId',
+						hidden : true,
+						editable : true,
+						width : 1
+					}, {
 						label : 'First Name',
 						name : 'groupMember.firstName',
 						index : 'groupMember.firstName',
@@ -93,6 +100,7 @@
 						index : 'subject',
 						hidden : false,
 						editable : false,
+						searchoptions:{sopt:['cn','eq','bn','bw','nc','ew','en']},
 						width : 200
 					}, {
 						label : 'Email Held',
@@ -101,20 +109,28 @@
 						width : 70,
 						align: 'center',
 						sortable : true,
-						editable : true,
+						editable : false,
+						hidden : false,
 						searchoptions:{sopt:['bw','eq','bn','cn','nc','ew','en']},
-						formatter : formatBoolean
+						formatter: function(cellValue, options, rowObject) {
+							//If the rowObject picks a different value other than the current 'name' then it will not work. for e.g here you are fetching groupEmailId under emailHeld. It will work if you defined a hidden attrbute of groupEmailId.
+						    var emailId = rowObject.groupEmailId;
+							var template = "<div class='popover' style='max-width: 700px;'  role='tooltip'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'><span class='spinner'><i class='icon-spin icon-repeat icon-play-circle'></i></span> Loading..</div></div>";
+							var linkattr = '<a tabindex="0" data-template="'+template+'" data-container = "body" data-animation="true" role="button" class="btn btn-mini btn-warning" popover-placement="top"  data-toggle="popover" data-trigger="focus" title="Email Activity"  data-emailid="'+emailId+'">'+formatBoolean(rowObject.emailHeld)+'</a>';
+							return linkattr;
+						    }	
 
 					},  {
 						label : 'Emailed Date',
 						name : 'emailedDate',
 						index : 'emailedDate',
-						width : 100,
+						width : 130,
 						sortable : true,
 						editable : true,
 						searchoptions:{sopt:['bw','eq','bn','cn','nc','ew','en']},
 						//sorttype : "date",
-						formatter : formatDateTime
+						formatter : formatDateTime,
+
 
 					}, {
 						label : 'Email Viewed Dt.',
@@ -256,6 +272,15 @@
 						// 											true, pickdates);
 						// 									lastsel = id;
 						// 								}
+					},
+					loadComplete : function () {
+						 $('[data-toggle="popover"]').popover({
+							    html: true,
+							    trigger: 'focus',
+							  content: loadEmailActivity,
+							  }).click(function(e) {
+							  // $(this).popover('toggle');
+							  });
 					},
 					editurl : "server.php",
 					caption : captionVal

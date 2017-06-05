@@ -45,10 +45,10 @@ public class AaStartUpScheduler {
 	public void run() throws SchedulerException {
 		List<GroupCronJob> cronjobs = groupCronJobService.findGroupCronJobs();
 		for (GroupCronJob cronJob : cronjobs) {
-			logger.info("Found Cron:" + cronJob.getJobName() + " : "
-					+ cronJob.getJobDescription());
+		//	logger.info("Found Cron:" + cronJob.getJobName() + " : "
+		//			+ cronJob.getJobDescription());
 
-			logger.info("Entering Application Scheduler for starting configured crons");
+		//	logger.info("Entering Application Scheduler for starting configured crons");
 			SchedulerFactory sf = new StdSchedulerFactory();
 			Scheduler sched = sf.getScheduler();
 			sched.start();
@@ -116,7 +116,7 @@ public class AaStartUpScheduler {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			logger.info("Exiting Application Scheduler for starting configured crons");
+		//	logger.info("Exiting Application Scheduler for starting configured crons");
 		}
 	}
 

@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -205,7 +206,7 @@ public class GroupNavigationLinksController extends BaseWebAppController {
 				Groups group = groupsService.findByGroupCode(groupCode);
 				groupLinkAccess.setGroupSubLinkId(groupSubLinkId);
 				groupLinkAccess.setGroup(group);
-				
+				groupLinkAccess.setLinkHref(StringUtils.trimToNull(groupLinkAccess.getLinkHref()));
 				groupLinkAccessService.insert(groupLinkAccess);
 				return Key.SUCCESS;
 
@@ -214,7 +215,7 @@ public class GroupNavigationLinksController extends BaseWebAppController {
 				GroupLinkAccess gLinkAccess = groupLinkAccessService.findById(groupLinkAccess.getId());
 				gLinkAccess.setStartDate(groupLinkAccess.getStartDate());
 				gLinkAccess.setExpiryDate(groupLinkAccess.getExpiryDate());
-				gLinkAccess.setLinkHref(groupLinkAccess.getLinkHref());
+				gLinkAccess.setLinkHref(StringUtils.trimToNull(groupLinkAccess.getLinkHref()));
 				gLinkAccess.setLinkJavaScript(groupLinkAccess.getLinkJavaScript());
 				gLinkAccess.setUpdatedAt(Calendar.getInstance().getTime());
 

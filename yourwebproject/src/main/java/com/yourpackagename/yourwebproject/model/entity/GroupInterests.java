@@ -49,6 +49,9 @@ public class GroupInterests extends JpaEntity<Long> implements Serializable  {
 	private String autoResponseTemplate;
 	
 	@Column
+	private String defaultResponseTemplate;
+	
+	@Column
 	private String url;
 	
 	@Column
@@ -58,6 +61,9 @@ public class GroupInterests extends JpaEntity<Long> implements Serializable  {
 	
 	@Column
 	private String memberCategoryCode;
+	
+	@Column
+	private String eventCode;
 
 	/**
 	 * @return the interestType
@@ -185,6 +191,34 @@ public class GroupInterests extends JpaEntity<Long> implements Serializable  {
 	 */
 	public void setMemberCategoryCode(String memberCategoryCode) {
 		this.memberCategoryCode = memberCategoryCode;
+	}
+
+	/**
+	 * @return the eventCode
+	 */
+	public String getEventCode() {
+		return eventCode;
+	}
+
+	/**
+	 * @param eventCode the eventCode to set
+	 */
+	public void setEventCode(String eventCode) {
+		this.eventCode = eventCode;
+	}
+
+	/**
+	 * @return the defaultResponseTemplate
+	 */
+	public String getDefaultResponseTemplate() {
+		return defaultResponseTemplate;
+	}
+
+	/**
+	 * @param defaultResponseTemplate the defaultResponseTemplate to set
+	 */
+	public void setDefaultResponseTemplate(String defaultResponseTemplate) {
+		this.defaultResponseTemplate = defaultResponseTemplate;
 	}
 	
 	

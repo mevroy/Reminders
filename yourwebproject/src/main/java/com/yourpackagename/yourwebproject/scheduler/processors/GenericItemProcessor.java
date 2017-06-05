@@ -21,13 +21,18 @@ import com.yourpackagename.yourwebproject.actor.MailSenderActor;
 import com.yourpackagename.yourwebproject.actor.MailSenderUntypedActor;
 import com.yourpackagename.yourwebproject.model.entity.GroupDependents;
 import com.yourpackagename.yourwebproject.model.entity.GroupEmail;
+import com.yourpackagename.yourwebproject.model.entity.GroupEmailActivity;
 import com.yourpackagename.yourwebproject.model.entity.GroupEmailTemplate;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
+import com.yourpackagename.yourwebproject.model.entity.GroupEventInviteRSVP;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventPass;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
 import com.yourpackagename.yourwebproject.model.entity.GroupMember;
+import com.yourpackagename.yourwebproject.model.entity.enums.EmailActivity;
+import com.yourpackagename.yourwebproject.service.GroupEmailActivityService;
 import com.yourpackagename.yourwebproject.service.GroupEmailTemplateService;
 import com.yourpackagename.yourwebproject.service.GroupEmailsService;
+import com.yourpackagename.yourwebproject.service.GroupEventInviteRSVPService;
 import com.yourpackagename.yourwebproject.service.GroupEventInviteService;
 import com.yourpackagename.yourwebproject.service.GroupEventPassesService;
 import com.yourpackagename.yourwebproject.service.GroupEventsService;
@@ -49,8 +54,10 @@ public class GenericItemProcessor implements
 	private @Autowired GroupEmailTemplateService groupEmailTemplateService;
 	private @Autowired GroupEventsService groupEventsService;
 	private @Autowired GroupEventInviteService groupEventInviteService;
+	private @Autowired GroupEventInviteRSVPService groupEventInviteRSVPService;
 	private @Autowired GroupEmailsService groupEmailsService;
 	private @Autowired GroupEventPassesService groupEventPassesService;
+	private @Autowired GroupEmailActivityService groupEmailActivityService;
 
 	@Value("#{jobParameters['templateName']}")
 	private String templateName;
@@ -80,6 +87,7 @@ public class GenericItemProcessor implements
 				+ groupMember.getLastName() + ": Birthday:"
 				+ groupMember.getBirthday());
 		Map<String, Object> model = new HashMap<String, Object>();
+		boolean isInvHeld = false;
 		model.put("groupMember", groupMember);
 		if (StringUtils.isBlank(templateName)) {
 			throw new Exception(
@@ -104,11 +112,18 @@ public class GenericItemProcessor implements
 				GroupEventInvite gei = groupEventInviteService
 						.findByGroupMemberAndGroupEvent(groupMember, gevents);
 				if (gei != null) {
+					isInvHeld = gei.isInviteHeld();
 					groupEmail.setGroupEventInviteId(gei
 							.getGroupEventInviteId());
 					model.put("groupEventInvite", gei);
 					List<GroupEventPass> geps = groupEventPassesService.findByGroupEventInvite(gei);
-					model.put("groupEventPasses ", geps);
+					model.put("groupEventPasses", geps);
+					
+					List<GroupEventInviteRSVP> tempList = groupEventInviteRSVPService
+							.findByGroupEventInvite(gei);
+					if (tempList != null && tempList.size() > 0) {
+						model.put("groupEventInviteRSVP", tempList.get(0));
+					}
 				}
 			}
 			model.put("groupEvent", gevents);
@@ -149,9 +164,15 @@ public class GenericItemProcessor implements
 		 * email Tracking purpose
 		 */
 		GroupEmail newEmail = groupEmailsService.insert(groupEmail);
+		GroupEmailActivity groupEmailActivity = new GroupEmailActivity();
+		groupEmailActivity.setEmailActivity(EmailActivity.CREATE);
+		groupEmailActivity.setActivityTime(groupEmail.getCreatedAt());
+		groupEmailActivity.setActivityBy(jobCode);
+		groupEmailActivity.setGroupEmail(newEmail);
+		groupEmailActivityService.insert(groupEmailActivity);
 		model.put("groupEmail", newEmail);
 		newEmail.setBody(mailSenderActor.prepareEmailBody(templateName, model));
-		newEmail.setEmailHeld(!groupMember.isPrimaryEmailVerified());
+		newEmail.setEmailHeld(isInvHeld || !groupMember.isPrimaryEmailVerified());
 		// Map<String, Object> map = new HashMap<String, Object>();
 		// map.put(groupMember.getSerialNumber(), newEmail);
 

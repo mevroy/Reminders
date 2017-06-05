@@ -35,10 +35,14 @@ public class Props {
     public @Value("${jdbc.timeZoneDifferenceinHoursWithRespectToAppServer}") String timeZoneDifferenceInHours;
     public @Value("${membershipInfo.responder.template}") String membershipResponderTemplate;
     public @Value("${membershipInfo.responder.template.excludeCategories}") String membershipExcludeCategories;
+    public @Value("${registerInterest.invite.excludeCategories}") String registerInterestExcludeCategories;
+    public @Value("${registerInterest.defaultResponse.template}") String registerInterestDefaultTemplate;
+    
     public @Value("${cssSelectorValues}") String cssSelectorValues;
     public @Value("${eventTypeCategories}") String eventTypeCategories;
     public @Value("${homeTimeZone}") String homeTimeZone;
     public @Value("${hostTimeZone}") String hostTimeZone;
+    public @Value("${membershipFilePath}") String membershipFilePath;
     @PostConstruct
     public void init() {
         webAuthRoutes = Arrays.asList(

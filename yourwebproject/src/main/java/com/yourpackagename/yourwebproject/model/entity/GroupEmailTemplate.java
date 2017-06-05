@@ -50,6 +50,9 @@ public class GroupEmailTemplate extends JpaEntity<Long> implements Serializable{
 	private String attachments;
 	
 	@Column
+	private boolean prefillAttachments;
+	
+	@Column
 	private boolean html;
 	
 	@Column
@@ -310,7 +313,20 @@ public class GroupEmailTemplate extends JpaEntity<Long> implements Serializable{
 		this.expressEmail = expressEmail;
 	}
 
+	/**
+	 * @return the prefillAttachments
+	 */
+	public boolean isPrefillAttachments() {
+		return prefillAttachments;
+	}
 
-	
+	/**
+	 * @param prefillAttachments the prefillAttachments to set
+	 */
+	public void setPrefillAttachments(boolean prefillAttachments) {
+		this.prefillAttachments = prefillAttachments;
+	}
+
+
 	
 }

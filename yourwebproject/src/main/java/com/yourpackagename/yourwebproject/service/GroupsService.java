@@ -15,5 +15,6 @@ import com.yourpackagename.yourwebproject.model.entity.Groups;
 public interface GroupsService extends BaseService<Groups, Long> {
 
 	public Groups findByGroupCode(String groupCode);
+	public Groups findByGroupCodeActive(String groupCode);
 	public List<Groups> findGroups();
 }

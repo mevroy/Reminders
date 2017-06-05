@@ -15,6 +15,7 @@ import com.yourpackagename.yourwebproject.model.entity.Groups;
 public interface GroupsRepository extends BaseJpaRepository<Groups, Long> {
 
 	public Groups findByGroupCode(String groupCode);
+	public Groups findByGroupCodeActive(String groupCode);
 	public List<Groups> findGroups();
 	
 }

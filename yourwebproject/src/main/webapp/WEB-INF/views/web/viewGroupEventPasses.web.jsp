@@ -59,6 +59,7 @@
 
 <script type="text/javascript">
 var gridDiv = "";
+var lastsel = null;
     $(document).ready(function () {
         $("#groupEventInvite").validate({
             rules:{
@@ -331,17 +332,19 @@ var gridDiv = "";
 							grouping : true,
 							loadonce : true,
 							groupingView : {
-								groupField : [ 'groupEventCode' ],
-								groupColumnShow : [ false ],
+								groupField : [ 'sold' ],
+								groupColumnShow : [ true ],
 								groupSummary : [true],
-								groupText : [ '<b>{0} - {1} Passes(s)</b>' ]
+								groupText : [ '<b>Pass Status Sold - "{0}" - {1} Pass(es)</b>' ],
+								groupCollapse : true,
+								showSummaryOnHide : true
 							},
 							onSelectRow : function(id) {
 								if (id && id !== lastsel) {
 									jQuery('#' + gridId).jqGrid('restoreRow',
 											lastsel);
 									jQuery('#' + gridId).jqGrid('editRow', id,
-											true, pickdates);
+											true, datetimePick);
 									lastsel = id;
 								}
 							},

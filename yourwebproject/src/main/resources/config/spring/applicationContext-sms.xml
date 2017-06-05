@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mail="http://www.springframework.org/schema/integration/mail"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+               http://www.springframework.org/schema/integration/mail
+            http://www.springframework.org/schema/integration/mail/spring-integration-mail-3.0.xsd 
+            http://www.springframework.org/schema/util 
+            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+
+	<!-- Configure Velocity for sending e-mail -->
+	<bean id="smsVelocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityPropertiesMap">
+			<map>
+				<entry key="resource.loader">
+					<value>ds</value>
+				</entry>
+				<entry key="ds.resource.loader.instance">
+					<ref bean="smsTemplateLoader" />
+				</entry>
+				<entry key="ds.resource.loader.resource.table">
+					<value>group_sms_template</value>
+				</entry>
+				<entry key="ds.resource.loader.resource.keycolumn">
+					<value>template_name</value>
+				</entry>
+				<entry key="ds.resource.loader.resource.templatecolumn">
+					<value>template_content</value>
+				</entry>
+				<entry key="ds.resource.loader.resource.timestampcolumn">
+					<value>last_modified</value>
+				</entry>
+				<entry key="ds.resource.loader.cache">
+					<value>false</value>
+				</entry>
+				<entry key="ds.resource.loader.modificationCheckInterval">
+					<value>60</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- Velocity Database Template Loader -->
+	<bean id="smsTemplateLoader"
+		class="org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+</beans>

@@ -113,9 +113,63 @@
 										width : 100
 									},
 									{
-										label : 'Response Template',
+										label : 'Event',
+										name : 'eventCode',
+										index : 'eventCode',
+										hidden : false,
+										edittype : 'select',
+										editoptions : {
+											dataUrl : 'json/viewGroupEvents?memberCategoryCode=NULL',
+											buildSelect : function(response) {
+												var options = '<select><option value="">Select One</option>"';
+												
+
+													$.each($.parseJSON(response), function(j, option) {
+														options += '<option value="' + option.value + '">'
+																+ option.label + '</option>';
+																
+													});
+												
+												options += '</select>';
+												return options;
+											}
+										},
+										editable : true,
+										width : 130
+									},
+									{
+										label : 'Event Resp. Template',
 										name : 'autoResponseTemplate',
 										index : 'autoResponseTemplate',
+										hidden : false,
+										edittype : 'select',
+										editoptions : {
+											dataUrl : 'json/viewGroupEmailTemplates?groupEventCode=ALL',
+											buildSelect : function(response) {
+												var fullSelect = '<select><option value="">Select One</option>';
+												var optGroup = '';
+									            $.each($.parseJSON(response), function(groupName, options) {
+									                optGroup += '<optgroup label="'+groupName+'">';
+									                var optionEach = '';
+									                $.each(options, function(j, option) {
+									                	optionEach +=  '<option value="' + option.value + '">'
+														+ option.label
+														+ '</option>';
+									                });
+									                optGroup += optionEach+'</optgroup>'
+									            });
+									            
+									            fullSelect += optGroup+'</select>';
+												return fullSelect;
+											}
+										},
+										editable : true,
+										width : 130
+									},
+									{
+										label : 'Default Template',
+										name : 'defaultResponseTemplate',
+										index : 'defaultResponseTemplate',
 										hidden : false,
 										edittype : 'select',
 										editoptions : {

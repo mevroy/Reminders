@@ -25,7 +25,7 @@ import java.util.Locale;
  * @company: &copy; 2012, Kaleidosoft Labs
  */
 @Controller
-@CheckPermission(allowedRoles={Role.ANONYMOUS})
+@CheckPermission(allowedRoles={Role.SUPER_ADMIN, Role.ADMIN, Role.SUPER_USER, Role.USER,Role.ANONYMOUS})
 @EnableLogging(loggerClass="AppController")
 public class AppController extends BaseWebAppController {
 	@Autowired

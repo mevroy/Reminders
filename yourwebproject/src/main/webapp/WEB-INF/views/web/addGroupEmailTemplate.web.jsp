@@ -71,7 +71,18 @@
 
 							</div>
 						</div>
+						<div class="control-group" id="expressCtl">
+							<label class="control-label" for="html">Express Email</label>
 
+							<div class="controls">
+								<form:radiobutton path="expressEmail" cssClass="input-xlarge" id="expressEmail1"
+									value="true"  />
+								YES&nbsp;&nbsp;
+								<form:radiobutton path="expressEmail" cssClass="input-xlarge" id="expressEmail2"
+									value="false" />
+								NO
+							</div>
+						</div>
 
 
 					</div>
@@ -111,7 +122,18 @@
 										id="attachments" placeholder="Enter attachment path" />
 								</div>
 							</div>
+						<div class="control-group" id="prefillCtl">
+							<label class="control-label" for="html">Pre-fill Attachment</label>
 
+							<div class="controls">
+								<form:radiobutton path="prefillAttachments" cssClass="input-xlarge" id="prefill1"
+									value="true" />
+								YES&nbsp;&nbsp;
+								<form:radiobutton path="prefillAttachments" cssClass="input-xlarge" id="prefill2"
+									value="false" />
+								NO
+							</div>
+						</div>
 
 
 							<div class="control-group" id="emailAccountCodeCtl">
@@ -178,7 +200,6 @@
 					</div>
 				</fieldset>
 				<form:hidden path="id" id="id"/>
-				<form:hidden path="expressEmail" id="expressEmail"/>
 				<input class="btn btn-primary btn-large" type="submit"
 					value="SUBMIT" />
 				<a

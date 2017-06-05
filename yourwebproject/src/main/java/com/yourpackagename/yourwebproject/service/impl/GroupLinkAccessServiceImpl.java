@@ -121,7 +121,41 @@ public class GroupLinkAccessServiceImpl extends
 
 		return CollectionUtils.isEmpty(gSubs);
 	}
+	
+	private boolean isBaseURLAccessibleForAnonymousRole(String url, Groups group) {
+		List<GroupSubLink> gSubs = groupSubLinksRepository.findByURL(url, true);
+		for (GroupSubLink gSub : gSubs) {
+			List<GroupLinkAccess> glas = this
+					.findByGroupSubLinkAndGroupAndRole(gSub, group, true,
+							Role.ANONYMOUS);
+			if (!gSub.isDisabled()) {
+				if (CollectionUtils.isEmpty(glas) || this.doValidLinkAccessRolesExist(glas)) {
+					return true;
+				}
+			}
 
+		}
+
+		return CollectionUtils.isEmpty(gSubs);
+	}
+	
+
+	public boolean isActualURLAccessibleForAnonymousRole(String url, Groups group, boolean includeExpired)
+	{
+		
+
+		if (!this.isBaseURLAccessibleForAnonymousRole(url, group)) {
+			return false;
+		}
+		
+		List<GroupLinkAccess> glas = this.findByLinkURLAndGroupAndRole(url,
+				group, true, Role.ANONYMOUS);
+		if (this.doValidLinkAccessRolesExist(glas)) {
+			return true;
+		}
+		return CollectionUtils.isEmpty(glas);
+	}
+	
 	private boolean doValidLinkAccessRolesExist(List<GroupLinkAccess> glas) {
 		for (GroupLinkAccess gla : glas) {
 			if (this.isValidDates(gla.getStartDate(), gla.getExpiryDate())) {

@@ -41,12 +41,6 @@ public class GroupPushNotificationAccount extends JpaEntity<Long> implements Ser
 	@NotEmpty
 	private String accountCode;
 	
-	
-	@Column
-	@NotNull
-	@NotEmpty
-	private String pushUrl;
-	
 	@Column
 	@NotNull
 	@NotEmpty
@@ -69,10 +63,7 @@ public class GroupPushNotificationAccount extends JpaEntity<Long> implements Ser
 	@Column
 	private String subscriptionLink;
 	
-	
-	@Column
-	private String authorizationLink;
-	
+
 	@Column
 	private String appAlias;
 	
@@ -186,20 +177,6 @@ public class GroupPushNotificationAccount extends JpaEntity<Long> implements Ser
 	}
 
 	/**
-	 * @return the authorizationLink
-	 */
-	public String getAuthorizationLink() {
-		return authorizationLink;
-	}
-
-	/**
-	 * @param authorizationLink the authorizationLink to set
-	 */
-	public void setAuthorizationLink(String authorizationLink) {
-		this.authorizationLink = authorizationLink;
-	}
-
-	/**
 	 * @return the appAlias
 	 */
 	public String getAppAlias() {
@@ -255,19 +232,5 @@ public class GroupPushNotificationAccount extends JpaEntity<Long> implements Ser
 		this.pushNotificationQRImageLink = pushNotificationQRImageLink;
 	}
 
-	/**
-	 * @return the pushUrl
-	 */
-	public String getPushUrl() {
-		return pushUrl;
-	}
-
-	/**
-	 * @param pushUrl the pushUrl to set
-	 */
-	public void setPushUrl(String pushUrl) {
-		this.pushUrl = pushUrl;
-	}
-	
 	
 }

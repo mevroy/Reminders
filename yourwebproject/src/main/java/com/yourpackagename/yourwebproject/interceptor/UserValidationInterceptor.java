@@ -89,7 +89,7 @@ public class UserValidationInterceptor implements HandlerInterceptor {
 						.split("/") : null;
 				String groupCode = contextValues != null
 						&& contextValues.length > 0 ? contextValues[0] : "";
-				Groups group = groupsService.findByGroupCode(groupCode);
+				Groups group = groupsService.findByGroupCodeActive(groupCode);
 				if (group != null) {
 					request.getSession().setAttribute(Key.groupName,
 							group.getGroupLongName());
@@ -147,10 +147,13 @@ public class UserValidationInterceptor implements HandlerInterceptor {
 				}
 				if (!hasAccess) {
 					for (Role type : checkPermission.allowedRoles()) {
-						if (Role.ANONYMOUS == type) {
-							hasAccess = true;
+						if (Role.ANONYMOUS == type)  {
 							needToSignIn = false;
-							break;
+							if(groupLinkAccessService.isActualURLAccessibleForAnonymousRole(requestPath, group, true)){
+								hasAccess = true;
+								break;
+							}
+
 						}
 					}
 				}
@@ -161,6 +164,12 @@ public class UserValidationInterceptor implements HandlerInterceptor {
 
 				if (!userLoggedIn && needToSignIn) {
 					arg1.sendRedirect("login");
+				}
+				
+				if(!needToSignIn && !hasAccess)
+				{
+					throw new UserPermissionException(
+							"This page is not active at the moment, please try again later!");
 				}
 			}
 

@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -84,6 +85,8 @@ public class GroupEventInvite extends NoIDEntity implements Serializable{
 	
 	@Column
 	private int inviteEmailCount;
+	
+
 /*	@Column
 	private boolean resendInvite; */
 	

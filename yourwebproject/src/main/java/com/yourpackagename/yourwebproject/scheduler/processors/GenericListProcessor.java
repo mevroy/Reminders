@@ -1,5 +1,6 @@
 package com.yourpackagename.yourwebproject.scheduler.processors;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +22,11 @@ import com.yourpackagename.yourwebproject.actor.MailSenderActor;
 import com.yourpackagename.yourwebproject.actor.MailSenderUntypedActor;
 import com.yourpackagename.yourwebproject.model.entity.GroupDependents;
 import com.yourpackagename.yourwebproject.model.entity.GroupEmail;
+import com.yourpackagename.yourwebproject.model.entity.GroupEmailActivity;
 import com.yourpackagename.yourwebproject.model.entity.GroupEmailTemplate;
 import com.yourpackagename.yourwebproject.model.entity.GroupMember;
+import com.yourpackagename.yourwebproject.model.entity.enums.EmailActivity;
+import com.yourpackagename.yourwebproject.service.GroupEmailActivityService;
 import com.yourpackagename.yourwebproject.service.GroupEmailTemplateService;
 import com.yourpackagename.yourwebproject.service.GroupEmailsService;
 import com.yourpackagename.yourwebproject.service.GroupEventsService;
@@ -46,6 +50,7 @@ public class GenericListProcessor implements
 	private @Autowired GroupEventsService groupEventsService;
 	private @Autowired GroupEmailsService groupEmailsService;
 	private @Autowired PushedApiService pushedApiService;
+	private @Autowired GroupEmailActivityService groupEmailActivityService;
 
 	@Value("#{jobParameters['templateName']}")
 	private String templateName;
@@ -122,7 +127,14 @@ public class GenericListProcessor implements
 		 * Insert email here so that Email ID is obtained which can be used for
 		 * email Tracking purpose
 		 */
+
 		GroupEmail newEmail = groupEmailsService.insert(groupEmail);
+		GroupEmailActivity groupEmailActivity = new GroupEmailActivity();
+		groupEmailActivity.setEmailActivity(EmailActivity.CREATE);
+		groupEmailActivity.setActivityTime(groupEmail.getCreatedAt());
+		groupEmailActivity.setActivityBy(jobCode);
+		groupEmailActivity.setGroupEmail(newEmail);
+		groupEmailActivityService.insert(groupEmailActivity);
 		model.put("groupEmail", newEmail);
 		newEmail.setBody(mailSenderActor.prepareEmailBody(templateName, model));
 		newEmail.setEmailHeld(false);

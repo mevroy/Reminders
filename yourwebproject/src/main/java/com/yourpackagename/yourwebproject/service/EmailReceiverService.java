@@ -4,6 +4,7 @@
 package com.yourpackagename.yourwebproject.service;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,10 +27,12 @@ import com.yourpackagename.yourwebproject.actor.MailSenderUntypedActor;
 import com.yourpackagename.yourwebproject.common.Props;
 import com.yourpackagename.yourwebproject.model.entity.GroupDependents;
 import com.yourpackagename.yourwebproject.model.entity.GroupEmail;
+import com.yourpackagename.yourwebproject.model.entity.GroupEmailActivity;
 import com.yourpackagename.yourwebproject.model.entity.GroupEmailTemplate;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
 import com.yourpackagename.yourwebproject.model.entity.GroupMember;
+import com.yourpackagename.yourwebproject.model.entity.enums.EmailActivity;
 
 /**
  * @author mevan.d.souza
@@ -43,6 +46,7 @@ public class EmailReceiverService {
 	private @Autowired MailSenderUntypedActor mailSenderUntypedActor;
 	private @Autowired GroupEmailsService groupEmailsService;
 	private @Autowired GroupEmailTemplateService groupEmailTemplateService;
+	private @Autowired GroupEmailActivityService groupEmailActivityService;
 
 	/**
 	 * Return the primary text content of the message.
@@ -176,11 +180,25 @@ public class EmailReceiverService {
 				 * used for email Tracking purpose
 				 */
 				GroupEmail newEmail = groupEmailsService.insert(groupEmail);
+				
+				GroupEmailActivity groupEmailActivity = new GroupEmailActivity();
+				groupEmailActivity.setEmailActivity(EmailActivity.CREATE);
+				groupEmailActivity.setActivityTime(groupEmail.getCreatedAt());
+				groupEmailActivity.setActivityBy(groupMember.getFirstName()+" "+groupMember.getLastName());
+				groupEmailActivity.setGroupEmail(newEmail);
+				groupEmailActivityService.insert(groupEmailActivity);
+				
 				model.put("groupEmail", newEmail);
 				newEmail.setBody(mailSenderUntypedActor.prepareEmailBody(
 						templateName, model));
 				newEmail.setEmailHeld(false);
 				newEmail = groupEmailsService.update(newEmail);
+				GroupEmailActivity groupEmailActivity2 = new GroupEmailActivity();
+				groupEmailActivity2.setEmailActivity(EmailActivity.UPDATE);
+				groupEmailActivity2.setActivityTime(Calendar.getInstance().getTime());
+				groupEmailActivity2.setActivityBy(groupMember.getFirstName()+" "+groupMember.getLastName());
+				groupEmailActivity2.setGroupEmail(newEmail);
+				groupEmailActivityService.insert(groupEmailActivity2);
 				// Map<String, Object> map = new HashMap<String, Object>();
 				// map.put(groupMember.getSerialNumber(), newEmail);
 

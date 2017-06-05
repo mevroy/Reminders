@@ -22,6 +22,7 @@
 						var="groupMainLink">
 						<c:if test="${groupMainLink.visibleToUser}">
 							<c:set var="divided" value="true" />
+							<c:set var="previousLinkDivider" value="false" />
 							<li class="dropdown"><a href="#" class="dropdown-toggle"
 								data-toggle="dropdown" role="button" aria-expanded="false">${groupMainLink.linkName}<span
 									class="caret"></span></a>
@@ -31,21 +32,28 @@
 										<c:if test="${groupSubLink.visibleToUser}">
 											<c:choose>
 												<c:when test="${groupSubLink.divider}">
+												
 													<c:if test="${divided eq false}">
+														<c:set var="previousLinkDivider" value="true" />
 														<c:set var="divided" value="true" />
-														<li class="divider"></li>
+														<!-- <li class="divider"></li>  -->
 													</c:if>
 												</c:when>
 												<c:when
 													test="${groupSubLink.javascript ne null and !empty groupSubLink.javascript}">
-													<c:set var="divided" value="false" />
+													<c:if test="${previousLinkDivider and divided eq true}"> <li class="divider"></li> </c:if>
 													<li><a href="#"
 														onclick="javascript:${groupSubLink.javascript}">${groupSubLink.linkName}</a></li>
+													<c:set var="divided" value="false" />
+													<c:set var="previousLinkDivider" value="false" />														
 												</c:when>
 												<c:when
 													test="${groupSubLink.url ne null and groupSubLink.url ne '#'}">
-													<c:set var="divided" value="false" />
+													
+													<c:if test="${previousLinkDivider and divided eq true}"> <li class="divider"></li> </c:if>
 													<li><a href="${groupSubLink.url}">${groupSubLink.linkName}</a></li>
+													<c:set var="divided" value="false" />	
+													<c:set var="previousLinkDivider" value="false" />														
 												</c:when>
 												<c:otherwise>
 												</c:otherwise>

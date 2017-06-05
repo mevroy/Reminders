@@ -13,6 +13,7 @@
         <param-value>
         	classpath:config/spring/applicationContext-properties.xml,
         	classpath:config/spring/applicationContext-mail.xml,
+        	classpath:config/spring/applicationContext-sms.xml,        	
         	classpath:config/spring/applicationContext-jdbc.xml,
         	classpath:config/spring/applicationContext-repository.xml,
         	classpath:config/spring/applicationContext-scheduler.xml,

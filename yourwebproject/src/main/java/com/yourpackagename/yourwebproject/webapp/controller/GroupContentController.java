@@ -3,6 +3,7 @@
  */
 package com.yourpackagename.yourwebproject.webapp.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 
 
@@ -67,6 +69,28 @@ public class GroupContentController extends BaseWebAppController {
 
 	}
 
+	
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER, Role.USER, Role.ANONYMOUS })
+	@RequestMapping(value = "/json/loadContent", method = RequestMethod.GET)
+	public @ResponseBody List<GroupContent> loadContentJson(Model model,
+			@RequestParam(required = true) String contentId,
+			@PathVariable String groupCode) throws Exception {
+		List<GroupContent> gcs = new ArrayList<GroupContent>();
+		if (StringUtils.isNotBlank(contentId)) {
+			try {
+				GroupContent gc = groupContentService.findById(contentId);
+				gcs.add(gc);
+					return gcs;
+				
+			} catch (Exception nf) {
+				log.error("Unable to load content for the content ID:"+contentId);
+				return gcs;
+			}
+		}
+		return gcs;
+
+	}
 	@RequestMapping(value = "/json/listAvailableContent", method = RequestMethod.GET)
 	public @ResponseBody List<GroupContent> loadContent(Model model,
 			@RequestParam(required = false) boolean includeExpired,

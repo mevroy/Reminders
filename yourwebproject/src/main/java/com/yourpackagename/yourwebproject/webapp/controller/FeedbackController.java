@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yourpackagename.commons.util.CommonUtils;
 import com.yourpackagename.framework.controller.BaseController;
 import com.yourpackagename.yourwebproject.common.CheckPermission;
 import com.yourpackagename.yourwebproject.common.EnableLogging;
@@ -23,10 +24,15 @@ import com.yourpackagename.yourwebproject.common.Key;
 import com.yourpackagename.yourwebproject.model.entity.Feedback;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
+import com.yourpackagename.yourwebproject.model.entity.GroupSMS;
+import com.yourpackagename.yourwebproject.model.entity.Groups;
 import com.yourpackagename.yourwebproject.model.entity.enums.Role;
 import com.yourpackagename.yourwebproject.service.FeedbackService;
 import com.yourpackagename.yourwebproject.service.GroupEventInviteService;
 import com.yourpackagename.yourwebproject.service.GroupEventsService;
+import com.yourpackagename.yourwebproject.service.GroupSMSService;
+import com.yourpackagename.yourwebproject.service.GroupsService;
+import com.yourpackagename.yourwebproject.service.SmsApiService;
 
 /**
  * @author mdsouza
@@ -34,7 +40,8 @@ import com.yourpackagename.yourwebproject.service.GroupEventsService;
  */
 @Controller
 @EnableLogging(loggerClass = "FeedbackController")
-@CheckPermission(allowedRoles = { Role.ANONYMOUS })
+@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+		Role.SUPER_USER, Role.USER, Role.ANONYMOUS })
 public class FeedbackController extends BaseWebAppController {
 	@Autowired
 	private GroupEventInviteService groupEventInviteService;
@@ -42,6 +49,10 @@ public class FeedbackController extends BaseWebAppController {
 	private GroupEventsService groupEventsService;
 	@Autowired
 	private FeedbackService feedbackService;
+	@Autowired
+	private GroupsService groupsService;
+	@Autowired
+	private GroupSMSService groupSMSService;
 
 	@RequestMapping(value = "/groupEventFeedback", method = RequestMethod.GET)
 	public String groupEventFeedbackRequest(Model model,
@@ -82,7 +93,7 @@ public class FeedbackController extends BaseWebAppController {
 		return "newFeedback";
 	}
 
-	@RequestMapping(value = "/newFeedback")
+	@RequestMapping(value = "/newFeedback", method = RequestMethod.GET)
 	public String newFeedback(Model model,
 			@RequestParam(required = false) String groupCode,
 			@RequestParam(required = false) String groupEventCode,
@@ -117,6 +128,26 @@ public class FeedbackController extends BaseWebAppController {
 		feedback.setUpdatedAt(Calendar.getInstance().getTime());
 		try {
 			Feedback newFb = feedbackService.insertOrUpdate(feedback);
+			try {
+
+				Groups group = groupsService.findByGroupCode(feedback
+						.getGroupCode());
+				if (group != null
+						&& StringUtils.isNotBlank(group.getContactNumber())) {
+
+					for (String phoneumber : CommonUtils.convertStringToList(
+							group.getContactNumber(), ",")) {
+						GroupSMS groupSMS = new GroupSMS();
+						groupSMS.setMobileNumber(phoneumber);
+						groupSMS.setBody(newFb.getComments());
+						groupSMS.setGroupCode(group.getGroupCode());
+						groupSMSService.insert(groupSMS);
+					}
+				}
+
+			} catch (Exception e) {
+
+			}
 		} catch (Exception ex) {
 			return "Sorry! There was an error processing your request. Please try again later.";
 		}

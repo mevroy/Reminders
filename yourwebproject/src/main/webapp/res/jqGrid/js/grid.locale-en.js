@@ -12,7 +12,7 @@ $.extend($.jgrid,{
 	defaults : {
 		recordtext: "View {0} - {1} of {2}",
 		emptyrecords: "No records to view",
-		loadtext: "Loading...",
+		loadtext: "<div class='has-spinner active' ><span class='spinner'><i class='icon-spin icon-repeat'></i></span> Loading...</div>",
 		pgtext : "Page {0} of {1}",
 		pgfirst : "First Page",
 		pglast : "Last Page",

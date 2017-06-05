@@ -47,8 +47,9 @@
 
 							<div class="controls">
 
-								<form:input path="groupCode" cssClass="input-xlarge" readonly="true"
-									id="groupCode" placeholder="Enter 3 digit Group Code" />
+								<form:input path="groupCode" cssClass="input-xlarge"
+									readonly="true" id="groupCode"
+									placeholder="Enter 3 digit Group Code" />
 							</div>
 						</div>
 						<div class="control-group" id="memberCategoryCodeCtl">
@@ -64,7 +65,8 @@
 							</div>
 						</div>
 						<div class="control-group" id="eventDateCtl">
-							<label class="control-label" for="eventDate">Event Date Time</label>
+							<label class="control-label" for="eventDate">Event Date
+								Time</label>
 							<div class="controls">
 								<div class="input-group date" id="datepicker">
 									<form:input path="eventDate"
@@ -82,15 +84,15 @@
 								<div class="input-group date" id="datepicker">
 									<form:input path="rsvpDeadlineDate" readonly="readonly"
 										cssClass="input-xlarge input-append form_datetime"
-										id="rsvpDeadlineDate"
-										placeholder="RSVP Deadline Date" />
+										id="rsvpDeadlineDate" placeholder="RSVP Deadline Date" />
 									&nbsp;<span class="input-prepend add-on"><i
 										class="icon-calendar"></i></span>
 								</div>
 							</div>
 						</div>
 						<div class="control-group" id="expiryDateCtl">
-							<label class="control-label" for="expiryDate">Event Expiry Date</label>
+							<label class="control-label" for="expiryDate">Event
+								Expiry Date</label>
 							<div class="controls">
 								<div class="input-group date" id="datepicker">
 									<form:input path="expiryDate" readonly="readonly"
@@ -101,15 +103,17 @@
 										class="icon-calendar"></i></span>
 								</div>
 							</div>
-						</div>						
+						</div>
 						<div class="control-group" id="groupEventInviteCodeLengthCtl">
-							<label class="control-label" for="groupEventInviteCodeLength">Event Code Length</label>
+							<label class="control-label" for="groupEventInviteCodeLength">Event
+								Code Length</label>
 
 							<div class="controls">
-								<form:input path="groupEventInviteCodeLength" cssClass="input-xlarge"
-									id="groupEventInviteCodeLength" placeholder="Enter Length of the Event Code" />
+								<form:input path="groupEventInviteCodeLength"
+									cssClass="input-xlarge" id="groupEventInviteCodeLength"
+									placeholder="Enter Length of the Event Code" />
 							</div>
-						</div>						
+						</div>
 						<div class="control-group" id="emailRsvpAllowedCtl">
 							<label class="control-label" for="emailRsvpAllowed">Email
 								RSVP Allowed?</label>
@@ -128,135 +132,186 @@
 
 					</div>
 
-<div class="span5">
-					<div class="control-group" id="reminderFrequencyCtl">
-						<label class="control-label" for="reminderFrequency">Reminder
-							Frequency</label>
+					<div class="span5">
+						<div class="control-group" id="maxNumberOfPassesCtl">
+							<label class="control-label" for="maxNumberOfPasses">No
+								of Event Passes</label>
 
-						<div class="controls">
+							<div class="controls">
 
-							<form:input path="reminderFrequency" cssClass="input-xlarge"
-								id="reminderFrequency" placeholder="Enter Reminder Frequency" />
+								<form:input path="maxNumberOfPasses" cssClass="input-xlarge"
+									id="maxNumberOfPasses"
+									placeholder="Enter max number of event passes" />
+							</div>
 						</div>
-					</div>
-					<div class="control-group" id="externalSurveyRedirectUrlCtl">
-						<label class="control-label" for="externalSurveyRedirectUrl">External Feedback/Survey URL</label>
+						<div class="control-group" id="externalSurveyRedirectUrlCtl">
+							<label class="control-label" for="externalSurveyRedirectUrl">External
+								Feedback/Survey URL</label>
 
-						<div class="controls">
+							<div class="controls">
 
-							<form:input path="externalSurveyRedirectUrl" cssClass="input-xlarge"
-								id="externalSurveyRedirectUrl" placeholder="Enter External Feedback/Survey URL" />
+								<form:input path="externalSurveyRedirectUrl"
+									cssClass="input-xlarge" id="externalSurveyRedirectUrl"
+									placeholder="Enter External Feedback/Survey URL" />
+							</div>
 						</div>
-					</div>
-					<div class="control-group" id="eventOrganiserCtl">
-						<label class="control-label" for="eventOrganiser">Event
-							Organiser</label>
+						<div class="control-group" id="eventOrganiserCtl">
+							<label class="control-label" for="eventOrganiser">Event
+								Organiser</label>
 
-						<div class="controls">
+							<div class="controls">
 
-							<form:input path="eventOrganiser" cssClass="input-xlarge"
-								id="eventOrganiser" placeholder="Enter Event Organizer Name" />
+								<form:input path="eventOrganiser" cssClass="input-xlarge"
+									id="eventOrganiser" placeholder="Enter Event Organizer Name" />
+							</div>
 						</div>
-					</div>
-					<div class="control-group" id="outsideParticipationAllowedCtl">
-						<label class="control-label" for="outsideParticipationAllowed">Outside
-							Participation Allowed?</label>
+						<div class="control-group" id="outsideParticipationAllowedCtl">
+							<label class="control-label" for="outsideParticipationAllowed">Outside
+								Participation Allowed?</label>
 
-						<div class="controls">
-							<form:radiobutton path="outsideParticipationAllowed"
-								cssClass="input-xlarge" id="outsideParticipationAllowed1"
-								value="true" />
-							YES&nbsp;&nbsp;
-							<form:radiobutton path="outsideParticipationAllowed"
-								cssClass="input-xlarge" id="outsideParticipationAllowed2"
-								value="false" />
-							NO
+							<div class="controls">
+								<form:radiobutton path="outsideParticipationAllowed"
+									cssClass="input-xlarge" id="outsideParticipationAllowed1"
+									value="true" />
+								YES&nbsp;&nbsp;
+								<form:radiobutton path="outsideParticipationAllowed"
+									cssClass="input-xlarge" id="outsideParticipationAllowed2"
+									value="false" />
+								NO
+							</div>
 						</div>
-					</div>
-					<div class="control-group" id="paidEventCtl">
-						<label class="control-label" for="paidEvent">Paid Event?</label>
+						<div class="control-group" id="paidEventCtl">
+							<label class="control-label" for="paidEvent">Paid Event?</label>
 
-						<div class="controls">
-							<form:radiobutton path="paidEvent" cssClass="input-xlarge"
-								id="paidEvent1" value="true" />
-							YES&nbsp;&nbsp;
-							<form:radiobutton path="paidEvent" cssClass="input-xlarge"
-								id="paidEvent2" value="false" />
-							NO
+							<div class="controls">
+								<form:radiobutton path="paidEvent" cssClass="input-xlarge"
+									id="paidEvent1" value="true" />
+								YES&nbsp;&nbsp;
+								<form:radiobutton path="paidEvent" cssClass="input-xlarge"
+									id="paidEvent2" value="false" />
+								NO
+							</div>
 						</div>
-					</div>
-					<div class="control-group" id="amountPerAdultheadCtl">
-						<label class="control-label" for="amountPerAdulthead">Amount
-							per Adult</label>
+						<div class="control-group" id="amountMemberCtl">
+							<label class="control-label" for="amountMember">Member's
+								Price</label>
 
-						<div class="controls">
+							<div class="controls">
+								<div class="input-prepend ">
+									<div class="input-prepend">
+										<span class="add-on">Adult $</span>
 
-							<form:input path="amountPerAdulthead" cssClass="input-xlarge"
-								id="amountPerAdulthead" placeholder="Enter Amount Per Head" />
-						</div>
-					</div>
-					<div class="control-group" id="amountPerKidHeadCtl">
-						<label class="control-label" for="amountPerKidHead">Amount
-							per Kid</label>
-
-						<div class="controls">
-
-							<form:input path="amountPerKidHead" cssClass="input-xlarge"
-								id="amountPerKidHead" placeholder="Enter Amount Per Head" />
-						</div>
-					</div>
-					<div class="control-group" id="amountPerFamilyCtl">
-						<label class="control-label" for="amountPerFamily">Amount
-							per Family</label>
-
-						<div class="controls">
-
-							<form:input path="amountPerFamily" cssClass="input-xlarge"
-								id="amountPerFamily" placeholder="Enter Amount Per Family" />
-						</div>
-					</div>					
-					
-										<div class="control-group" id="eventInviteSentImmediatelyCtl">
-						<label class="control-label" for="eventInviteSentImmediately">Event Invite Sent Immediately?</label>
-
-						<div class="controls">
-							<form:radiobutton path="eventInviteSentImmediately" cssClass="input-xlarge"
-								id="eventInviteSentImmediately1" value="true" />
-							YES&nbsp;&nbsp;
-							<form:radiobutton path="eventInviteSentImmediately" cssClass="input-xlarge"
-								id="eventInviteSentImmediately2" value="false" />
-							NO
-						</div>
-					</div>
-					
-										<div class="control-group" id="autoResponseForRSVPAllowedCtl">
-						<label class="control-label" for="autoResponseForRSVPAllowed">Auto Response for RSVP?</label>
-
-						<div class="controls">
-							<form:radiobutton path="autoResponseForRSVPAllowed" cssClass="input-xlarge"
-								id="autoResponseForRSVPAllowed1" value="true" onclick="$('#autoResponseRSVPTemplateCtl').show();" />
-							YES&nbsp;&nbsp;
-							<form:radiobutton path="autoResponseForRSVPAllowed" cssClass="input-xlarge"
-								id="autoResponseForRSVPAllowed2" value="false" onclick="$('#autoResponseRSVPTemplateCtl').hide();"/>
-							NO
-						</div>
-					</div>
-					<div class="control-group" id="autoResponseRSVPTemplateCtl">
-								<label class="control-label" for="autoResponseRSVPTemplate">RSVP Email
-									Template Name</label>
-
-								<div class="controls">
-									<form:select path="autoResponseRSVPTemplate" cssClass="input-xlarge"
-										id="autoResponseRSVPTemplate">
-										<option value="">Select One</option>
-									</form:select>
+										<form:input path="amountPerAdulthead" cssClass="input-mini"
+											id="amountPerAdulthead" placeholder="Enter Amount Per Head" />
+									</div>
 								</div>
-							</div>					
+								<div class="input-prepend">
+									<div class="input-prepend">
+										<span class="add-on">Child $</span>
+
+										<form:input path="amountPerKidHead" cssClass="input-mini"
+											id="amountPerKidHead" placeholder="Enter Amount Per Head" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="control-group" id="amountNonMemberCtl">
+							<label class="control-label" for="amountNonMember">Non
+								Member's Price</label>
+
+							<div class="controls">
+								<div class="input-prepend">
+									<div class="input-prepend">
+										<span class="add-on">Adult $</span>
+
+										<form:input path="amountPerNMAdulthead" cssClass="input-mini"
+											id="amountPerNMAdulthead" placeholder="Enter Amount Per Head" />
+									</div>
+
+								</div>
+								<div class="input-prepend">
+									<div class="input-prepend">
+										<span class="add-on">Child $</span>
+
+										<form:input path="amountPerNMKidHead" cssClass="input-mini"
+											id="amountPerNMKidHead" placeholder="Enter Amount Per Head" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="control-group" id="amountPerFamilyCtl">
+							<label class="control-label" for="amountPerFamily">Amount
+								per Family</label>
+
+							<div class="controls">
+
+								<form:input path="amountPerFamily" cssClass="input-xlarge"
+									id="amountPerFamily" placeholder="Enter Amount Per Family" />
+							</div>
+						</div>
+
+						<div class="control-group" id="eventInviteSentImmediatelyCtl">
+							<label class="control-label" for="eventInviteSentImmediately">Event
+								Invite Sent Immediately?</label>
+
+							<div class="controls">
+								<form:radiobutton path="eventInviteSentImmediately"
+									cssClass="input-xlarge" id="eventInviteSentImmediately1"
+									value="true" />
+								YES&nbsp;&nbsp;
+								<form:radiobutton path="eventInviteSentImmediately"
+									cssClass="input-xlarge" id="eventInviteSentImmediately2"
+									value="false" />
+								NO
+							</div>
+						</div>
+
+						<div class="control-group" id="autoResponseForRSVPAllowedCtl">
+							<label class="control-label" for="autoResponseForRSVPAllowed">Auto
+								Response for RSVP?</label>
+
+							<div class="controls">
+								<form:radiobutton path="autoResponseForRSVPAllowed"
+									cssClass="input-xlarge" id="autoResponseForRSVPAllowed1"
+									value="true"
+									onclick="$('#autoResponseRSVPTemplateCtl').show();" />
+								YES&nbsp;&nbsp;
+								<form:radiobutton path="autoResponseForRSVPAllowed"
+									cssClass="input-xlarge" id="autoResponseForRSVPAllowed2"
+									value="false"
+									onclick="$('#autoResponseRSVPTemplateCtl').hide();" />
+								NO
+							</div>
+						</div>
+						<div class="control-group" id="autoResponseRSVPTemplateCtl">
+							<label class="control-label" for="autoResponseRSVPTemplate">RSVP
+								Email Template Name</label>
+
+							<div class="controls">
+								<form:select path="autoResponseRSVPTemplate"
+									cssClass="input-xlarge" id="autoResponseRSVPTemplate">
+									<option value="">Select One</option>
+								</form:select>
+							</div>
+						</div>
+						<div class="control-group" id="processCompletionEmailTemplateCtl">
+							<label class="control-label" for="processCompletionTemplate">Process Completion
+								Email Template Name</label>
+
+							<div class="controls">
+								<form:select path="processCompletionTemplate"
+									cssClass="input-xlarge" id="processCompletionTemplate">
+									<option value="">Select One</option>
+								</form:select>
+							</div>
+						</div>						
 					</div>
 				</fieldset>
 				<input class="btn btn-primary btn-large" type="submit"
 					value="SUBMIT" />
-				<a href="${pageContext.request.contextPath}/${sessionScope.groupCode}/" class="btn btn-large">CANCEL</a>
+				<a
+					href="${pageContext.request.contextPath}/${sessionScope.groupCode}/"
+					class="btn btn-large">CANCEL</a>
 			</form:form>
 		</div>
 	</div>
@@ -270,30 +325,45 @@
 							rules : {
 								eventCode : {
 									required : true,
-									minlength: 7,
-									maxlength: 7
+									minlength : 7,
+									maxlength : 7
 								},
 								eventName : {
 									required : true,
-									maxlength: 25
+									maxlength : 25
 								},
 								groupCode : {
 									required : true,
-									minlength: 3,
-									maxlength: 3
+									minlength : 3,
+									maxlength : 3
 								},
 								eventDate : {
-									required: true,
-									//dateITA : true
+									required : true,
+								//dateITA : true
 								},
 								rsvpDeadlineDate : {
-									//dateITA : true
+								//dateITA : true
 								},
 								groupEventInviteCodeLength : {
-									number: true
+									number : true
 								},
-								externalSurveyRedirectUrl :{
-									url: true
+								maxNumberOfPasses : {
+									number : true
+								},
+								externalSurveyRedirectUrl : {
+									url : true
+								},
+								amountPerAdulthead : {
+									number : true
+								},
+								amountPerKidHead : {
+									number : true
+								},
+								amountPerNMAdulthead : {
+									number : true
+								},
+								amountPerNMKidHead : {
+									number : true
 								}
 							},
 							errorClass : "control-group error",
@@ -332,8 +402,9 @@
 	$(function() {
 		$('#autoResponseRSVPTemplateCtl').hide();
 		buildGroupMemberCategoriesOptions('memberCategoryCode');
-		buildGroupEmailTemplateOptionsByEventCode("NULL",'autoResponseRSVPTemplate');
+		buildGroupEmailTemplateOptionsByEventCode("NULL",
+				'autoResponseRSVPTemplate');
+		buildGroupEmailTemplateOptionsByEventCode("NULL",
+		'processCompletionTemplate');
 	});
-	
-
 </script>

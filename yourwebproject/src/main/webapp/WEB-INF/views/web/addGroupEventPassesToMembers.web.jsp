@@ -556,7 +556,7 @@
 																sortable : true,
 																sorttype : 'string'
 															} ],
-													rowNum : 10,
+													rowNum : 30,
 													pager : pager_id,
 													//	sortname: 'num',
 													sortorder : "asc",
@@ -571,7 +571,7 @@
 													rownumWidth : 25,
 													height : '100%',
 													editurl : "updatePasses",
-													caption : "Bought Passes"
+													caption : "Bought Passes <a href='generatePasses?groupEventInviteIdOrEventCode="+groupEventInviteId+"' target='_top' class='btn btn-warning btn-mini' >PRINT PASSES</a>"
 												});
 								// 								jQuery("#" + subgrid_table_id).jqGrid(
 								// 										'navGrid', "#" + pager_id, {

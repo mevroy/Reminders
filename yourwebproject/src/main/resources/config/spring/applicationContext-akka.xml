@@ -28,5 +28,13 @@
         <property name="velocityEngine" ref="velocityEngine"/>
     <!--     <property name="velocityEnginePushNotifications" ref="velocityEnginePushNotifications"/>  -->
         <property name="props" ref="props" />
+        <property name="mailSenderWebAPIService" ref="mailSenderWebAPIServiceImpl"></property>
+    </bean>
+    
+    
+    <bean id="smsSenderUntypedActor" class="com.yourpackagename.yourwebproject.actor.impl.SMSSenderUntypedActorImpl">
+        <property name="smsVelocityEngine" ref="smsVelocityEngine"/>
+    <!--     <property name="velocityEnginePushNotifications" ref="velocityEnginePushNotifications"/>  -->
+        <property name="props" ref="props" />
     </bean>
 </beans>

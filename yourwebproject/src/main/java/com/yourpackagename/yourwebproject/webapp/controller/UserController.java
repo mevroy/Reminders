@@ -5,6 +5,8 @@ import com.yourpackagename.framework.exception.auth.AuthCredentialsMissingExcept
 import com.yourpackagename.framework.exception.auth.AuthenticationFailedException;
 import com.yourpackagename.framework.validation.Validity;
 import com.yourpackagename.yourwebproject.actor.MailSenderActor;
+import com.yourpackagename.yourwebproject.actor.MailSenderUntypedActor;
+import com.yourpackagename.yourwebproject.actor.SMSSenderUntypedActor;
 import com.yourpackagename.yourwebproject.common.EnableLogging;
 import com.yourpackagename.yourwebproject.common.Key;
 import com.yourpackagename.yourwebproject.model.entity.GroupMainLink;
@@ -14,13 +16,17 @@ import com.yourpackagename.yourwebproject.model.entity.Groups;
 import com.yourpackagename.yourwebproject.model.entity.User;
 import com.yourpackagename.yourwebproject.model.entity.enums.Role;
 import com.yourpackagename.yourwebproject.model.entity.request.UserRO;
+import com.yourpackagename.yourwebproject.service.GroupEmailAccountService;
 import com.yourpackagename.yourwebproject.service.GroupMainLinksService;
 import com.yourpackagename.yourwebproject.service.GroupsService;
+import com.yourpackagename.yourwebproject.service.MailSenderWebAPIService;
 import com.yourpackagename.yourwebproject.service.PushedApiService;
+import com.yourpackagename.yourwebproject.service.SmsApiService;
 import com.yourpackagename.yourwebproject.service.UserService;
 import com.yourpackagename.yourwebproject.webapp.common.Route;
 import com.yourpackagename.yourwebproject.webapp.common.View;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +40,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * The Merchant entity registration and related pages handler
@@ -54,8 +63,13 @@ public class UserController extends BaseWebAppController {
 	private Logger log = LoggerFactory.getLogger(UserController.class);
 	private @Autowired UserService userService;
 	private @Autowired MailSenderActor mailSenderActor;
+	private @Autowired MailSenderUntypedActor mailSenderUntypedActor;
+	private @Autowired SMSSenderUntypedActor smsSenderUntypedActor;
 	private @Autowired GroupMainLinksService groupMainLinksService;
 	private @Autowired GroupsService groupsService;
+	private @Autowired SmsApiService smsApiService;
+	private @Autowired MailSenderWebAPIService mailSenderWebAPIService;
+	private @Autowired GroupEmailAccountService groupEmailAccountService;
 	//private @Autowired PushedApiService pushedApiService;
 	/**
 	 * Show registration page
@@ -101,8 +115,8 @@ public class UserController extends BaseWebAppController {
 	 *
 	 * @return
 	 */
-	@RequestMapping(value = Route.loginUser, method = RequestMethod.POST)
-	public String loginMerchant(Locale locale, Model model,
+	@RequestMapping(value = Route.loginUser, method = {RequestMethod.GET,RequestMethod.POST})
+	public String loginMerchant(HttpServletResponse response , Locale locale, Model model,
 			@ModelAttribute(Key.loginUserForm) UserRO userRO,
 			@PathVariable String groupCode) {
 		try {
@@ -118,9 +132,23 @@ public class UserController extends BaseWebAppController {
 				if (user.getPassWord().equals(
 						User.hashPassword(userRO.password))) {
 					log.info("Authenticated: " + user.getUserName());
+/*					mailSenderWebAPIService.sendSmapleEmail(null, groupEmailAccountService.findByEmailAccountCode("MEVN"));
+					try {
 
+				        ByteArrayOutputStream output = new ByteArrayOutputStream();
+				        output = CommonUtils.prefillPDF();
+
+				        response.addHeader("Content-Type", "application/pdf"); 
+				        response.addHeader("Content-Disposition", "attachment; filename=\"686788_Mevan.pdf\"");
+				        response.getOutputStream().write(output.toByteArray());
+				        return null;
+
+				    } catch (Exception ex) {            
+				        ex.printStackTrace();
+				    }*/
 					// Update the login count and other info
 					userService.loginUser(user, request);
+					//smsApiService.sendSmsNotification("0481370821", "Hello Mevan");
 
 					// Store the user in session
 					request.getSession(true).setAttribute(Key.user, user);

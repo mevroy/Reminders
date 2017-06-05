@@ -8,7 +8,7 @@
 </c:if>
 <div class="row">
 	<div class="span12">
-<div class="hero-unit" style="padding: 10px;">
+<div class="alert alert-warning" style="padding: 10px;">
 		<fieldset>
 			
 
@@ -43,7 +43,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href="#option1" data-toggle="tab">Member Details <c:if test="${groupMember.membershipIdentifier ne null}"><b>(${groupMember.membershipIdentifier})</b></c:if> </a></li>
         <li><a href="#option2" data-toggle="tab" onclick="loadGrid('grid','Invite Passes List');">Invite Details</a></li>
-        <li><a href="#option3" data-toggle="tab">RSVP</a></li>
+        <li><a href="#option3" data-toggle="tab">RSVP</a></li> <li><a href="#option4" data-toggle="tab">Notifications</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="option1">
@@ -142,16 +142,13 @@
 									Dates</label>
 								<div class="controls">
 									<div class="input-daterange input-group" id="datepicker">
-										<form:input path="membershipStartDate"
-											cssClass="form-control input-small input-append"
-											id="membershipStartDate" placeholder="Start Date" />
-										&nbsp;<span class="input-prepend add-on"><i
-											class="icon-calendar"></i></span> <span><i>&nbsp;&nbsp;&nbsp;TO</i></span>
-										<form:input path="membershipEndDate"
-											cssClass="form-control input-small input-append"
-											id="membershipEndDate" placeholder="End Date" />
-										&nbsp;<span class="input-prepend add-on"><i
-											class="icon-calendar"></i></span>
+									<fmt:formatDate value='${groupMember.membershipStartDate}' var="stDate" pattern='dd/MM/yyyy'/>
+									<fmt:formatDate value='${groupMember.membershipEndDate}' var="endDate" pattern='dd/MM/yyyy'/>
+										<form:input path="membershipStartDate" value="${stDate}"
+										cssClass="form-control input-small input-append"	id="membershipStartDate" placeholder="Start Date" />&nbsp;<span class="input-prepend add-on"><i	class="icon-calendar"></i></span> 
+										<span><i>&nbsp;&nbsp;&nbsp;TO</i></span>
+										<form:input path="membershipEndDate" value="${endDate}"
+										cssClass="form-control input-small input-append" id="membershipEndDate"  placeholder="End Date" />&nbsp;<span class="input-prepend add-on"><i class="icon-calendar"></i></span>
 									</div>
 								</div>
 							</div>
@@ -228,6 +225,65 @@
         <div class="tab-pane" id="option3">
            		<table id="gridRSVPId" class='scroll'></table><div id="pagergridRSVPId" class='scroll'></div>
         </div>
+        
+        <div class="tab-pane" id="option4">
+        <div class="alert alert-info" style="padding: 10px;" >
+        		<fieldset>
+		<form id="groupEventInviteForm" name="groupEventInviteForm" onsubmit="event.preventDefault();">
+
+			<div class="span3">
+				<div class="control-group" id="groupEventCodeNotificationCtl">
+					<label class="control-label" for="groupEventCodeNotification">Group
+						Event Code</label>
+
+					<div class="controls">
+
+						<select name="groupEventCodeNotification" class="input-large"
+							id="groupEventCodeNotification"
+							onchange="loadDivNotification(); buildGroupEmailTemplateOptionsByEventCode(this.value,'templateNameNotification'); loadGridNotification('gridNotification','',this.value,'Invite Hah List');">
+							<option value="">Select One</option>
+						</select>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="span3">
+				<div class="control-group" id="templateNameNotificationCtl">
+					<label class="control-label" for="templateNameNotification">Email
+						Template Name</label>
+
+					<div class="controls">
+
+
+						<select id="templateNameNotification" name="templateNameNotification" class="input-large">
+							<option value="">Select One</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="span3">
+				<div class="control-group" id="submitNotificationCtl">
+					<label class="control-label" for="submitNameNotificationCtl">&nbsp;</label>
+
+					<div class="controls">
+						<button class="btn btn-danger btn-small has-spinner"  type="submit" value="SUBMIT ALL" id="sendAll">SUBMIT</button>
+					</div>
+				</div>
+			
+			</div>
+
+</form>
+			</fieldset>	
+
+			
+				
+				<!--  button class="btn btn-inverse btn-small has-spinner" type="submit" value="SUBMIT SELECTED" id="sendSelected">SUBMIT SELECTED</button> -->
+				</div>
+           		<div class="gridDivNotification"><table id="gridNotification" class='scroll'></table><div id="pagergridNotification" class='scroll'></div></div>
+           		
+           		
+        </div>
     </div>
 </div>
 
@@ -235,7 +291,7 @@
 		<!-- Modal -->
 		<div id="myModal" class="modal hide fade" data-backdrop="static" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel" aria-hidden="true" align="center">
-			<div class="modal-header">
+			<div class="modal-header alert alert-danger">
 				<!-- button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">×</button>  -->
 				<h3 id="myModalLabel">Select An Event</h3>
@@ -246,14 +302,14 @@
 				<input type="hidden" name="membershipIdentifier" id="membershipIdentifier" value="${groupMember.membershipIdentifier}">			
 				<fieldset>
 
-				<div class="span5">
+				<div class="span3">
 					<div class="control-group" id="memberCategoryCodeCtl">
 						<label class="control-label" for="memberCategoryCode">Member
 							Category Code</label>
 
 						<div class="controls">
 
-							<select  name="memberCategoryCode" class="input-xlarge"
+							<select  name="memberCategoryCode" class="input-large"
 								id="memberCategoryCode"
 								onchange="loadDiv();buildGroupEventsOptionsByMemberCategory(this.value, 'groupEventCode');">
 								<option>Select One</option>
@@ -262,7 +318,7 @@
 					</div>
 
 				</div>
-				<div class="span5">
+				<div class="span3">
 
 					<div class="control-group" id="groupEventCodeCtl">
 						<label class="control-label" for="groupEventCode">Group
@@ -270,9 +326,8 @@
 
 						<div class="controls">
 
-							<select name="groupEventCode" class="input-xlarge"
-								id="groupEventCode"
-								>
+							<select name="groupEventCode" class="input-large"
+								id="groupEventCode">
 								<option>Select One</option>
 							</select>
 						</div>
@@ -280,14 +335,26 @@
 
 				</div>
 				
+				<div class="span3">
+
+					<div class="control-group" id="groupEventSubmitCtl">
+						<label class="control-label" for="groupEventSubmit">&nbsp; </label>
+
+						<div class="controls">
+
+							<input type="submit" class="btn btn-primary"  value="LOAD EVENT">
+						</div>
+					</div>
+
+				</div>				
 			</fieldset> 
 			
 
-			<div class="modal-footer">
+		<!-- 	<div class="modal-footer">
 			
-				<input type="submit" class="btn btn-primary"  value="LOAD EVENT">
+				
 
-			</div>
+			</div>  -->
 			</form>
 			</div>
 			</div>
@@ -348,7 +415,7 @@ function loadModal2(html)
 				
 				<c:if test="${groupEvent.eventCode eq null}">loadModal("");</c:if>
 				buildGroupMemberCategoriesOptions('memberCategoryCode');
-				buildGroupEventsOptionsByMemberCategory("NULL", "groupEventCode");
+				buildGroupEventsOptionsByMemberCategory($("select#memberCategoryCode").val(), "groupEventCode");
 			
 				
 				
@@ -463,7 +530,8 @@ function loadModal2(html)
 	var groupEventInviteId = '${groupEventInvite.groupEventInviteId}';
 	var groupEventCodeForInvite = '${groupEventInvite.groupEventCode}';
 	var parentSerialNo = '${groupMember.serialNumber}';
-var lastsel = null;
+	var groupMemberCategoryCode = '${groupMember.memberCategoryCode}';
+	var lastsel = null;
 	jQuery("#" + subgrid_table_id)
 	.jqGrid(
 			{
@@ -1606,7 +1674,377 @@ function loadMemberGrid(gridId, groupMemCatCode, captionVal) {
 	//jQuery("#" + gridId).jqGrid('setFrozenColumns');
 }	
 	
+
+
+
+var pagergridNotification = "#pagergridNotification";
+var gridNotification = "#gridNotification";
+var gridDivNotification = "";
+$(document).ready(function () {
 	
+    decodeErrorMessage = function(jqXHR, textStatus, errorThrown) {
+        var html, errorInfo, i, errorText = textStatus + '\n<br />' + errorThrown;
+        if (jqXHR.responseText.charAt(0) === '[') {
+            try {
+                errorInfo = $.parseJSON(jqXHR.responseText);
+                errorText = "";
+                for (i=0; i<errorInfo.length; i++) {
+                   if (errorText.length !== 0) {
+                       errorText += "<hr/>";
+                   }
+                   errorText += errorInfo[i].Source + ": " + errorInfo[i].Message;
+                }
+            }
+            catch (e) { }
+        } else {
+            html = /<body.*?>([\s\S]*)<\/body>/i.exec(jqXHR.responseText);
+            if (html !== null && html.length > 1) {
+                errorText = html[1];
+            }
+        }
+        return errorText;
+    };
+    
+    
+    sendData = function(data,templateName,groupEventCode,memberCategoryCode,selector) {
+        var dataToSend = JSON.stringify(data);
+        toggleButtonWithId(selector);
+        $.ajax({
+            type: "POST",
+            url: "json/saveGroupEventInviteEmails?templateName="+templateName+"&groupEventCode="+groupEventCode+"&memberCategoryCode="+memberCategoryCode,
+            //dataType:"json",
+            data: dataToSend,
+            contentType: "application/json; charset=utf-8",
+            success: function(response, textStatus, jqXHR) {
+                // remove error div if exist
+                loadMessageModal("Message", response);
+                loadDivNotification();
+                loadGridNotification('gridNotification',memberCategoryCode,groupEventCode,'Invite List');
+                resetButtonWithId(selector);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	loadMessageModal("Error", jqXHR.responseText+textStatus);
+            	resetButtonWithId(selector);
+            }
+        });
+    };
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    $("#groupEventInviteForm").validate({
+        rules:{
+            groupEventCodeNotification:{
+                required:true
+            },
+            templateNameNotification: {
+            	required: true
+            	}
+            
+        },
+        errorClass:"control-group error",
+        validClass:"control-group success",
+        errorElement:"span",
+        highlight:function (element, errorClass, validClass) {
+            if (element.type === 'radio') {
+                this.findByName(element.name).parent("div").parent("div").removeClass(validClass).addClass(errorClass);
+            } else {
+                $(element).parent("div").parent("div").removeClass(validClass).addClass(errorClass);
+            }
+        },
+        unhighlight:function (element, errorClass, validClass) {
+            if (element.type === 'radio') {
+                this.findByName(element.name).parent("div").parent("div").removeClass(errorClass).addClass(validClass);
+            } else {
+                $(element).parent("div").parent("div").removeClass(errorClass).addClass(validClass);
+            }
+        }
+    });
+    gridDivNotification = $("div.gridDivNotification").html();
+
+});
+
+function loadDivNotification()
+{
+
+	$("div.gridDivNotification").html(gridDivNotification);
+}
+function loadGridNotification(gridId, groupMemCatCode, groupEventCode, captionVal) {
+//	alert("gridId-->"+gridId+" groupMemCatCode-->"+groupMemCatCode+" groupEventCode-->"+groupEventCode+" captionVal-->"+captionVal)
+	jQuery("#" + gridId)
+			.jqGrid(
+					{
+						url : "json/viewGroupEventInvitesEventCodeAndSerialNumber?serialNumber="+parentSerialNo+"&groupEventCode="+groupEventCode,
+						datatype : "json",
+						colModel : [
+//									{
+//										label : 'Action',
+//										name : 'myac',
+//										width : 80,
+//										fixed : true,
+//										sortable : false,
+//										resize : false,
+//										formatter : 'actions',
+//										formatoptions : {
+//											keys : true
+//										}
+//									},
+								{
+									label : 'Event Serial No',
+									name : 'groupEventInviteId',
+									index : 'groupEventInviteId',
+									hidden : true,
+									editable : false
+								},
+								{
+									label : 'First Name',
+									name : 'groupMember.firstName',
+									index : 'groupMember.firstName',
+									width : 120,
+									hidden : false,
+									editable : false
+								},
+								{
+									label : 'Last Name',
+									name : 'groupMember.lastName',
+									index : 'groupMember.lastName',
+									width : 100,
+									hidden : false,
+									editable : false
+								},
+								{
+									label : 'Email Verified',
+									name : 'groupMember.primaryEmailVerified',
+									index : 'groupMember.primaryEmailVerified',
+									hidden : false,
+									editable : true,
+									width : 100,
+									formatter: formatBoolean,
+									edittype : "checkbox",
+									editoptions : {
+										value : "Yes:No"}
+								},
+								{
+									label : 'Invite Held',
+									name : 'inviteHeld',
+									index : 'inviteHeld',
+									hidden : false,
+									editable : true,
+									width : 80,
+									formatter: formatBoolean,
+									edittype : "checkbox",
+									editoptions : {
+										value : "Yes:No"}
+								},
+								{
+									label : 'Invite Emailed',
+									name : 'inviteSent',
+									index : 'inviteSent',
+									hidden : false,
+									editable : false,
+									width : 100,
+									formatter: formatBoolean,
+									edittype : "checkbox",
+									editoptions : {
+										value : "Yes:No"}
+								},
+								{
+									label : 'RSVPd',
+									name : 'rsvpd',
+									index : 'rsvpd',
+									hidden : false,
+									editable : false,
+									width : 60,
+									formatter: formatBoolean,
+									edittype : "checkbox",
+									editoptions : {
+										value : "Yes:No"}
+								},
+								{
+									label : 'Invite Delivered',
+									name : 'inviteDelivered',
+									index : 'inviteDelivered',
+									hidden : false,
+									editable : false,
+									width : 100,
+									formatter: formatBoolean,
+									edittype : "checkbox",
+									editoptions : {
+										value : "Yes:No"}
+								},
+								{
+									label : 'Email Count',
+									name : 'inviteEmailCount',
+									index : 'inviteEmailCount',
+									width : 80,
+									hidden : false,
+									editable : false
+								},
+								{
+									label : 'Invite Cancelled',
+									name : 'inviteCancelled',
+									index : 'inviteCancelled',
+									hidden : false,
+									editable : true,
+									width : 100,
+									formatter: formatBoolean,
+									edittype : "checkbox",
+									editoptions : {
+										value : "Yes:No"}
+								},
+								{
+									label : 'Invite Expiry Date',
+									name : 'inviteExpiryDate',
+									index : 'inviteExpiryDate',
+									width : 130,
+									sortable : true,
+									editable : true,
+									sorttype : "date",
+									searchoptions:{sopt:['eq','bw','bn','cn','nc','ew','en']},
+									formatter : formatDate
+								//	,
+								//			formatoptions: { srcformat: "m/d/Y", newformat: "d/m/Y" }
+
+								},
+								{
+									label : 'Mark Attended',
+										name : 'markAttended',
+										index : 'markAttended',
+										hidden : false,
+										editable : false,
+										formatter: formatBoolean,
+									edittype : "checkbox",
+									editoptions : {
+										value : "true:false"}, 										
+									width: 100
+									},									
+								{
+									label : 'Group Label',
+									name : 'memberCategoryCode',
+									index : 'memberCategoryCode',
+									hidden : true,
+									editable : false,
+									sortable : true,
+									sorttype : 'string'
+								},
+								{
+									label : 'Serial No',
+									name : 'groupMember.serialNumber',
+									index : 'groupMember.serialNumber',
+									hidden : true,
+									editable : false
+								} ],
+						height : 'auto',
+						rowNum : 500,
+						rownumbers: true,
+						rownumWidth : 25,
+						width : 937,
+						rowList : [ 250, 500, 1000, 2000 ],
+						pager : pagergridNotification,
+						multiselect: true,
+					//	sortname : 'firstName',
+						autoencode : true,
+						shrinkToFit : false,
+						viewrecords : true,
+						//grouping : true,
+						loadonce : true,
+						groupingView : {
+							groupField : [ 'memberCategoryCode' ],
+							groupColumnShow : [ false ],
+							groupText : [ '<b>{0} - {1} Members(s)</b>' ]
+						},
+						onSelectRow : function(id) {
+
+						},
+						editurl : "server.php",
+						caption : captionVal
+					});
+	jQuery("#" + gridId).jqGrid('navGrid', pagergridNotification, {
+		edit : false,
+		add : false,
+		del : false
+	});
+	jQuery("#" + gridId).jqGrid('filterToolbar',{searchOperators : true});
+	
+	
+
+}
+
+$(function() {
+
+    $("#sendAll").click(function(){
+        var localGridData = jQuery(gridNotification).jqGrid('getGridParam','data');
+       
+       var selectedEmailTemplate = $('select#templateNameNotification option').filter(':selected').val();
+       var selectedMemberCategoryCode = '';
+       var selectedgroupEventCode = $('select#groupEventCodeNotification option').filter(':selected').val();
+       if(selectedgroupEventCode === '')
+       {
+    	   confirm("Please select a Event from the drop down");
+    	   return false;  
+       }
+       if(selectedEmailTemplate==='')
+       {
+    	   confirm("Please select a template from the drop down");
+    	   return false;
+       }
+        sendData(localGridData,selectedEmailTemplate,selectedgroupEventCode,selectedMemberCategoryCode,'sendAll');
+     
+    });
+    $("#sendSelected").click(function(){
+        var selectedEmailTemplate = $('select#templateNameNotification option').filter(':selected').val();
+        var selectedMemberCategoryCode = '';
+        var selectedgroupEventCode = $('select#groupEventCodeNotification option').filter(':selected').val();
+        if(selectedEmailTemplate==='')
+        {
+     	   confirm("Please select a template from the drop down!");
+     	   return false;
+        }
+        var localGridData = jQuery(gridNotification).jqGrid('getGridParam','data'),
+            idsToDataIndex = jQuery(gridNotification).jqGrid('getGridParam','_index'),
+            selRows = jQuery(gridNotification).jqGrid('getGridParam','selarrrow'),
+            dataToSend = [], i, l=selRows.length;
+        for (i=0; i<l; i++) {
+        	var x = localGridData[idsToDataIndex[selRows[i]]];
+        //	delete x['_id_'];
+            dataToSend.push(x);
+        }
+        if(dataToSend.length===0){
+      	   confirm("Please select atleast one checkbox to proceed!");
+     	   return false;
+        }
+        sendData(dataToSend,selectedEmailTemplate,selectedgroupEventCode,selectedMemberCategoryCode,'sendSelected');
+
+    });
+    
+//	$('.input-group.date').datepicker({
+//		format : "dd/mm/yyyy"
+//	});
+//	$('.input-daterange').datepicker({
+//		format : "dd/mm/yyyy"
+//	});
+	
+//	buildGroupMemberCategoriesOptions('memberCategoryCode');
+	buildGroupEventsOptionsByMemberCategory(groupMemberCategoryCode,"groupEventCodeNotification");
+	buildGroupEmailTemplateOptionsByEventCode("NULL",'templateNameNotification');
+});
+
+
+
+
+
+
+
+
+
+
 	$(function() {
 		$('.input-group.date').datepicker({
 			format : "dd/mm/yyyy"

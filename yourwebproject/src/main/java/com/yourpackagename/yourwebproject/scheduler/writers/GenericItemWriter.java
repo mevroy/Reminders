@@ -15,11 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.yourpackagename.yourwebproject.model.entity.GroupEmail;
+import com.yourpackagename.yourwebproject.model.entity.GroupEmailActivity;
+import com.yourpackagename.yourwebproject.model.entity.enums.EmailActivity;
+import com.yourpackagename.yourwebproject.service.GroupEmailActivityService;
 import com.yourpackagename.yourwebproject.service.GroupEmailsService;
 
 @Component("writer")
 public class GenericItemWriter implements ItemStreamWriter<GroupEmail> {
 	protected @Autowired GroupEmailsService groupEmailsService;
+	protected @Autowired GroupEmailActivityService groupEmailActivityService;
 	private static final Logger logger = LoggerFactory
 			.getLogger(GenericItemWriter.class);
 	/**
@@ -31,6 +35,12 @@ public class GenericItemWriter implements ItemStreamWriter<GroupEmail> {
 				groupEmail.setUpdatedAt(Calendar.getInstance().getTime());
 				try {
 					groupEmailsService.insertOrUpdate(groupEmail);
+					GroupEmailActivity groupEmailActivity = new GroupEmailActivity();
+					groupEmailActivity.setEmailActivity(EmailActivity.UPDATE);
+					groupEmailActivity.setActivityTime(groupEmail.getUpdatedAt());
+					groupEmailActivity.setActivityBy(groupEmail.getCreatedBy());
+					groupEmailActivity.setGroupEmail(groupEmail);
+					groupEmailActivityService.insert(groupEmailActivity);
 					logger.info("Updated Object:"+groupEmail.getGroupEmailId());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
