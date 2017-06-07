@@ -83,7 +83,7 @@
 	          <meminitial>128m</meminitial>
 	          <maxmem>1024m</maxmem>
 	          <compilerArgs>
-	            <arg>-XX:MaxPermSize=256m</arg>
+	            <arg>-XX:MaxPermSize=512m</arg>
 	          </compilerArgs>
 	        </configuration>
   </plugin>
