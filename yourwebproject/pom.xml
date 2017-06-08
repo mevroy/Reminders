@@ -89,11 +89,11 @@
             <build>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${version.war.plugin}</version>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>2.1.1</version>
                         <configuration>
                             <outputDirectory>deployments</outputDirectory>
-                            <warName>app</warName>
+                            <jarName>app</jarName>
                         </configuration>
                     </plugin>
                 </plugins>
