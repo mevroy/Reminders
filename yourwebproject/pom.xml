@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>yourwebproject</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <mavenJetty.version>8.1.0.RC5</mavenJetty.version>
