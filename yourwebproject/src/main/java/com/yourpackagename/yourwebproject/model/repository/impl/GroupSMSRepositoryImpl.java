@@ -8,14 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.yourpackagename.framework.data.BaseHibernateJpaRepository;
-import com.yourpackagename.yourwebproject.model.entity.Feedback;
-import com.yourpackagename.yourwebproject.model.entity.GroupContent;
-import com.yourpackagename.yourwebproject.model.entity.GroupEmail;
-import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
-import com.yourpackagename.yourwebproject.model.entity.GroupMember;
 import com.yourpackagename.yourwebproject.model.entity.GroupSMS;
-import com.yourpackagename.yourwebproject.model.repository.FeedbackRepository;
-import com.yourpackagename.yourwebproject.model.repository.GroupContentRepository;
 import com.yourpackagename.yourwebproject.model.repository.GroupSMSRepository;
 
 /**

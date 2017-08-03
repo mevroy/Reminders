@@ -8,9 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.yourpackagename.framework.data.BaseHibernateJpaRepository;
-import com.yourpackagename.yourwebproject.model.entity.GroupEmailTemplate;
 import com.yourpackagename.yourwebproject.model.entity.GroupSMSTemplate;
-import com.yourpackagename.yourwebproject.model.repository.GroupEmailTemplateRepository;
 import com.yourpackagename.yourwebproject.model.repository.GroupSMSTemplateRepository;
 
 /**

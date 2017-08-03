@@ -397,6 +397,7 @@ public class GroupEventPassesServiceImpl extends
 
 	
 	//This method may not be accurate
+	@Deprecated
 	public boolean checkAndReturnAvailability(
 			GroupEventPassCategory groupEventPassCategory,
 			int requiredNumberOfPasses) {

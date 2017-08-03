@@ -1,6 +1,6 @@
 package com.yourpackagename.yourwebproject.actor.impl;
 
-import akka.actor.TypedActor;
+
 
 import com.yourpackagename.framework.exception.service.NotYetImplementedException;
 import com.yourpackagename.yourwebproject.actor.MailSenderActor;
@@ -33,7 +33,10 @@ import java.util.Properties;
  * @created: 4/21/12 5:29 PM
  * @company: &copy; 2012, Kaleidosoft Labs
  */
-public class MailSenderActorImpl extends TypedActor implements MailSenderActor {
+
+
+//public class MailSenderActorImpl extends TypedActor implements MailSenderActor {
+	public class MailSenderActorImpl  implements MailSenderActor {
 	private VelocityEngine velocityEngine;
 	//private JavaMailSender javaMailSender;
 	private JavaMailSenderImpl javaMailSender;

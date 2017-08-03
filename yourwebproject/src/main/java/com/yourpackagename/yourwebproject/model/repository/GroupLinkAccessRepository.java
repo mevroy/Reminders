@@ -10,7 +10,6 @@ import com.yourpackagename.yourwebproject.model.entity.GroupLinkAccess;
 import com.yourpackagename.yourwebproject.model.entity.GroupMainLink;
 import com.yourpackagename.yourwebproject.model.entity.GroupSubLink;
 import com.yourpackagename.yourwebproject.model.entity.Groups;
-import com.yourpackagename.yourwebproject.model.entity.User;
 import com.yourpackagename.yourwebproject.model.entity.enums.Role;
 
 /**

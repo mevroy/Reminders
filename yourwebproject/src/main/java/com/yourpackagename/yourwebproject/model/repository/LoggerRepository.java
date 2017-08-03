@@ -17,5 +17,6 @@ public interface LoggerRepository extends BaseJpaRepository<AuditLog, Long> {
 
 	public List<AuditLog> findByGroupCode(String groupCode);
 	public List<AuditLog> findByUser(User user,String groupCode);
+	public List<AuditLog> findByGroupCodeAndRequestURIAndMethod(String groupCode, String requestURI, String method);
 	
 }

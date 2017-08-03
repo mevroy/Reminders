@@ -33,7 +33,8 @@
 		<activemq.version>5.5.1</activemq.version>
 		<springSocial.version>1.0.1.RELEASE</springSocial.version>
 		<springData.version>1.0.1.RELEASE</springData.version>
-		<akka.version>1.3.1</akka.version>
+		<!--Use latest. This is pshycho <akka.version>1.3.1</akka.version>  -->
+		<!-- <akka.version>2.1.0</akka.version>   -->
 		<eaioUuid.version>3.3</eaioUuid.version>
 		<!-- restFB.version>1.14.1</restFB.version> -->
 
@@ -148,12 +149,12 @@
 			<url>http://repo.typesafe.com/typesafe/releases/</url>
 		</repository>
 
-		<!-- Akka Repository -->
+		<!-- Akka Repository 
 		<repository>
 			<id>akkaio</id>
 			<name>Akka IO Repository</name>
 			<url>http://repo.akka.io/releases</url>
-		</repository>
+		</repository> -->
 
 		<!-- Spring Releases -->
 		<repository>
@@ -500,7 +501,7 @@
 		</dependency>
 
 
-		<!-- Akka -->
+		<!-- Akka Old  
 		<dependency>
 			<groupId>se.scalablesolutions.akka</groupId>
 			<artifactId>akka-actor</artifactId>
@@ -516,8 +517,22 @@
 			<artifactId>akka-camel</artifactId>
 			<version>${akka.version}</version>
 		</dependency>
+-->
+      
+       <!-- Akka New 
+       	<dependency>
+			<groupId>com.typesafe.akka</groupId>
+			<artifactId>akka-actor_2.10</artifactId>
+			<version>${akka.version}</version>
+		</dependency>
 
-
+		<dependency>
+			<groupId>com.typesafe.akka</groupId>
+			<artifactId>akka-camel_2.10</artifactId>
+			<version>${akka.version}</version>
+		</dependency>
+		-->
+		
 		<!-- Scala Library -->
 		<dependency>
 			<groupId>org.scala-lang</groupId>

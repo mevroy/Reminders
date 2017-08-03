@@ -32,7 +32,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/jquery/jquery.validate/1.15.0/jquery.validate.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/jquery/jquery.validate/1.15.0/additional-methods.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/jquery/jquery.countdown.min.js"></script>
-    
+    <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/notify/notify.js"></script>
 
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/custom/js/custom.js"></script>
     

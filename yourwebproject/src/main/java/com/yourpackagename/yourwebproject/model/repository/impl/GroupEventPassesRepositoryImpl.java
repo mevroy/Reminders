@@ -34,7 +34,7 @@ public class GroupEventPassesRepositoryImpl extends
 				.createQuery(
 						"from GroupEventPass gep where gep.groupCode = ? and gep.groupEventCode = ? "
 								+ (includeAll ? ""
-										: " and (gep.passStartDate is null or gep.passStartDate<=CURDATE()) and (gep.passExpiryDate is null or gep.passExpiryDate>=CURDATE())"))
+										: " and (gep.passStartDate is null or gep.passStartDate<=NOW()) and (gep.passExpiryDate is null or gep.passExpiryDate>=NOW())"))
 				.setString(0, groupCode).setString(1, groupEventCode).list();
 	}
 
@@ -122,7 +122,7 @@ public class GroupEventPassesRepositoryImpl extends
 		return (List<GroupEventPass>) sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"from GroupEventPass gep where gep.groupCode = ? and gep.groupEventCode = ? and (gep.groupEventInvite is null and gep.groupMember is null) order by gep.passBarcode asc")
+						"from GroupEventPass gep where gep.groupCode = ? and gep.groupEventCode = ? and (gep.groupEventInvite is null and gep.groupMember is null and gep.sold = 0) order by gep.passBarcode asc")
 				.setString(0, groupCode).setString(1, groupEventCode).list();
 	}
 
@@ -133,7 +133,7 @@ public class GroupEventPassesRepositoryImpl extends
 		return (List<GroupEventPass>) sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"from GroupEventPass gep where gep.groupCode = :groupCode and gep.groupEventCode = :groupEventCode and (gep.groupEventPassCategory is null or gep.groupEventPassCategory = :groupEventPassCategory) and (gep.groupEventInvite is null and gep.groupMember is null) order by gep.passBarcode asc")
+						"from GroupEventPass gep where gep.groupCode = :groupCode and gep.groupEventCode = :groupEventCode and (gep.groupEventPassCategory = :groupEventPassCategory or gep.groupEventPassCategory is null) and (gep.groupEventInvite is null and gep.groupMember is null and gep.sold = 0) order by gep.passBarcode asc")
 				.setParameter("groupCode", groupCode)
 				.setParameter("groupEventCode", groupEventCode)
 				.setParameter("groupEventPassCategory", groupEventPassCategory)

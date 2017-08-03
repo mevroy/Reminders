@@ -296,7 +296,7 @@
 										<form:option value="">Select One</form:option>>
 										<form:option value="CHILD">CHILD</form:option>
 										<form:option value="SPOUSE">SPOUSE</form:option>
-
+										<form:option value="PARENT">PARENT</form:option>
 									</form:select>
 								</div>
 							</div>
@@ -419,7 +419,7 @@
 									<option value="">Select One</option>
 									<option value="CHILD">CHILD</option>
 									<option value="SPOUSE">SPOUSE</option>
-
+									<option value="PARENT">PARENT</option>
 								</form:select>
 							</div>
 						</div>

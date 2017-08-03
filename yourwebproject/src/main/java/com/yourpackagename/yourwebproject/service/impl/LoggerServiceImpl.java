@@ -15,7 +15,6 @@ import com.yourpackagename.framework.data.BaseJpaServiceImpl;
 import com.yourpackagename.yourwebproject.model.entity.AuditLog;
 import com.yourpackagename.yourwebproject.model.entity.User;
 import com.yourpackagename.yourwebproject.model.repository.LoggerRepository;
-
 import com.yourpackagename.yourwebproject.service.LoggerService;
 
 /**
@@ -43,6 +42,11 @@ public class LoggerServiceImpl extends BaseJpaServiceImpl<AuditLog, Long>
 
 	public List<AuditLog> findByUser(User user, String groupCode) {
 		return loggerRepository.findByUser(user, groupCode);
+	}
+
+	public List<AuditLog> findByGroupCodeAndRequestURIAndMethod(String groupCode,
+			String requestURI,  String method) {
+		return loggerRepository.findByGroupCodeAndRequestURIAndMethod(groupCode, requestURI, method);
 	}
 
 

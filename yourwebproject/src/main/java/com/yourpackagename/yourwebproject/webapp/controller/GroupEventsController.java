@@ -74,6 +74,15 @@ public class GroupEventsController extends BaseWebAppController {
 			@PathVariable String groupCode) {
 		return "viewGroupEvents";
 	}
+	
+	
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
+			Role.SUPER_USER })
+	@RequestMapping(value = "/viewAllGroupEventsTickets", method = RequestMethod.GET)
+	public String viewAllGroupEventsTickets(Locale locale, Model model,
+			@PathVariable String groupCode) {
+		return "viewGroupEventTickets";
+	}
 
 	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
 			Role.SUPER_USER })

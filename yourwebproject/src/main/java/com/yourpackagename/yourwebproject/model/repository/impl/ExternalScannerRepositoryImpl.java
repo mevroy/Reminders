@@ -9,11 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.yourpackagename.framework.data.BaseHibernateJpaRepository;
 import com.yourpackagename.yourwebproject.model.entity.ExternalScanner;
-import com.yourpackagename.yourwebproject.model.entity.Feedback;
-import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
-import com.yourpackagename.yourwebproject.model.entity.GroupMember;
 import com.yourpackagename.yourwebproject.model.repository.ExternalScannerRepository;
-import com.yourpackagename.yourwebproject.model.repository.FeedbackRepository;
 
 /**
  * @author mevan.d.souza

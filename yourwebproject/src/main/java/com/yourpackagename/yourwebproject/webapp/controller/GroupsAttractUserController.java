@@ -56,6 +56,7 @@ import com.yourpackagename.yourwebproject.model.entity.GroupEmailTemplate;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInviteRSVP;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventPass;
+import com.yourpackagename.yourwebproject.model.entity.GroupEventPassCategory;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
 import com.yourpackagename.yourwebproject.model.entity.GroupInboundSMS;
 import com.yourpackagename.yourwebproject.model.entity.GroupInterests;
@@ -71,6 +72,7 @@ import com.yourpackagename.yourwebproject.service.GroupEmailTemplateService;
 import com.yourpackagename.yourwebproject.service.GroupEmailsService;
 import com.yourpackagename.yourwebproject.service.GroupEventInviteRSVPService;
 import com.yourpackagename.yourwebproject.service.GroupEventInviteService;
+import com.yourpackagename.yourwebproject.service.GroupEventPassCategoryService;
 import com.yourpackagename.yourwebproject.service.GroupEventPassesService;
 import com.yourpackagename.yourwebproject.service.GroupEventsService;
 import com.yourpackagename.yourwebproject.service.GroupInboundSMSService;
@@ -106,7 +108,9 @@ public class GroupsAttractUserController extends BaseWebAppController {
 	private @Autowired GroupsService groupsService;
 	private @Autowired GroupEventsService groupEventsService;
 	private @Autowired GroupEventInviteRSVPService groupEventInviteRSVPService;
+	private @Autowired GroupEventPassCategoryService groupEventPassCategoryService;
 	protected @Autowired Props props;
+	
 	private Logger log = LoggerFactory
 			.getLogger(GroupsAttractUserController.class);
 
@@ -637,6 +641,16 @@ public class GroupsAttractUserController extends BaseWebAppController {
 				.findSoldTicketsByGroupCodeAndGroupEventCode(groupCode,
 						groupEventCode);
 	}
+	
+	@RequestMapping(value = "/json/viewSoldTicketsForCategory", method = RequestMethod.GET)
+	public @ResponseBody List<GroupEventPass> viewSoldTicketsForCategory(Model model,
+			@PathVariable String groupCode,
+			@RequestParam(required = true) String groupEventCode, @RequestParam(required = true) String groupEventPassCategoryId,
+			HttpServletRequest request) throws Exception {
+		GroupEventPassCategory groupEventPassCategory = groupEventPassCategoryService.findById(groupEventPassCategoryId);
+		return groupEventPassesService
+				.findSoldTicketsByGroupCodeAndGroupEventCodeAndGroupEventPassCategory(groupCode, groupEventCode, groupEventPassCategory);
+	}
 
 	@RequestMapping(value = { "/seating", "/Seating", "SEATING" }, method = RequestMethod.GET)
 	public String seating(Locale locale, Model model, @RequestParam(required = false) String autoRegister) {
@@ -835,5 +849,17 @@ public class GroupsAttractUserController extends BaseWebAppController {
 		}
 		return 0;
 	}
-	
+	@RequestMapping(value = "/json/checkAuditLogs", method = RequestMethod.GET)
+	public @ResponseBody List<AuditLog> checkAuditLogs(Model model, @PathVariable String groupCode,
+			@RequestParam(required = true) String requestURI, @RequestParam(required = true) String method,  HttpServletRequest request)
+			throws Exception {
+		try{
+			return loggerService.findByGroupCodeAndRequestURIAndMethod(groupCode, requestURI, method);
+		}
+		catch(Exception e)
+		{
+			
+		}
+		return new ArrayList<AuditLog>();
+	}	
 }

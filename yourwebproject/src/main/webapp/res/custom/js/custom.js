@@ -349,6 +349,11 @@ function buildGroupEventPaymentTransactionsList(groupEventInviteId, htmlSelectId
 				value : ''
 			});
 			$defaultOption.appendTo($select);
+			var $newTransaction = $("<option>", {
+				text : 'Create New Transaction',
+				value : 'new'
+			});
+			$newTransaction.appendTo($select);
 				$.each(jsonData, function(j, option) {
 					var disabledOption = false;
 					var clazz = "alert-info";
@@ -675,5 +680,103 @@ function hideById(id) {
 	} catch (Exception) {
 
 	}
-
 }
+
+
+function loadTotalSoldCountForEvent(cssSelector, groupEventCode) {
+ 	$.ajax({
+ 		type : 'GET',
+ 		url : "json/viewSoldTickets",
+ 		data : {
+			groupEventCode : groupEventCode,
+		},
+ 		success : function(j) {
+ 			var cnt = j.length;
+			$("#" + cssSelector).fadeOut(500, function() {$("#" + cssSelector).html("<div>"+cnt+"</div>").fadeIn(1000)});
+ 			
+ 		},
+ 		async : true
+ 	});	
+}
+
+function loadSoldCountForCategory(cssSelector, groupEventCode, groupEventPassCategoryId) {
+ 	$.ajax({
+ 		type : 'GET',
+ 		url : "json/viewSoldTicketsForCategory",
+ 		data : {
+			groupEventCode : groupEventCode,
+			groupEventPassCategoryId : groupEventPassCategoryId
+		},
+ 		success : function(j) {
+ 			var cnt = j.length;
+			$("#" + cssSelector).fadeOut(500, function() {$("#" + cssSelector).html("<div>"+cnt+"</div>").fadeIn(1000)});
+ 			
+ 		},
+ 		async : true
+ 	});	
+}
+
+
+function getTotalSoldCountForEvent(groupEventCode, callback){
+ 	$.ajax({
+ 		type : 'GET',
+ 		url : "json/viewSoldTickets",
+ 		data : {
+			groupEventCode : groupEventCode,
+		},
+ 		success : function(j) {
+ 			var cnt = j.length;
+ 			callback(cnt);
+ 		},
+ 		async : true
+ 	});	
+	}
+
+function getSoldCountForCategory(groupEventCode, groupEventPassCategoryId, callback) {
+ 	$.ajax({
+ 		type : 'GET',
+ 		url : "json/viewSoldTicketsForCategory",
+ 		data : {
+			groupEventCode : groupEventCode,
+			groupEventPassCategoryId : groupEventPassCategoryId
+		},
+ 		success : function(j) {
+ 			var cnt = j.length;
+ 			callback(cnt);
+ 			
+ 		},
+ 		async : true
+ 	});	
+}
+
+
+function decorateCount(cssSelector, cnt) {
+	if(cssSelector!='')
+	$("#" + cssSelector).fadeOut(500, function() {$("#" + cssSelector).html("<div>"+cnt+"</div>").fadeIn(1000)});
+}
+
+function getCount(cnt)
+{
+	alert(cnt);
+	return cnt;
+}
+
+
+
+function getAuditLogs(requestURI, method ,callback) {
+ 	$.ajax({
+ 		type : 'GET',
+ 		url : "json/checkAuditLogs",
+ 		data : {
+ 			requestURI : requestURI,
+			method : method
+		},
+ 		success : function(j) {
+ 			var cnt = j.length;
+ 			callback(cnt);
+ 			
+ 		},
+ 		async : true
+ 	});	
+}
+

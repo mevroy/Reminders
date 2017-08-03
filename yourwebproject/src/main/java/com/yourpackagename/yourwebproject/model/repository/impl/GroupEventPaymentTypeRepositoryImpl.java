@@ -8,15 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.yourpackagename.framework.data.BaseHibernateJpaRepository;
-import com.yourpackagename.yourwebproject.model.entity.Feedback;
-import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
-import com.yourpackagename.yourwebproject.model.entity.GroupEventPaymentTransaction;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventPaymentType;
-import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
-import com.yourpackagename.yourwebproject.model.entity.GroupLinkAccess;
-import com.yourpackagename.yourwebproject.model.entity.GroupMember;
-import com.yourpackagename.yourwebproject.model.repository.FeedbackRepository;
-import com.yourpackagename.yourwebproject.model.repository.GroupEventPaymentTransactionRepository;
 import com.yourpackagename.yourwebproject.model.repository.GroupEventPaymentTypeRepository;
 
 /**

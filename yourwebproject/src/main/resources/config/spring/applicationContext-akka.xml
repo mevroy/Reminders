@@ -11,7 +11,7 @@
     <import resource="applicationContext-properties.xml"/>
     <import resource="applicationContext-service.xml"/> -->
 
-    <akka:typed-actor id="mailSenderActor"
+  <!--   <akka:typed-actor id="mailSenderActor"
                       interface="com.yourpackagename.yourwebproject.actor.MailSenderActor"
                       implementation="com.yourpackagename.yourwebproject.actor.impl.MailSenderActorImpl"
                       timeout="1000"
@@ -20,8 +20,15 @@
         <property name="javaMailSender" ref="mailSender"/>
         <property name="velocityEngine" ref="velocityEngine"/>
         <property name="props" ref="props" />
-    </akka:typed-actor>
+    </akka:typed-actor>  -->
 
+    <bean id="mailSenderActor" class="com.yourpackagename.yourwebproject.actor.impl.MailSenderActorImpl">
+        <property name="javaMailSender" ref="mailSender"/>
+        <property name="velocityEngine" ref="velocityEngine"/>
+    <!--     <property name="velocityEnginePushNotifications" ref="velocityEnginePushNotifications"/>  -->
+        <property name="props" ref="props" />
+       
+    </bean>
 
     <bean id="mailSenderUntypedActor" class="com.yourpackagename.yourwebproject.actor.impl.MailSenderUntypedActorImpl">
         <property name="javaMailSender" ref="mailSender"/>

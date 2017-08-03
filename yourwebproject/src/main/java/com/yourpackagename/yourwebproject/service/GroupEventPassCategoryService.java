@@ -18,6 +18,6 @@ import com.yourpackagename.yourwebproject.model.entity.GroupMember;
 public interface GroupEventPassCategoryService extends BaseService<GroupEventPassCategory, String> {
 
 	public List<GroupEventPassCategory> findByGroupCodeAndGroupEventCode(String groupCode, String groupEventCode, boolean includeNotAvailableForPurchase);
-	public List<GroupEventPassCategory> findByGroupCodeAndGroupEventCodeForMemberType(String groupCode, String groupEventCode, boolean includeInactive, boolean availableForPurchase, String isMember);
+	public List<GroupEventPassCategory> findByGroupCodeAndGroupEventCodeForMemberType(String groupCode, String groupEventCode, boolean includeInactive, boolean availableForPurchase, String[] isMember);
 	
 }

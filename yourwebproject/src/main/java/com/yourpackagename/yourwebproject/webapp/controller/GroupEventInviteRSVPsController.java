@@ -738,7 +738,10 @@ public class GroupEventInviteRSVPsController extends BaseWebAppController {
 		List<GroupEventPass> passes = groupEventPassesService
 				.findByGroupEventInvite(gei);
 		GroupMember gm = gei.getGroupMember();
+		String[] memberTypes = new String[2];
+		memberTypes[0] = gm.getMemberCategoryCode();
 		String memberType = gm.isActiveMember() ? "ACTIVE" : "INACTIVE";
+		memberTypes[1] = memberType;
 		HashMap<String, Integer> passCategorisation = new HashMap<String, Integer>();
 		if (CollectionUtils.isNotEmpty(passes)) {
 			for (GroupEventPass pass : passes) {
@@ -759,7 +762,7 @@ public class GroupEventInviteRSVPsController extends BaseWebAppController {
 
 		List<GroupEventPassCategory> passListForPurchase = groupEventPassCategoryService
 				.findByGroupCodeAndGroupEventCodeForMemberType(groupCode,
-						gei.getGroupEventCode(), false, true, memberType);
+						gei.getGroupEventCode(), false, true, memberTypes);
 		if (passCategorisation != null) {
 			for (GroupEventPassCategory gepc : passListForPurchase) {
 				if (passCategorisation.containsKey(gepc
@@ -767,9 +770,10 @@ public class GroupEventInviteRSVPsController extends BaseWebAppController {
 					int count = passCategorisation.get(gepc
 							.getPassCategoryNameShort());
 					int maxPurchasePerInvite = gepc.getMaxPurchasePerInvite();
+					if(maxPurchasePerInvite >=0){
 					int remainingBuyingPower = maxPurchasePerInvite - count;
 					gepc.setMaxPurchasePerInvite(remainingBuyingPower > 0 ? remainingBuyingPower
-							: 0);
+							: 0);}
 				}
 
 				if (gepc.getNumberOfPasses() > 0) {

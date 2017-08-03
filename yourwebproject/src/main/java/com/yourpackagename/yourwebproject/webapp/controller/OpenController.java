@@ -208,6 +208,42 @@ public class OpenController extends BaseController {
 	}
 
 	
+	@RequestMapping(value = "/buy/{groupEventInviteIdOrEventCode}",method = RequestMethod.GET)
+	public String buy(Model model,
+			@PathVariable String groupEventInviteIdOrEventCode,
+			@RequestParam(required = false) String rsvpMessage)
+			throws Exception {
+
+		try {
+			GroupEventInvite gei = groupEventInviteService
+					.findByGroupEventInviteCode(groupEventInviteIdOrEventCode);
+			if (gei == null) {
+				gei = groupEventInviteService.findById(groupEventInviteIdOrEventCode);
+			}
+			return Key.redirect
+					+ "/"
+					+ gei.getGroupCode()
+					+ "/buy?eId="
+					+ gei.getGroupEventInviteId()
+					+ (StringUtils.isNotBlank(rsvpMessage) ? "&rsvpMessage="
+							+ rsvpMessage : "");
+		} catch (Exception ex) {
+
+			model.addAttribute("error", true);
+			model.addAttribute("errorMessage",
+					"Sorry! You do not have a valid invite for this event.");
+			return "error";
+
+			/*
+			 * throw new UserPermissionException(
+			 * "Sorry! You do not have a valid invite to RSVP for this event.");
+			 */
+		}
+
+	}
+
+	
+	
 	@RequestMapping(value = "/pass/{groupEventInviteIdOrEventCode}",method = RequestMethod.GET)
 	public String passPDF(Model model,
 			@PathVariable String groupEventInviteIdOrEventCode

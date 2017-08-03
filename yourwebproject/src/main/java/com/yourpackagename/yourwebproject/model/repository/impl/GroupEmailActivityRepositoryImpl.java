@@ -10,10 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import com.yourpackagename.framework.data.BaseHibernateJpaRepository;
 import com.yourpackagename.yourwebproject.common.Props;
-import com.yourpackagename.yourwebproject.model.entity.GroupEmail;
 import com.yourpackagename.yourwebproject.model.entity.GroupEmailActivity;
 import com.yourpackagename.yourwebproject.model.repository.GroupEmailActivityRepository;
-import com.yourpackagename.yourwebproject.model.repository.GroupEmailsRepository;
+
 
 /**
  * @author mevan.d.souza

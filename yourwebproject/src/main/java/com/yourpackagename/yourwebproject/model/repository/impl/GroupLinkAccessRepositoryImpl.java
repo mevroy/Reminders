@@ -5,23 +5,16 @@ package com.yourpackagename.yourwebproject.model.repository.impl;
 
 import java.util.List;
 
-import org.hibernate.Filter;
-import org.hibernate.type.Type;
+
 import org.springframework.stereotype.Repository;
 
 import com.yourpackagename.framework.data.BaseHibernateJpaRepository;
-import com.yourpackagename.yourwebproject.model.entity.Feedback;
-import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
 import com.yourpackagename.yourwebproject.model.entity.GroupLinkAccess;
 import com.yourpackagename.yourwebproject.model.entity.GroupMainLink;
-import com.yourpackagename.yourwebproject.model.entity.GroupMember;
 import com.yourpackagename.yourwebproject.model.entity.GroupSubLink;
 import com.yourpackagename.yourwebproject.model.entity.Groups;
-import com.yourpackagename.yourwebproject.model.entity.User;
 import com.yourpackagename.yourwebproject.model.entity.enums.Role;
-import com.yourpackagename.yourwebproject.model.repository.FeedbackRepository;
 import com.yourpackagename.yourwebproject.model.repository.GroupLinkAccessRepository;
-import com.yourpackagename.yourwebproject.model.repository.GroupMainLinksRepository;
 
 /**
  * @author mevan.d.souza

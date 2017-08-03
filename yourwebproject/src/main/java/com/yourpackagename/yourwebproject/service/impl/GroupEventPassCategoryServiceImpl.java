@@ -49,7 +49,7 @@ public class GroupEventPassCategoryServiceImpl extends BaseJpaServiceImpl<GroupE
 
 	public List<GroupEventPassCategory> findByGroupCodeAndGroupEventCodeForMemberType(
 			String groupCode, String groupEventCode,
-			boolean includeInactive, boolean availableForPurchase, String isMember) {
+			boolean includeInactive, boolean availableForPurchase, String[] isMember) {
 
 		return groupEventPassCategoryRepository.findByGroupCodeAndGroupEventCodeForMemberType(groupCode, groupEventCode, includeInactive, availableForPurchase,  isMember);
 	}

@@ -18,7 +18,7 @@
 					</tr>
 					<tr class="warning">
 						<td ><b>Account Holder</b></td>
-						<td>${groupMember.firstName}${groupMember.lastName}</td>
+						<td>${groupMember.firstName} ${groupMember.lastName}</td>
 					</tr>
 					<tr class="warning">
 						<td><b>Primary Email</b></td>

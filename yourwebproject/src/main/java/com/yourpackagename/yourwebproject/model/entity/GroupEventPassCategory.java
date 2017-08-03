@@ -130,6 +130,8 @@ public class GroupEventPassCategory extends NoIDEntity implements Serializable{
 	@Column
 	private String memberOnlyPurchase;
 
+	@Column
+	private double displayOrder;
 
 
 	/**
@@ -452,6 +454,20 @@ public class GroupEventPassCategory extends NoIDEntity implements Serializable{
 	 */
 	public void setMemberOnlyPurchase(String memberOnlyPurchase) {
 		this.memberOnlyPurchase = memberOnlyPurchase;
+	}
+
+	/**
+	 * @return the displayOrder
+	 */
+	public double getDisplayOrder() {
+		return displayOrder;
+	}
+
+	/**
+	 * @param displayOrder the displayOrder to set
+	 */
+	public void setDisplayOrder(double displayOrder) {
+		this.displayOrder = displayOrder;
 	}
 	
 

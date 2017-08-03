@@ -51,7 +51,7 @@
 					
 																	<div class="controls">
 					
-																		<form:input path="userReferenceNumber"
+																		<form:input path="userReferenceNumber" 
 																			cssClass="form-control" id="userReferenceNumber" placeholder="Please enter your transaction reference number here" />
 																	</div>
 																</div>

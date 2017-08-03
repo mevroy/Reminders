@@ -8,7 +8,6 @@ import java.util.List;
 import com.yourpackagename.framework.data.BaseJpaRepository;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInviteRSVP;
-import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
 import com.yourpackagename.yourwebproject.model.entity.GroupMember;
 
 /**

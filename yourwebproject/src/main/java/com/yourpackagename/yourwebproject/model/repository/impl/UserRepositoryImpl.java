@@ -35,7 +35,7 @@ public class UserRepositoryImpl extends BaseHibernateJpaRepository<User, Long> i
     		 Filter filter = sessionFactory.getCurrentSession().enableFilter("filterUserRoles");
     		 filter.setParameter("groupCode", groupCode);
     	 }
-         return (User) sessionFactory.getCurrentSession().createQuery("select u from User u left join u.groupUserRoles gur where u.userName = ? and gur.group.groupCode = ? and (gur.expiryDate is null or date(gur.expiryDate) >= CURDATE()) and (gur.startDate is null or date(gur.startDate) <= CURDATE())").setString(0,
+         return (User) sessionFactory.getCurrentSession().createQuery("select u from User u left join u.groupUserRoles gur where u.userName = ? and gur.group.groupCode = ? and (gur.expiryDate is null or date(gur.expiryDate) >= NOW()) and (gur.startDate is null or date(gur.startDate) <= NOW())").setString(0,
                  username).setString(1, groupCode).uniqueResult();
      }
 }

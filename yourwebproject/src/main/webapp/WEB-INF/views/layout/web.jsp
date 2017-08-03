@@ -30,6 +30,8 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/jquery/jquery.validate.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/jquery/additional-methods.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/jquery/jquery.validate.bootstrapfix.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/notify/notify.js"></script>
+    
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/js/jquery/jquery.countdown.min.js"></script>
 
     <script type="text/javascript" src="${pageContext.request.contextPath}/res/jqGrid/js/jquery.jqGrid.min.js"></script>

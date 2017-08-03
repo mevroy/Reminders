@@ -149,6 +149,7 @@
 					</div>
 				</div>
 			</div>
+			<c:if test="${groupMember ne null }">
 			<div class="panel panel-primary">
 				<div class="panel-heading" href="#collapseTwo" data-toggle="collapse"
 						data-parent="#accordion2"  onclick="this.href='#collapseTwo';">
@@ -183,6 +184,7 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 
 			<div class="panel panel-primary">
 				<div class="panel-heading"  data-toggle="collapse"

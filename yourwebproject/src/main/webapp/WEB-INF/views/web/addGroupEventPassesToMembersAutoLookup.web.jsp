@@ -673,7 +673,7 @@
 																hidden : false,
 																editable : true,
 																align : 'center',
-																width : 45,
+																width : 60,
 																summaryType : 'sum',
 																summaryTpl : '<b>Total: {0}</b>'
 															},
@@ -684,10 +684,10 @@
 																hidden : false,
 																align : 'center',
 																editable : true,
-																width : 40,
+																width : 60,
 																formatter : 'double',
 																summaryType : 'sum',
-																summaryTpl : '<b>Total: {0}</b>'
+																summaryTpl : '<b><span class="label label-info">$ {0}</span></b>'
 															},
 															{
 																label : 'Sold by',

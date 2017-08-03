@@ -149,6 +149,11 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/viewGroupEvents.web.jsp" />
 	</definition>
+	<definition name="viewGroupEventTickets" extends="base">
+		<put-attribute name="title" value="Group Event Tickets" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/viewGroupEventTickets.web.jsp" />
+	</definition>	
 	<definition name="viewGroupEmailTemplates" extends="base">
 		<put-attribute name="title" value="Group Email Templates" />
 		<put-attribute name="content"

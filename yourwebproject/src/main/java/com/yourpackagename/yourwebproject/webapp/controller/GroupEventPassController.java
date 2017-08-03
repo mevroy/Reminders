@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yourpackagename.commons.util.CommonUtils;
 import com.yourpackagename.yourwebproject.common.CheckPermission;
+import com.yourpackagename.yourwebproject.common.Key;
 import com.yourpackagename.yourwebproject.common.Props;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventPass;
@@ -38,12 +39,15 @@ import com.yourpackagename.yourwebproject.model.entity.GroupEventPassCategory;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventPaymentTransaction;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
 import com.yourpackagename.yourwebproject.model.entity.GroupMember;
+import com.yourpackagename.yourwebproject.model.entity.enums.PaymentStatus;
 import com.yourpackagename.yourwebproject.model.entity.enums.Role;
 import com.yourpackagename.yourwebproject.service.GroupEventInviteService;
 import com.yourpackagename.yourwebproject.service.GroupEventPassCategoryService;
 import com.yourpackagename.yourwebproject.service.GroupEventPassesService;
 import com.yourpackagename.yourwebproject.service.GroupEventPaymentTransactionService;
+import com.yourpackagename.yourwebproject.service.GroupEventsService;
 import com.yourpackagename.yourwebproject.service.GroupMembersService;
+import com.yourpackagename.yourwebproject.service.GroupsService;
 
 /**
  * @author mevan.d.souza
@@ -58,6 +62,8 @@ public class GroupEventPassController extends BaseWebAppController {
 	private @Autowired GroupMembersService groupMembersService;
 	private @Autowired GroupEventPassCategoryService groupEventPassCategoryService;
 	private @Autowired GroupEventPaymentTransactionService groupEventPaymentTransactionService;
+	private @Autowired GroupEventsService groupEventsService;
+	private @Autowired GroupsService groupsService;
 	protected @Autowired Props props;
 
 	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN })
@@ -498,6 +504,78 @@ public class GroupEventPassController extends BaseWebAppController {
 		}
 	}
 
+	
+	
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN })
+	@RequestMapping(value = "/json/handlePassCategory", method = RequestMethod.POST)
+	public @ResponseBody String updatePassCategory(Locale locale, Model model,
+			@PathVariable String groupCode,
+			@ModelAttribute("groupEventPassCategory") GroupEventPassCategory groupEventPassCategory,
+			@RequestParam(required = true) String operation, @RequestParam(required = true) String groupEventCode,
+			BindingResult results) {
+
+		GroupEventPassCategory gepc = new GroupEventPassCategory();
+		
+		if(Key.ADD.equalsIgnoreCase(operation))
+		{
+			groupEventPassCategory.setCreatedBy(this.getloggedInUser().getUserName());
+			groupEventPassCategory.setGroupEvent(groupEventsService.findByGroupEventCode(groupEventCode));
+			groupEventPassCategory.setMemberOnlyPurchase(StringUtils.trimToNull(groupEventPassCategory.getMemberOnlyPurchase()));
+			groupEventPassCategory.setGroup(groupsService.findByGroupCode(groupCode));
+			try {
+				groupEventPassCategoryService.insert(groupEventPassCategory);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return groupEventPassCategory.getPassCategoryNameShort()
+						+ " was not added to the system!";
+			}
+		}
+		else
+		{
+		try {
+			gepc = groupEventPassCategoryService.findById(groupEventPassCategory.getGroupEventPassCategoryId());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return " ID :" + groupEventPassCategory.getGroupEventPassCategoryId()
+					+ " is not found in the system!";
+		}
+
+		gepc.setUpdatedAt(Calendar.getInstance().getTime());
+		gepc.setUpdatedBy(this.getloggedInUser().getUserName());
+		gepc.setDisablePurchase(groupEventPassCategory.isDisablePurchase());
+		gepc.setDisplayOrder(groupEventPassCategory.getDisplayOrder());
+		gepc.setDisplayPrice(groupEventPassCategory.isDisplayPrice());
+		gepc.setMaxPurchasePerInvite(groupEventPassCategory.getMaxPurchasePerInvite());
+		gepc.setMemberOnlyPurchase(StringUtils.trimToNull(groupEventPassCategory.getMemberOnlyPurchase()));
+		gepc.setNumberOfPasses(groupEventPassCategory.getNumberOfPasses());
+		gepc.setPassBarocodeURL(groupEventPassCategory.getPassBarocodeURL());
+		gepc.setPassCategoryName(groupEventPassCategory.getPassCategoryName());
+		gepc.setPassCategoryNameShort(groupEventPassCategory.getPassCategoryNameShort());
+		gepc.setPassImageURL(groupEventPassCategory.getPassImageURL());
+		gepc.setPassPrefix(groupEventPassCategory.getPassPrefix());
+		gepc.setPassPrice(groupEventPassCategory.getPassPrice());
+		gepc.setPassSuffix(groupEventPassCategory.getPassSuffix());
+		gepc.setPurchaseExpiryDateTime(groupEventPassCategory.getPurchaseExpiryDateTime());
+		gepc.setPurchaseStartDateTime(groupEventPassCategory.getPurchaseStartDateTime());
+		gepc.setRandomPassNumbers(groupEventPassCategory.isRandomPassNumbers());
+
+		
+		try {
+			groupEventPassCategoryService.update(gepc);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Error in updating the Event pass";
+		}
+		}
+
+
+		return "success";
+
+	}
+	
+	
 	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN })
 	@RequestMapping(value = "/json/assignPasses", method = RequestMethod.POST)
 	public @ResponseBody String assignPasses(
@@ -511,7 +589,8 @@ public class GroupEventPassController extends BaseWebAppController {
 			return "Invitation ID is required to assign tickets";
 		}
 		GroupEventPaymentTransaction gept = new GroupEventPaymentTransaction();
-		if (StringUtils.isNotBlank(groupEventPaymentTransactionId)) {
+		boolean createNewTransaction = "new".equalsIgnoreCase(groupEventPaymentTransactionId);
+		if (StringUtils.isNotBlank(groupEventPaymentTransactionId) && !createNewTransaction) {
 			try {
 				gept = groupEventPaymentTransactionService
 						.findById(groupEventPaymentTransactionId);
@@ -519,6 +598,7 @@ public class GroupEventPassController extends BaseWebAppController {
 				gept = new GroupEventPaymentTransaction();
 			}
 		}
+
 		HashMap<String, Long> counter = new HashMap<String, Long>();
 		boolean notEnoughTickets = false;
 		String notEnoughTicketsMessage = "Error! Not Enough Tickets to be assigned.<br/>";
@@ -622,7 +702,7 @@ public class GroupEventPassController extends BaseWebAppController {
 						} else {
 							subtractFromTotalPasses += gepc.getNumberOfPasses();
 						}
-						total += (gepc.getNumberOfPasses() * gepc
+						total += (gepc.getNumberOfPasses() * gepcDB
 								.getPassPrice());
 						totalPasses += gepc.getNumberOfPasses();
 						// code to check if this is working or not
@@ -639,11 +719,64 @@ public class GroupEventPassController extends BaseWebAppController {
 
 				
 				gept.setGroupEventInvite(gei);
+				
+				if(createNewTransaction)
+				{
+					gept.setTotalNumberOfProducts(totalPasses);
+					gept.setTransactionAmount(total);
+					gept.setTransactionDateTime(Calendar
+							.getInstance().getTime());
+					GroupEvents grpEventDB = groupEventsService.findByGroupEventCode(gei.getGroupEventCode());
+					if(grpEventDB.getTransactionExpiryInMinutes()>0)
+					{
+					gept
+							.setTransactionExpiryDateTime(new DateTime().plusHours(24)
+									.toDate().after(grpEventDB.getEventDate()) ? grpEventDB
+									.getEventDate() : new DateTime().plusHours(24)
+									.toDate());
+					}
+					else {
+						gept
+						.setTransactionExpiryDateTime(grpEventDB
+									.getEventDate());
+					}
+					String userCode = StringUtils.isNotBlank(gei
+							.getGroupEventInviteCode()) ? gei.getGroupEventInviteCode()
+							: CommonUtils.generateRandomString(8, 8);
+					gept.setUserCode(userCode);
+					gept.setGroupEventCode(gei
+							.getGroupEventCode());
+					
+					gept.setUpdatedAt(Calendar.getInstance()
+							.getTime());
+					gept
+							.setPaymentStatus(PaymentStatus.AWAITINGPMT);
+					try{
+					gept = groupEventPaymentTransactionService
+									.insert(gept);
+					}
+					catch(Exception e)
+					{
+						
+					}
+				}
 				List<GroupEventPass> assignedPasses = groupEventPassesService
 						.assignPassesToTransaction(gept,
 								groupEvent.getGroupEventPassCategories());
 
 				if (CollectionUtils.isEmpty(assignedPasses)) {
+					
+					if(createNewTransaction){
+					gept.setPaymentStatus(PaymentStatus.CANCELLED);
+					gept.setErrorMessage("Not enough tickets available");
+					try{
+					gept = groupEventPaymentTransactionService.update(gept);
+					}
+					catch(Exception e)
+					{
+						
+					}
+					}
 					return "Error! Not enough passes to be assigned";
 				}
 				for (GroupEventPass assignedP : assignedPasses) {

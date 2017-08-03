@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.yourpackagename.framework.data.BaseHibernateJpaRepository;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInviteRSVP;
-import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
 import com.yourpackagename.yourwebproject.model.entity.GroupMember;
 import com.yourpackagename.yourwebproject.model.repository.GroupEventInviteRSVPRepository;
 

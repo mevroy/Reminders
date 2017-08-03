@@ -10,7 +10,7 @@
 		<h2>
 			<c:out value="${rsvpMessage}" />
 			<c:if
-				test="${groupEvent.eventName ne null || groupEvent.eventName ne ''}"> for event : <c:out
+				test="${groupEvent.eventName ne null || groupEvent.eventName ne ''}"> for <c:out
 					value="${groupEvent.eventName}" />
 			</c:if>
 		</h2>
@@ -55,7 +55,15 @@
 													class="glyphicon glyphicon-exclamation-sign text-danger"></i></span></a>
 										</c:when>
 
-
+										<c:when test="${passCategory.maxPurchasePerInvite eq -1}">
+											<a tabindex="0" role="button" data-toggle="popover"
+												data-container="body" data-animation="true"
+												data-trigger="focus" title="Why is this selection not available?"
+												data-placement="top"
+												data-content="You are not eligible to purchase this ticket category at this time. Possible reasons include, this category is only available for Active members. Please contact <c:choose><c:when test="${not empty groupEvent.eventOrganiser}">${groupEvent.eventOrganiser}</c:when><c:otherwise>us</c:otherwise></c:choose> if you think, this should not be the case!"><span
+												class="input-prepend add-on"><i
+													class="glyphicon glyphicon-exclamation-sign text-danger"></i></span></a>
+										</c:when>
 										<c:otherwise>
 											<a tabindex="0" role="button" data-toggle="popover"
 												data-container="body" data-animation="true"
@@ -66,6 +74,7 @@
 													class="glyphicon glyphicon-question-sign"></i></span></a>										
 										</c:otherwise>
 									</c:choose>
+								${passCategory.passHeader}
 								</label>
 
 								<c:choose>
@@ -99,6 +108,16 @@
 											</form:select>
 										</div>
 									</c:when>
+									<c:when test="${passCategory.maxPurchasePerInvite eq -1 }">
+										<div class="controls">
+											<form:select
+												path="groupEventPassCategories[${i.index}].numberOfPasses"
+												class="form-control" id="numberOfPasses${i.index}"
+												disabled="true">
+												<option value="0">Not Available</option>
+											</form:select>
+										</div>
+									</c:when>									
 									<c:otherwise>
 										<div class="controls has-success">
 											<form:select
@@ -150,10 +169,10 @@
 
 			<div class="alert">
 				<c:if test="${fn:length(paymentTransactions) gt 0}">
-					<div>Your Previous Transactions</div>
+					<div class="col-lg-10">Your Previous Transactions</div>
 					<table class='table table-striped table-bordered table-condensed'>
 						<tr class="danger">
-							<td><b># Tickets</b></td>
+							<td id="tickets"><b># Tickets</b></td>
 							<td><b>Total Amount</b></td>
 							<td><b>Status</b></td>
 							<td><b>Transaction Date</b></td>
@@ -265,6 +284,7 @@
 								}
 							}
 						});
+						
 
 			});
 </script>
