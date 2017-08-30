@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <div class="jumbotron">
-<div id="timer"></div>
+	<div id="timer"></div>
 	<h2>Your Transaction Summary</h2>
 	<br />
 
@@ -17,15 +17,15 @@
 						<td colspan="2"><b>Primary Account Holder Information</b></td>
 					</tr>
 					<tr class="warning">
-						<td ><b>Account Holder</b></td>
+						<td><b>Account Holder</b></td>
 						<td>${groupMember.firstName} ${groupMember.lastName}</td>
 					</tr>
 					<tr class="warning">
 						<td><b>Primary Email</b></td>
 						<td>${groupMember.primaryEmail}</td>
 					</tr>
-					<tr  class="warning">
-						<td ><b>Mobile</b></td>
+					<tr class="warning">
+						<td><b>Mobile</b></td>
 						<td>${groupMember.mobilephone}</td>
 					</tr>
 
@@ -41,8 +41,10 @@
 				onsubmit="return validateFormAndToggleButton('buy');">
 				<input type="hidden" name="transactionId"
 					value="${groupEventPaymentTransaction.transactionId}" />
-				<fmt:timeZone value="GMT+10"><fmt:formatDate var="formattedDate" pattern="yyyy/MM/dd HH:mm:ss "
-											value="${groupEventPaymentTransaction.transactionExpiryDateTime}" /></fmt:timeZone>
+				<fmt:timeZone value="GMT+10">
+					<fmt:formatDate var="formattedDate" pattern="yyyy/MM/dd HH:mm:ss "
+						value="${groupEventPaymentTransaction.transactionExpiryDateTime}" />
+				</fmt:timeZone>
 				<div class="col-lg-12">
 					<table class='table table-condensed table-bordered'>
 						<tr class="info">
@@ -55,7 +57,7 @@
 							var="passCategory" varStatus="i">
 							<c:if test="${passCategory.numberOfPasses gt 0}">
 								<tr class="warning">
-									<td>${passCategory.passCategoryNameShort} <span
+									<td>${passCategory.passCategoryNameShort}<span
 										class="badge badge-warning">$${passCategory.passPrice}</span></td>
 									<td>${passCategory.numberOfPasses}</td>
 									<td>$${passCategory.numberOfPasses*
@@ -83,30 +85,31 @@
 
 
 				<div class="col-lg-12">
-				<c:choose>
-					<c:when test="${!disableButton and cancelButton}">
-						<button class="btn btn-primary btn-lg btn-block has-spinner"
-							type="submit"
-							data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading.."
-							autocomplete="off">PROCEED TO PAYMENT</button>
-						<button class="btn btn-danger btn-lg btn-block" type="button"
-							data-toggle="modal" data-target="#myModalForCancel">CANCEL
-							TRANSACTION</button>
-					</c:when>
-					<c:when test="${!disableButton}">
-						<button class="btn btn-primary btn-lg btn-block has-spinner"
-							type="submit"
-							data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading.."
-							autocomplete="off">PROCEED TO PAYMENT</button>
-						<a class="btn btn-default btn-lg btn-block" href="buy?eId=${groupEventPaymentTransaction.groupEventInvite.groupEventInviteId}">BACK</a>
-					</c:when>
-					<c:otherwise>
-						<input class="btn btn-primary btn-lg btn-block has-spinner"
-							type="submit" disabled="disabled" value="PROCEED TO PAYMENT" />
+					<c:choose>
+						<c:when test="${!disableButton and cancelButton}">
+							<button class="btn btn-primary btn-lg btn-block has-spinner"
+								type="submit"
+								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading.."
+								autocomplete="off">PROCEED TO PAYMENT</button>
+							<button class="btn btn-danger btn-lg btn-block" type="button"
+								data-toggle="modal" data-target="#myModalForCancel">CANCEL
+								TRANSACTION</button>
+						</c:when>
+						<c:when test="${!disableButton}">
+							<button class="btn btn-primary btn-lg btn-block has-spinner"
+								type="submit"
+								data-loading-text="<span class='spinner'><i class='icon-spin glyphicon glyphicon-repeat'></i></span> Loading.."
+								autocomplete="off">PROCEED TO PAYMENT</button>
+							<a class="btn btn-default btn-lg btn-block"
+								href="buy?eId=${groupEventPaymentTransaction.groupEventInvite.groupEventInviteId}">BACK</a>
+						</c:when>
+						<c:otherwise>
+							<input class="btn btn-primary btn-lg btn-block has-spinner"
+								type="submit" disabled="disabled" value="PROCEED TO PAYMENT" />
 
-					</c:otherwise>
-				</c:choose>
-</div>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</form:form>
 
 
@@ -117,67 +120,97 @@
 
 
 <script type="text/javascript">
-	$(document).ready(
-			function() {
-				$("#doBuy").validate(
-						{
-							rules : {
+	$(document)
+			.ready(
+					function() {
+						$("#doBuy")
+								.validate(
+										{
+											rules : {
 
-							},
-							errorClass : "control-group has-error text-danger",
-							validClass : "control-group has-success",
-							errorElement : "span",
-							errorPlacement : function(error, element) {
-								if (element.attr("type") == "radio") {
+											},
+											errorClass : "control-group has-error text-danger",
+											validClass : "control-group has-success",
+											errorElement : "span",
+											errorPlacement : function(error,
+													element) {
+												if (element.attr("type") == "radio") {
 
-									error.insertBefore(element.parent('label')
-											.parent('div'));
-								} else {
-									error.insertAfter(element);
-								}
-							},
-							highlight : function(element, errorClass,
-									validClass) {
-								if (element.type === 'radio') {
-									this.findByName(element.name).parent("div")
-											.parent("div").removeClass(
-													validClass).addClass(
-													errorClass);
-								} else {
-									$(element).parent("div").parent("div")
-											.removeClass(validClass).addClass(
-													errorClass);
-								}
-							},
-							unhighlight : function(element, errorClass,
-									validClass) {
-								if (element.type === 'radio') {
-									this.findByName(element.name).parent("div")
-											.parent("div").removeClass(
-													errorClass).addClass(
-													validClass);
-								} else {
-									$(element).parent("div").parent("div")
-											.removeClass(errorClass).addClass(
-													validClass);
-								}
-							}
-						});
+													error.insertBefore(element
+															.parent('label')
+															.parent('div'));
+												} else {
+													error.insertAfter(element);
+												}
+											},
+											highlight : function(element,
+													errorClass, validClass) {
+												if (element.type === 'radio') {
+													this.findByName(
+															element.name)
+															.parent("div")
+															.parent("div")
+															.removeClass(
+																	validClass)
+															.addClass(
+																	errorClass);
+												} else {
+													$(element).parent("div")
+															.parent("div")
+															.removeClass(
+																	validClass)
+															.addClass(
+																	errorClass);
+												}
+											},
+											unhighlight : function(element,
+													errorClass, validClass) {
+												if (element.type === 'radio') {
+													this.findByName(
+															element.name)
+															.parent("div")
+															.parent("div")
+															.removeClass(
+																	errorClass)
+															.addClass(
+																	validClass);
+												} else {
+													$(element).parent("div")
+															.parent("div")
+															.removeClass(
+																	errorClass)
+															.addClass(
+																	validClass);
+												}
+											}
+										});
 
-				  function getDateToFormat() {
-					  return new Date('${formattedDate}');
-				  }
+						function getDateToFormat() {
+							return new Date('${formattedDate}');
+						}
 
-				  var $clock = $('#timer');
-				  $clock.countdown(getDateToFormat(), function(event) {
-				    $(this).html(event.strftime('<h4 class="pull-right"><span  class="label label-danger">Transaction expires in %D days %H hrs %M mins %S secs</span></h4>'));
-				  }).on('finish.countdown', function(event) {
-					  $(this).html('<h4 class="pull-right"><span  class="label label-danger">Transaction Expired</span></h4>')
-					    .parent().addClass('disabled');
-					  window.location.href = window.location.href;
+						var $clock = $('#timer');
+						$clock
+								.countdown(
+										getDateToFormat(),
+										function(event) {
+											$(this)
+													.html(
+															event
+																	.strftime('<h4 class="pull-right"><span  class="label label-danger">Transaction expires in %H hrs %M mins %S secs</span></h4>'));
+										})
+								.on(
+										'finish.countdown',
+										function(event) {
+											$(this)
+													.html(
+															'<h4 class="pull-right"><span  class="label label-danger">Transaction Expired</span></h4>')
+													.parent().addClass(
+															'disabled');
+											window.location.href = window.location.href;
+										});
+
 					});
-				  
-			});
 </script>
 
 <!-- Modal -->
@@ -211,7 +244,8 @@
 
 			</div>
 			<div class="modal-footer">
-				<form:form commandName="groupEvent" action="cancelTransaction?eId=${groupEventPaymentTransaction.groupEventInvite.groupEventInviteId}"
+				<form:form commandName="groupEvent"
+					action="cancelTransaction?eId=${groupEventPaymentTransaction.groupEventInvite.groupEventInviteId}"
 					method="post" id="cancelTransaction">
 					<input type="hidden" name="transactionId"
 						value="${groupEventPaymentTransaction.transactionId}" />

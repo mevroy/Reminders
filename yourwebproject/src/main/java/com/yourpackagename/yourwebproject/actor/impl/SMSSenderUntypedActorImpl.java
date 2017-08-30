@@ -36,6 +36,8 @@ public class SMSSenderUntypedActorImpl implements SMSSenderUntypedActor {
 			model.put("StringUtils", StringUtils.class);
 			model.put("homeTimeZone", TimeZone.getTimeZone(props.homeTimeZone));
 			model.put("hostTimeZone", TimeZone.getTimeZone(props.hostTimeZone));
+			model.put("url",props.applicationUrl);
+			model.put("project", props.applicationProject);
 			// model.put("DateTimeUtils", DateTimeUtils.class);
 		}
 		String text = VelocityEngineUtils.mergeTemplateIntoString(

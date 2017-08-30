@@ -43,6 +43,8 @@ public class Props {
     public @Value("${homeTimeZone}") String homeTimeZone;
     public @Value("${hostTimeZone}") String hostTimeZone;
     public @Value("${membershipFilePath}") String membershipFilePath;
+    public @Value("${application.url}") String applicationUrl;
+    public @Value("${application.project}") String applicationProject;
     @PostConstruct
     public void init() {
         webAuthRoutes = Arrays.asList(

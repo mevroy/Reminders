@@ -142,7 +142,7 @@
 
 				  var $clock = $('#timer');
 				  $clock.countdown(getDateToFormat(), function(event) {
-				    $(this).html(event.strftime('<h4 class="pull-right"><span  class="label label-danger">Transaction expires in %D days %H hrs %M mins %S secs</span></h4>'));
+				    $(this).html(event.strftime('<h4 class="pull-right"><span  class="label label-danger">Transaction expires in %H hrs %M mins %S secs</span></h4>'));
 				  }).on('finish.countdown', function(event) {
 					  $(this).html('<h4 class="pull-right"><span  class="label label-danger">Transaction Expired</span></h4>')
 					    .parent().addClass('disabled');

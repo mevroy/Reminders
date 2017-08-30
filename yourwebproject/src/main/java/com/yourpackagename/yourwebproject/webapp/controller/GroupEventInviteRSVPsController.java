@@ -118,6 +118,17 @@ public class GroupEventInviteRSVPsController extends BaseWebAppController {
 		Groups group = groupsService.findByGroupCode(groupCode);
 		GroupEventPaymentTransaction gepT = groupEventPaymentTransactionService
 				.findById(groupEventPaymentTransaction.getTransactionId());
+		if((PaymentStatus.AWAITINGPMT.equals(gepT.getPaymentStatus()) && gepT.getTransactionExpiryDateTime().before(
+				Calendar.getInstance().getTime())) || PaymentStatus.EXPIRED.equals(gepT.getPaymentStatus()))
+		{
+			model.addAttribute("popupModal", true);
+			model.addAttribute("popupTitle", "Transaction Expired!");
+			model.addAttribute(
+					"popupMessage",
+					"Oops! Your update did not complete as this transaction has expired. Nothing to worry. Just do the same ticket selection as you did earlier and update the payment reference number!");			
+			return this.buy(model, gepT.getGroupEventInvite()
+					.getGroupEventInviteId(), "", "false", groupCode);
+		}
 		GroupEvents groupEventDB = groupEventsService.findByGroupEventCode(gepT
 				.getGroupEventCode());
 		gepT.setUserReferenceNumber(referenceNumber);

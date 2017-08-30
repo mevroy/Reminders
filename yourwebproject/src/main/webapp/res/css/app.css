@@ -84,6 +84,52 @@
 
 
 
+.frame_tl {
+	background: url(../custom/images/frame/pe_tl.gif) no-repeat right;
+	height: 10px;
+	width: 10px;
+}
+
+.frame_top {
+	background: url(../custom/images/frame/pe_t.gif) repeat-x;
+	width: 1px;
+}
+
+.frame_tr {
+	background: url(../custom/images/frame/pe_tr.gif) no-repeat;
+	height: 10px;
+	width: 10px;
+}
+
+.frame_left {
+	background: url(../custom/images/frame/pe_l.gif) repeat-y right;
+	width: 10px;
+}
+
+.frame_right {
+	background: url(../custom/images/frame/pe_r.gif) repeat-y;
+	width: 10px;
+}
+
+.frame_bl {
+	background: url(../custom/images/frame/pe_bl.gif) no-repeat right;
+	height: 10px;
+	width: 10px;
+}
+
+.frame_bottom {
+	background: url(../custom/images/frame/pe_b.gif) repeat-x;
+	height: 10px;
+}
+
+.frame_br {
+	background: url(../custom/images/frame/pe_br.gif) no-repeat;
+	height: 10px;
+	width: 10px;
+}
+
+
+
 .blink_text {
     animation:1s blinker linear infinite;
     -webkit-animation:1s blinker linear infinite;
