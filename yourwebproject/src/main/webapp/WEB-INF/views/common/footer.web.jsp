@@ -14,13 +14,13 @@ var count = 0;
 $(function() {
 	getAuditLogs('/app/MKC/completePayment','POST', function(cnt)
 			{
-		setTimeout(function(){$.notify(cnt+messageAudit,   { position:"bottom right",  clickToHide: true,  autoHide: true, autoHideDelay: 9000 }); }, 1);
+//		setTimeout(function(){$.notify(cnt+messageAudit,   { position:"bottom right",  clickToHide: true,  autoHide: true, autoHideDelay: 9000 }); }, 1);
 			});
 	    setInterval(function(){getAuditLogs('/app/MKC/completePayment','POST', function(cnt)
 				{
 	    			if(cnt!==count)
 	    			{
-	    				$.notify(cnt+messageAudit,   { position:"bottom right",  clickToHide: true,  autoHide: true, autoHideDelay: 29000 }); 	
+	    		//		$.notify(cnt+messageAudit,   { position:"bottom right",  clickToHide: true,  autoHide: true, autoHideDelay: 29000 }); 	
 	    				count = cnt;
 	    			}
 				})}, timer);
