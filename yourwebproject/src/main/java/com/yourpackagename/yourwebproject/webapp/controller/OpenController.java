@@ -242,6 +242,39 @@ public class OpenController extends BaseController {
 
 	}
 
+
+	
+	@RequestMapping(value = "/cInvite/{groupEventInviteIdOrEventCode}",method = RequestMethod.GET)
+	public String customInvite(Model model,
+			@PathVariable String groupEventInviteIdOrEventCode)
+			throws Exception {
+
+		try {
+			GroupEventInvite gei = groupEventInviteService
+					.findByGroupEventInviteCode(groupEventInviteIdOrEventCode);
+			if (gei == null) {
+				gei = groupEventInviteService.findById(groupEventInviteIdOrEventCode);
+			}
+			return Key.redirect
+					+ "/"
+					+ gei.getGroupCode()
+					+ "/loadCustomInvitation?groupEventInviteId="
+					+ gei.getGroupEventInviteId()
+					;
+		} catch (Exception ex) {
+
+			model.addAttribute("error", true);
+			model.addAttribute("errorMessage",
+					"Sorry! Please make sure the link you clicked is complete.");
+			return "error";
+
+			/*
+			 * throw new UserPermissionException(
+			 * "Sorry! You do not have a valid invite to RSVP for this event.");
+			 */
+		}
+
+	}
 	
 	
 	@RequestMapping(value = "/pass/{groupEventInviteIdOrEventCode}",method = RequestMethod.GET)
