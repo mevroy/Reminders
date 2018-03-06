@@ -52,6 +52,8 @@ public class GroupEventInviteServiceImpl extends
 	@Autowired
 	private GroupEventInviteRepository groupEventInviteRepository;
 
+	protected @Autowired Props props;
+	
 	@PostConstruct
 	public void setupService() {
 		this.baseJpaRepository = groupEventInviteRepository;
@@ -100,8 +102,8 @@ public class GroupEventInviteServiceImpl extends
 				"batch/files");
 		// load the document
 
-		URL logo = new URL(
-				"http://www.mevroy.info/app/00622239-f2b3-48e7-a55a-d7c1f65d05ad/batch/files/MKC_Logo_Xtra_Small.jpg");
+		String urlLogo =  props.applicationUrl+"/"+props.applicationProject+"/00622239-f2b3-48e7-a55a-d7c1f65d05ad/batch/files/MKC_Logo_Xtra_Small.jpg";
+		URL logo = new URL(urlLogo);
 		File logoFile = new File(f, "MKC_Logo_Xtra_Small.jpg");
 		FileUtils.copyURLToFile(logo, logoFile);
 
