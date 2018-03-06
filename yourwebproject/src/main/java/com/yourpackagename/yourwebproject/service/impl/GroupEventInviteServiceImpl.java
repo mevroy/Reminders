@@ -32,6 +32,7 @@ import be.quodlibet.boxable.VerticalAlignment;
 import be.quodlibet.boxable.utils.ImageUtils;
 
 import com.yourpackagename.framework.data.BaseJpaServiceImpl;
+import com.yourpackagename.yourwebproject.common.Props;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventInvite;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventPass;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
