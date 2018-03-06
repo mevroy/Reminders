@@ -260,6 +260,7 @@ public class OpenController extends BaseController {
 					+ gei.getGroupCode()
 					+ "/loadCustomInvitation?groupEventInviteId="
 					+ gei.getGroupEventInviteId()
+					+"&serialNumber="+gei.getGroupMember().getSerialNumber()
 					;
 		} catch (Exception ex) {
 
