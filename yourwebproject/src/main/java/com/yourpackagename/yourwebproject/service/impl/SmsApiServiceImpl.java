@@ -1,6 +1,7 @@
 /**
- * 
+ *
  */
+
 package com.yourpackagename.yourwebproject.service.impl;
 
 import java.util.Arrays;
@@ -35,12 +36,14 @@ import com.yourpackagename.yourwebproject.service.SmsApiService;
 @Transactional
 public class SmsApiServiceImpl implements SmsApiService {
 
-	public static final String O_AUTH_URL_SMS = "https://api.telstra.com/v1/oauth/token";
-	public static final String SEND_SMS = "https://api.telstra.com/v1/sms/messages";
+	public static final String O_AUTH_URL_SMS = "https://tapi.telstra.com/v2/oauth/token";
+	public static final String SEND_SMS = "https://tapi.telstra.com/v2/messages/sms";
 	public static final String GET_SMS = "https://api.telstra.com/v1/sms/messages/";
 	public static final String CLIENT_ID = "26Mtv5hgQnJKK2OlJwI5J0WIcXYAHxNr";
 	public static final String CLIENT_SECRET = "VVwgmq9uGzIGCTxD";
 
+	//public static final String CLIENT_ID = "yOGCxeErz2CZ3nDLa5wfb1Dxu9AwLAPK";
+	//public static final String CLIENT_SECRET = "v4hYQE9QZ1U9ZgTX";
 	// public static final String EMAIL_URL =
 	// "http://reminders-mrdapp.rhcloud.com/app/loadEmailWebversion/";
 
@@ -58,6 +61,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 		if (content.length() > 160) {
 			content = content.substring(0, 157) + "...";
 		}
+		
 		SmsMessageEntity sms = new SmsMessageEntity(phoneNumber, content);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + token);
@@ -87,7 +91,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 		params.set("client_id", CLIENT_ID);
 		params.set("client_secret", CLIENT_SECRET);
 		params.set("grant_type", "client_credentials");
-		params.set("scope", "SMS");
+		//params.set("scope", "SMS");
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(
@@ -129,6 +133,51 @@ public class SmsApiServiceImpl implements SmsApiService {
 		return null;
 	}
 
+
+/*	private RestTemplate getRestTemplate()
+	{
+		RestTemplate restTemplate = new RestTemplate();
+		try
+		{
+			//SSLContextBuilder builder = new SSLContextBuilder();
+			// builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
+			
+			KeyStore trustedStore = KeyStore.getInstance("JKS");
+			trustedStore.load(new FileInputStream(ClassLoader.getSystemResource("SMSApi.jks").getFile()), "tapitelstra".toCharArray());
+			TrustStrategy acceptingTrustStrategy = new TrustStrategy() {
+				public boolean isTrusted(
+						java.security.cert.X509Certificate[] arg0, String arg1)
+						throws CertificateException {
+					// TODO Auto-generated method stub
+					return true;
+				}
+		    };
+			SSLContext context = org.apache.http.ssl.SSLContexts.custom().loadTrustMaterial(trustedStore	, new TrustSelfSignedStrategy()).build();
+			 SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(context, NoopHostnameVerifier.INSTANCE);
+			 Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
+			            .register("http", new PlainConnectionSocketFactory())
+			            .register("https", sslConnectionSocketFactory)
+			            .build();
+
+			 PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(registry);
+			 cm.setMaxTotal(100);
+			 CloseableHttpClient httpclient = HttpClients.custom()
+			            .setSSLSocketFactory(sslConnectionSocketFactory)
+			            .setConnectionManager(cm)
+			            .build();
+			 
+			 HttpComponentsClientHttpRequestFactory requestFactory 
+		      = new HttpComponentsClientHttpRequestFactory();
+		    requestFactory.setHttpClient(httpclient);
+		    restTemplate = new RestTemplate(requestFactory);
+		}
+		catch(Exception e){} 
+		return restTemplate;
+	}
+*/
+	
+	
+
 	/* POST */
 	/*
 	 * public String sendPushedNotification(String content, String groupEmailId)
@@ -143,14 +192,14 @@ public class SmsApiServiceImpl implements SmsApiService {
 	 * params.set("content_type","url"); params.set("content_extra",
 	 * "http://reminders-mrdapp.rhcloud.com/app/loadEmailWebversion/"
 	 * +groupEmailId);
-	 * 
+	 *
 	 * ResponseEntity<String> st = restTemplate.postForEntity( REST_SERVICE_URI,
 	 * params, String.class);
-	 * 
+	 *
 	 * return st.getBody(); // User user = new User(0,"Sarah",51,134); // URI
 	 * uri = restTemplate.postForLocation(REST_SERVICE_URI+"/user/", // user,
 	 * User.class); // System.out.println("Location : "+uri.toASCIIString()); }
-	 * 
+	 *
 	 * POST public String sendPushedNotification(String content,
 	 * GroupPushNotificationAccount groupPushNotficationAccount) { RestTemplate
 	 * restTemplate = new RestTemplate();
@@ -162,10 +211,10 @@ public class SmsApiServiceImpl implements SmsApiService {
 	 * groupPushNotficationAccount.getAppSecret()); params.set("content",
 	 * content); params.set("target_type",
 	 * groupPushNotficationAccount.getPushNotificationsTargetType());
-	 * 
+	 *
 	 * ResponseEntity<String> st = restTemplate.postForEntity( REST_SERVICE_URI,
 	 * params, String.class);
-	 * 
+	 *
 	 * return st.getBody(); // User user = new User(0,"Sarah",51,134); // URI
 	 * uri = restTemplate.postForLocation(REST_SERVICE_URI+"/user/", // user,
 	 * User.class); // System.out.println("Location : "+uri.toASCIIString()); }
