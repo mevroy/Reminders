@@ -24,10 +24,12 @@ public class SmsMessageEntity implements Serializable {
 	 */
 	private String to;
 	private String body;
+	private String from;
 
-	public SmsMessageEntity(String mobilePhone, String content) {
+	public SmsMessageEntity(String mobilePhone, String content, String from) {
 		this.to = mobilePhone;
 		this.body = content;
+		this.from = from;
 	}
 
 
@@ -63,6 +65,18 @@ public class SmsMessageEntity implements Serializable {
 	 */
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+
+
+	public String getFrom() {
+		return from;
+	}
+
+
+
+	public void setFrom(String from) {
+		this.from = from;
 	}
 
 }
