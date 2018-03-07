@@ -36,14 +36,14 @@ import com.yourpackagename.yourwebproject.service.SmsApiService;
 @Transactional
 public class SmsApiServiceImpl implements SmsApiService {
 
-	public static final String O_AUTH_URL_SMS = "https://tapi.telstra.com/v2/oauth/token";
-	public static final String SEND_SMS = "https://tapi.telstra.com/v2/messages/sms";
+	public static final String O_AUTH_URL_SMS = "https://api.telstra.com/v1/oauth/token";
+	public static final String SEND_SMS = "https://api.telstra.com/v1/sms/messages";
 	public static final String GET_SMS = "https://api.telstra.com/v1/sms/messages/";
-	//public static final String CLIENT_ID = "26Mtv5hgQnJKK2OlJwI5J0WIcXYAHxNr";
-	//public static final String CLIENT_SECRET = "VVwgmq9uGzIGCTxD";
+	public static final String CLIENT_ID = "26Mtv5hgQnJKK2OlJwI5J0WIcXYAHxNr";
+	public static final String CLIENT_SECRET = "VVwgmq9uGzIGCTxD";
 
-	public static final String CLIENT_ID = "yOGCxeErz2CZ3nDLa5wfb1Dxu9AwLAPK";
-	public static final String CLIENT_SECRET = "v4hYQE9QZ1U9ZgTX";
+	//public static final String CLIENT_ID = "yOGCxeErz2CZ3nDLa5wfb1Dxu9AwLAPK";
+	//public static final String CLIENT_SECRET = "v4hYQE9QZ1U9ZgTX";
 	// public static final String EMAIL_URL =
 	// "http://reminders-mrdapp.rhcloud.com/app/loadEmailWebversion/";
 
@@ -91,7 +91,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 		params.set("client_id", CLIENT_ID);
 		params.set("client_secret", CLIENT_SECRET);
 		params.set("grant_type", "client_credentials");
-		//params.set("scope", "SMS");
+		params.set("scope", "SMS");
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(
