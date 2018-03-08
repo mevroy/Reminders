@@ -28,13 +28,15 @@ public class SmsApiResponseEntity implements Serializable {
 	private String expires_in;
 	private String token_type;
 	
-	//private String messageId;
+	private String messageId;
 	//private SmsStatus status;
 	private Date receivedTimestamp;
 	private Date sentTimestamp;
 	private Date acknowledgedTimestamp;
 	private String from;
 	private String content;
+	
+	private String body;
 	
 	private int status;
 	private String message;
@@ -75,21 +77,21 @@ public class SmsApiResponseEntity implements Serializable {
 	}
 
 
-/*	*//**
+	/**
 	 * @return the messageId
-	 *//*
+	 */
 	public String getMessageId() {
 		return messageId;
 	}
 
 
-	*//**
+	/**
 	 * @param messageId the messageId to set
-	 *//*
+	 */
 	public void setMessageId(String messageId) {
 		this.messageId = messageId;
 	}
-*/
+
 
 
 	/**
@@ -216,8 +218,17 @@ public class SmsApiResponseEntity implements Serializable {
 	}
 
 	
+	public String getBody() {
+		return body;
+	}
+
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+	
 	public String toString() {
-		return "Token:" + access_token + "  ,  Status:" + status+" , acknowledgedTimestamp: "+acknowledgedTimestamp+" , sentTimestamp:"+sentTimestamp+" , receivedTimestamp:"+receivedTimestamp+" , content:"+content+" , message:"+message;
+		return "Token:" + access_token + " , body:" + body +" , messageId:" + messageId + " ,  Status:" + status+" , acknowledgedTimestamp: "+acknowledgedTimestamp+" , sentTimestamp:"+sentTimestamp+" , receivedTimestamp:"+receivedTimestamp+" , content:"+content;
 	}
 
 }
