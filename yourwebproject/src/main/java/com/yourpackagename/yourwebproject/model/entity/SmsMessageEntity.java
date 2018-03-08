@@ -26,11 +26,13 @@ public class SmsMessageEntity implements Serializable {
 	private String body;
 	private String from;
 	private String messageId;
+	private String notifyURL;
 
-	public SmsMessageEntity(String mobilePhone, String content, String from) {
+	public SmsMessageEntity(String mobilePhone, String content, String from, String notifyURL) {
 		this.to = mobilePhone;
 		this.body = content;
 		this.from = from;
+		this.notifyURL = notifyURL;
 	}
 
 
@@ -96,4 +98,23 @@ public class SmsMessageEntity implements Serializable {
 	public void setMessageId(String messageId) {
 		this.messageId = messageId;
 	}
+	
+	
+	/**
+	 * @return the notifyURL
+	 */
+	public String getNotifyURL() {
+		return notifyURL;
+	}
+
+
+
+	/**
+	 * @param to the notifyURL to set
+	 */
+	public void setNotifyURL(String notifyURL) {
+		this.notifyURL = notifyURL;
+	}
+	
+	
 }
