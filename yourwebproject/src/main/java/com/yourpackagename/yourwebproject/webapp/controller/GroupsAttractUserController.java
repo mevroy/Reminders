@@ -4,9 +4,6 @@
 package com.yourpackagename.yourwebproject.webapp.controller;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,20 +18,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import org.apache.pdfbox.pdmodel.interactive.form.PDTextField;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,8 +32,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.yourpackagename.commons.util.CommonUtils;
 import com.yourpackagename.framework.exception.auth.UserPermissionException;
 import com.yourpackagename.yourwebproject.actor.MailSenderUntypedActor;
@@ -59,13 +47,11 @@ import com.yourpackagename.yourwebproject.model.entity.GroupEventInviteRSVP;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventPass;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventPassCategory;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
-import com.yourpackagename.yourwebproject.model.entity.GroupInboundSMS;
 import com.yourpackagename.yourwebproject.model.entity.GroupInterests;
 import com.yourpackagename.yourwebproject.model.entity.GroupMember;
 import com.yourpackagename.yourwebproject.model.entity.GroupSMS;
 import com.yourpackagename.yourwebproject.model.entity.Groups;
 import com.yourpackagename.yourwebproject.model.entity.RegisterInterest;
-import com.yourpackagename.yourwebproject.model.entity.SmsApiResponseEntity;
 import com.yourpackagename.yourwebproject.model.entity.enums.EmailActivity;
 import com.yourpackagename.yourwebproject.model.entity.enums.Role;
 import com.yourpackagename.yourwebproject.service.GroupEmailActivityService;
@@ -83,7 +69,6 @@ import com.yourpackagename.yourwebproject.service.GroupSMSService;
 import com.yourpackagename.yourwebproject.service.GroupsService;
 import com.yourpackagename.yourwebproject.service.LoggerService;
 import com.yourpackagename.yourwebproject.service.RegisterInterestService;
-import com.yourpackagename.yourwebproject.service.SmsApiService;
 
 /**
  * @author mevan.d.souza
@@ -512,7 +497,7 @@ public class GroupsAttractUserController extends BaseWebAppController {
 
 	@RequestMapping(value = "/postSmsReplyEvent", method = RequestMethod.POST)
 	public @ResponseBody String postSendGridEvent(
-			@RequestBody JSONObject   smsApiResponseEntity,
+			@RequestBody String   smsApiResponseEntity,
 			@PathVariable String groupCode) {
 
 		log.info(smsApiResponseEntity.toString());
