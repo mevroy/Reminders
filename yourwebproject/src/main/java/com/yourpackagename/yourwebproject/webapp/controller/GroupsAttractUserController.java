@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yourpackagename.commons.util.CommonUtils;
 import com.yourpackagename.framework.exception.auth.UserPermissionException;
 import com.yourpackagename.yourwebproject.actor.MailSenderUntypedActor;
@@ -47,11 +49,13 @@ import com.yourpackagename.yourwebproject.model.entity.GroupEventInviteRSVP;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventPass;
 import com.yourpackagename.yourwebproject.model.entity.GroupEventPassCategory;
 import com.yourpackagename.yourwebproject.model.entity.GroupEvents;
+import com.yourpackagename.yourwebproject.model.entity.GroupInboundSMS;
 import com.yourpackagename.yourwebproject.model.entity.GroupInterests;
 import com.yourpackagename.yourwebproject.model.entity.GroupMember;
 import com.yourpackagename.yourwebproject.model.entity.GroupSMS;
 import com.yourpackagename.yourwebproject.model.entity.Groups;
 import com.yourpackagename.yourwebproject.model.entity.RegisterInterest;
+import com.yourpackagename.yourwebproject.model.entity.SmsApiResponseEntity;
 import com.yourpackagename.yourwebproject.model.entity.enums.EmailActivity;
 import com.yourpackagename.yourwebproject.model.entity.enums.Role;
 import com.yourpackagename.yourwebproject.service.GroupEmailActivityService;
@@ -496,12 +500,13 @@ public class GroupsAttractUserController extends BaseWebAppController {
 	}
 
 	@RequestMapping(value = "/postSmsReplyEvent", method = RequestMethod.POST)
-	public @ResponseBody String postSendGridEvent(
-			@RequestBody String   smsApiResponseEntity,
+	public @ResponseBody String postSmsReplyEvent(
+			@RequestBody SmsApiResponseEntity   smsApiResponseEntity,
 			@PathVariable String groupCode) {
 
 		log.info(smsApiResponseEntity.toString());
-/*		if (smsApiResponseEntity != null) {
+
+		if (smsApiResponseEntity != null) {
 			if (StringUtils.isNotBlank(smsApiResponseEntity.getMessageId())) {
 				try {
 					GroupSMS gsms = groupSMSService
@@ -513,17 +518,46 @@ public class GroupsAttractUserController extends BaseWebAppController {
 						BeanUtils.copyProperties(gIbSMS, gsms);
 						gIbSMS.setCreatedAt(Calendar.getInstance().getTime());
 						gIbSMS.setUpdatedAt(Calendar.getInstance().getTime());
-						gIbSMS.setSmsContent(smsApiResponseEntity.getContent());
+						gIbSMS.setSmsContent(smsApiResponseEntity.getBody());
 						groupInboundSMSService.insert(gIbSMS);
 					}
 				} catch (Exception e) {
 					log.error("Error Occure when processing SMS call back");
 				}
 			}
-		}*/
+		}
 		return "success";
 	}
 
+	
+	@RequestMapping(value = "/postSmsStatusEvent", method = RequestMethod.POST)
+	public @ResponseBody String postSmsStatusEvent(
+			@RequestBody SmsApiResponseEntity   smsApiResponseEntity,
+			@PathVariable String groupCode) {
+
+		log.info(smsApiResponseEntity.toString());
+
+		if (smsApiResponseEntity != null) {
+			if (StringUtils.isNotBlank(smsApiResponseEntity.getMessageId())) {
+				try {
+					GroupSMS gsms = groupSMSService
+							.findByMessageId(smsApiResponseEntity
+									.getMessageId());
+					if (gsms != null) {
+						gsms.setSmsDeliveredDate(smsApiResponseEntity.getReceivedTimestamp());
+						gsms.setUpdatedAt(Calendar.getInstance().getTime());
+						gsms.setUpdatedBy("SMS Callback Api");
+						groupSMSService.update(gsms);
+					}
+				} catch (Exception e) {
+					log.error("Error Occure when processing SMS call back");
+				}
+			}
+		}
+		return "success";
+	}
+	
+	
 	@RequestMapping(value = "/postSendGridEvent", method = RequestMethod.POST)
 	public @ResponseBody String postSendGridEvent(
 			@RequestBody List<LinkedHashMap<String, Object>> sendGridEntities,
