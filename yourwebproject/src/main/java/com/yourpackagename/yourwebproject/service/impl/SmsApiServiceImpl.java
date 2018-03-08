@@ -45,6 +45,8 @@ public class SmsApiServiceImpl implements SmsApiService {
 
 	public static final String CLIENT_ID = "yOGCxeErz2CZ3nDLa5wfb1Dxu9AwLAPK";
 	public static final String CLIENT_SECRET = "v4hYQE9QZ1U9ZgTX";
+	
+	public static final String SMS_STATUS_URL = "http://www.mevroy.info/app/MRD/postSmsStatusEvent";
 	// public static final String EMAIL_URL =
 	// "http://reminders-mrdapp.rhcloud.com/app/loadEmailWebversion/";
 
@@ -63,7 +65,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 			content = content.substring(0, 157) + "...";
 		}
 		
-		SmsMessageEntity sms = new SmsMessageEntity(phoneNumber, content, FROM);
+		SmsMessageEntity sms = new SmsMessageEntity(phoneNumber, content, FROM, SMS_STATUS_URL);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", token.getToken_type()+" " + token.getAccess_token());
 		headers.setContentType(MediaType.APPLICATION_JSON);
