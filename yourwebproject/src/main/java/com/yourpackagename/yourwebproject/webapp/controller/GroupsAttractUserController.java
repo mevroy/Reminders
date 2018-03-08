@@ -501,12 +501,12 @@ public class GroupsAttractUserController extends BaseWebAppController {
 
 	@RequestMapping(value = "/postSmsReplyEvent", method = RequestMethod.POST)
 	public @ResponseBody String postSmsReplyEvent(
-			@RequestBody SmsApiResponseEntity   smsApiResponseEntity,
+			@RequestBody String   smsApiResponseEntity,
 			@PathVariable String groupCode) {
 
 		log.info(smsApiResponseEntity.toString());
 
-		if (smsApiResponseEntity != null) {
+/*		if (smsApiResponseEntity != null) {
 			if (StringUtils.isNotBlank(smsApiResponseEntity.getMessageId())) {
 				try {
 					GroupSMS gsms = groupSMSService
@@ -525,7 +525,7 @@ public class GroupsAttractUserController extends BaseWebAppController {
 					log.error("Error Occure when processing SMS call back");
 				}
 			}
-		}
+		}*/
 		return "success";
 	}
 
