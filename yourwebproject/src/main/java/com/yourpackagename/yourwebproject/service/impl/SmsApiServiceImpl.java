@@ -39,8 +39,8 @@ public class SmsApiServiceImpl implements SmsApiService {
 	public static final String O_AUTH_URL_SMS = "https://tapi.telstra.com/v2/oauth/token";
 	public static final String SEND_SMS = "https://tapi.telstra.com/v2/messages/sms";
 	public static final String GET_SMS = "https://api.telstra.com/v1/sms/messages/";
-	//public static final String CLIENT_ID = "26Mtv5hgQnJKK2OlJwI5J0WIcXYAHxNr";
-	//public static final String CLIENT_SECRET = "VVwgmq9uGzIGCTxD";
+//	public static final String CLIENT_ID = "26Mtv5hgQnJKK2OlJwI5J0WIcXYAHxNr";
+//	public static final String CLIENT_SECRET = "VVwgmq9uGzIGCTxD";
 	public static final String FROM = "61472880395";
 
 	public static final String CLIENT_ID = "yOGCxeErz2CZ3nDLa5wfb1Dxu9AwLAPK";
@@ -51,7 +51,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 	public SmsApiResponseEntity sendSmsNotification(String phoneNumber,
 			String content) throws Exception {
 		// TODO Auto-generated method stub
-		String token = this.obtainAuthorisationToken();
+		SmsApiResponseEntity token = this.obtainAuthorisationToken();
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setMessageConverters(Arrays.asList(
 				new StringHttpMessageConverter(),
@@ -65,7 +65,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 		
 		SmsMessageEntity sms = new SmsMessageEntity(phoneNumber, content, FROM);
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + token);
+		headers.add("Authorization", token.getToken_type()+" " + token.getAccess_token());
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		// HttpEntity<MultiValueMap<String, String>> request = new
 		// HttpEntity<MultiValueMap<String, String>>(params, headers);
@@ -73,6 +73,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 				sms, headers);
 		ResponseEntity<SmsApiResponseEntity> st = restTemplate.exchange(
 				SEND_SMS, HttpMethod.POST, request, SmsApiResponseEntity.class);
+		System.out.println("SMS Response:"+st.toString());
 		//this.getSmsNotificationStatus(st.getBody().getMessageId());
 		if(st!=null && st.getStatusCode().equals(HttpStatus.TOO_MANY_REQUESTS))
 		{
@@ -81,7 +82,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 		return st.getBody();
 	}
 
-	private String obtainAuthorisationToken() {
+	private SmsApiResponseEntity obtainAuthorisationToken() {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setMessageConverters(Arrays.asList(
 				new StringHttpMessageConverter(),
@@ -100,7 +101,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 		ResponseEntity<SmsApiResponseEntity> st = restTemplate.exchange(
 				O_AUTH_URL_SMS, HttpMethod.POST, request,
 				SmsApiResponseEntity.class);
-		return st.getBody().getAccess_token();
+		return st.getBody();
 	}
 
 	public SmsApiResponseEntity getSmsNotificationStatus(String messageId) {
@@ -111,9 +112,9 @@ public class SmsApiServiceImpl implements SmsApiService {
 				new MappingJacksonHttpMessageConverter(),
 				new ByteArrayHttpMessageConverter()));
 
-		String token = this.obtainAuthorisationToken();
+		SmsApiResponseEntity token = this.obtainAuthorisationToken();
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + token);
+		headers.add("Authorization", token.getToken_type()+" " + token.getAccess_token());
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<SmsMessageEntity> request = new HttpEntity<SmsMessageEntity>(
 				headers);
