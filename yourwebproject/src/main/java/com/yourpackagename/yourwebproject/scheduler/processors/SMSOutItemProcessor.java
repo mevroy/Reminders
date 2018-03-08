@@ -68,9 +68,14 @@ public class SMSOutItemProcessor implements ItemProcessor<GroupSMS, GroupSMS>,
 				throw new PhoneNumberValidationException("Invalid Phone number - "+groupSMS.getMobileNumber());
 			}
 			SmsApiResponseEntity response = SmsApiService.sendSmsNotification(groupSMS.getMobileNumber(), groupSMS.getBody());
-			groupSMS.setSmsedDate(new Date());
-			groupSMS.setSmsError(null);
-			groupSMS.setProviderMessageId(response.getMessageId());
+			if(response!=null && response.getMessages()!=null && response.getMessages().length>0)
+			{
+				groupSMS.setProviderMessageId(response.getMessages()[0].getMessageId());
+				groupSMS.setSmsedDate(new Date());
+			}
+			
+			groupSMS.setSmsError(response.getStatus()+"-"+response.getMessage());
+			
 		} 
 
 		catch (PhoneNumberValidationException e) {
