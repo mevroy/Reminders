@@ -26,13 +26,20 @@ public class SmsApiResponseEntity implements Serializable {
 	 */
 	private String access_token;
 	private String expires_in;
-	private String messageId;
-	private SmsStatus status;
+	private String token_type;
+	
+	//private String messageId;
+	//private SmsStatus status;
 	private Date receivedTimestamp;
 	private Date sentTimestamp;
 	private Date acknowledgedTimestamp;
 	private String from;
 	private String content;
+	
+	private int status;
+	private String message;
+	private SmsMessageEntity[] messages;
+
 
 
 
@@ -68,27 +75,27 @@ public class SmsApiResponseEntity implements Serializable {
 	}
 
 
-	/**
+/*	*//**
 	 * @return the messageId
-	 */
+	 *//*
 	public String getMessageId() {
 		return messageId;
 	}
 
 
-	/**
+	*//**
 	 * @param messageId the messageId to set
-	 */
+	 *//*
 	public void setMessageId(String messageId) {
 		this.messageId = messageId;
 	}
-
+*/
 
 
 	/**
 	 * @return the status
 	 */
-	public SmsStatus getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
@@ -96,7 +103,7 @@ public class SmsApiResponseEntity implements Serializable {
 	/**
 	 * @param status the status to set
 	 */
-	public void setStatus(SmsStatus status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -181,8 +188,36 @@ public class SmsApiResponseEntity implements Serializable {
 	}
 
 
+	public String getToken_type() {
+		return token_type;
+	}
+
+
+	public void setToken_type(String token_type) {
+		this.token_type = token_type;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	public SmsMessageEntity[]  getMessages() {
+		return messages;
+	}
+
+
+	public void setMessages(SmsMessageEntity[] messages) {
+		this.messages = messages;
+	}
+
+	
 	public String toString() {
-		return "Token:" + access_token + " , messageId:" + messageId + " ,  Status:" + status+" , acknowledgedTimestamp: "+acknowledgedTimestamp+" , sentTimestamp:"+sentTimestamp+" , receivedTimestamp:"+receivedTimestamp+" , content:"+content;
+		return "Token:" + access_token + "  ,  Status:" + status+" , acknowledgedTimestamp: "+acknowledgedTimestamp+" , sentTimestamp:"+sentTimestamp+" , receivedTimestamp:"+receivedTimestamp+" , content:"+content+" , message:"+message;
 	}
 
 }
