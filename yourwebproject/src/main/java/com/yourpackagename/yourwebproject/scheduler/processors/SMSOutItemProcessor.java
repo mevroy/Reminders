@@ -74,7 +74,8 @@ public class SMSOutItemProcessor implements ItemProcessor<GroupSMS, GroupSMS>,
 				groupSMS.setSmsedDate(new Date());
 			}
 			
-			groupSMS.setSmsError(response.getStatus()+"-"+response.getMessage());
+			if(response.getStatus()>0){
+			groupSMS.setSmsError(response.getStatus()+"-"+response.getMessage());}
 			
 		} 
 
