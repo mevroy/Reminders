@@ -66,6 +66,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 		}
 		
 		SmsMessageEntity sms = new SmsMessageEntity(phoneNumber, content, FROM, SMS_STATUS_URL);
+		sms.setReplyRequest(true);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", token.getToken_type()+" " + token.getAccess_token());
 		headers.setContentType(MediaType.APPLICATION_JSON);
