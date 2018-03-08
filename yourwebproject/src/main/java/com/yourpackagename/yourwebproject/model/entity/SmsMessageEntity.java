@@ -27,6 +27,7 @@ public class SmsMessageEntity implements Serializable {
 	private String from;
 	private String messageId;
 	private String notifyURL;
+	private boolean replyRequest;
 
 	public SmsMessageEntity()
 	{
@@ -120,5 +121,21 @@ public class SmsMessageEntity implements Serializable {
 		this.notifyURL = notifyURL;
 	}
 	
+	
+	/**
+	 * @return the replyRequest
+	 */
+	public boolean isReplyRequest() {
+		return replyRequest;
+	}
+
+
+
+	/**
+	 * @param to the replyRequest to set
+	 */
+	public void setReplyRequest(boolean replyRequest) {
+		this.replyRequest = replyRequest;
+	}
 	
 }
