@@ -25,6 +25,7 @@ public class SmsMessageEntity implements Serializable {
 	private String to;
 	private String body;
 	private String from;
+	private String messageId;
 
 	public SmsMessageEntity(String mobilePhone, String content, String from) {
 		this.to = mobilePhone;
@@ -79,4 +80,20 @@ public class SmsMessageEntity implements Serializable {
 		this.from = from;
 	}
 
+	
+	/**
+	 * @return the messageId
+	 */
+	public String getMessageId() {
+		return messageId;
+	}
+
+
+
+	/**
+	 * @param to the messageId to set
+	 */
+	public void setMessageId(String messageId) {
+		this.messageId = messageId;
+	}
 }
