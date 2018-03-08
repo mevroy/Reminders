@@ -28,6 +28,10 @@ public class SmsMessageEntity implements Serializable {
 	private String messageId;
 	private String notifyURL;
 
+	public SmsMessageEntity()
+	{
+		//Dummy constructor to make sure the JSON serialization works
+	}
 	public SmsMessageEntity(String mobilePhone, String content, String from, String notifyURL) {
 		this.to = mobilePhone;
 		this.body = content;
