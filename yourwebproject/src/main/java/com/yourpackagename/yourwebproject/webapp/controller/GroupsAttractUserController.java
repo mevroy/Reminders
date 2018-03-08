@@ -27,6 +27,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDTextField;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -511,11 +512,11 @@ public class GroupsAttractUserController extends BaseWebAppController {
 
 	@RequestMapping(value = "/postSmsReplyEvent", method = RequestMethod.POST)
 	public @ResponseBody String postSendGridEvent(
-			@RequestBody SmsApiResponseEntity smsApiResponseEntity,
+			@RequestBody JSONObject   smsApiResponseEntity,
 			@PathVariable String groupCode) {
 
 		log.info(smsApiResponseEntity.toString());
-		if (smsApiResponseEntity != null) {
+/*		if (smsApiResponseEntity != null) {
 			if (StringUtils.isNotBlank(smsApiResponseEntity.getMessageId())) {
 				try {
 					GroupSMS gsms = groupSMSService
@@ -534,7 +535,7 @@ public class GroupsAttractUserController extends BaseWebAppController {
 					log.error("Error Occure when processing SMS call back");
 				}
 			}
-		}
+		}*/
 		return "success";
 	}
 
