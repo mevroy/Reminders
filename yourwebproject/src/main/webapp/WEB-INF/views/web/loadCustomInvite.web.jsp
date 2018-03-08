@@ -24,7 +24,7 @@
 	<div class="row">
 		<div>
 			<img class="col-xs-12 col-lg-offset-3 col-lg-6" id="imager"
-				src="/app/00622239-f2b3-48e7-a55a-d7c1f65d05ad/batch/files/ErinsBday.png">
+				src="/app/res/custom/images/ErinsBday.png">
 			<c:if test="${groupEventInvite.groupEventInviteId ne null}">
 				<br/>
 				<div class="col-xs-12 col-lg-offset-3 col-lg-6">
@@ -97,7 +97,7 @@
 						
 						$("#imager")
 								.load(
-										'/app/00622239-f2b3-48e7-a55a-d7c1f65d05ad/batch/files/ErinsBday.png',
+										'/app/res/custom/images/ErinsBday.png',
 										function(responseText, textStatus, req) {
 											if(textStatus== "error"){
 												$("#inviteButton").button('reset');
