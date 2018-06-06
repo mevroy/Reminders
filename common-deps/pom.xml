@@ -442,7 +442,7 @@
 		</dependency>
 
 
-		<!-- Apache Tiles -->
+		<!-- Apache Tiles -->		
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
 			<artifactId>tiles-core</artifactId>
@@ -575,6 +575,7 @@
 
 
 		<!-- File Upload -->
+<!-- Packaging - Mevan				
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -585,7 +586,7 @@
 			<artifactId>commons-io</artifactId>
 			<version>${apacheIo.version}</version>
 		</dependency>
-
+-->
 
 		<!-- Java Mail API -->
 		
