@@ -198,11 +198,12 @@
 		</dependency>
 
 		<!-- JSF Impl -->
+
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
 			<version>${jsfApi.version}</version>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
@@ -228,6 +229,7 @@
 			<artifactId>velocity</artifactId>
 			<version>${velocity.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-tools</artifactId>
@@ -236,13 +238,14 @@
 
 
 		<!-- Freemarker -->
+		<!-- Latest 2.3.x (not 2.4.x), at least 2.3.19 -->
+<!-- Packaging - Mevan				
 		<dependency>
 			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<!-- Latest 2.3.x (not 2.4.x), at least 2.3.19 -->
+			<artifactId>freemarker</artifactId>			
 			<version>${freemarker.version}</version>
 		</dependency>
-
+-->
 
 		<!-- Spring -->
 		<dependency>
@@ -397,21 +400,22 @@
 			<artifactId>hibernate-c3p0</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
--->		
+		
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>${hibernateJavaAssist.version}</version>
 		</dependency>
-
+-->
 
 		<!-- MySql Connector -->
+<!-- Packaging - Mevan			
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
-
+-->
 
 		<!-- MySQL C3P0 Data Pool -->
 		<dependency>
@@ -422,12 +426,13 @@
 
 
 		<!-- Mongo Java Driver -->
+<!-- Packaging - Mevan			
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
 			<version>${mongoJava.version}</version>
 		</dependency>
-
+-->
 
 		<!-- JSR 303 with Hibernate EntityValidator -->
 		<dependency>
@@ -583,6 +588,7 @@
 
 
 		<!-- Java Mail API -->
+		
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
