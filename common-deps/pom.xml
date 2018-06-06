@@ -7,7 +7,6 @@
 		<version>0.1.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-
 	<artifactId>common-deps</artifactId>
 	<packaging>pom</packaging>
 	<properties>
@@ -89,7 +88,7 @@
 	</properties>
 
 	<repositories>
-		<!-- Spring Milestone Repository -->
+			<!-- Spring Milestone Repository -->
 		<repository>
 			<id>spring-milestone</id>
 			<name>Spring Milestone Repository</name>
@@ -279,26 +278,30 @@
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+<!-- Packaging - Mevan				
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+-->		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
-		</dependency>
+		</dependency>			
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+<!-- Packaging - Mevan			
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
-		</dependency>
+		</dependency>		
+-->		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-oxm</artifactId>
@@ -309,11 +312,13 @@
 			<artifactId>spring-beans</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+<!-- Packaging - Mevan		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jms</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+ -->		
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>spring-batch-core</artifactId>
@@ -386,11 +391,13 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
+<!-- Packaging - Mevan				
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-c3p0</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
+-->		
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
@@ -453,6 +460,7 @@
 
 
 		<!-- Camel -->
+<!-- Packaging - Mevan			
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
@@ -463,6 +471,8 @@
 			<artifactId>camel-quartz</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
+-->		
+<!-- Packaging - Mevan		
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-jms</artifactId>
@@ -473,7 +483,7 @@
 			<artifactId>camel-shiro</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
-
+-->
 
 		<!-- Apache ActiveMQ 
 		<dependency>
@@ -534,20 +544,22 @@
 		-->
 		
 		<!-- Scala Library -->
+<!-- Packaging - Mevan				
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
 			<version>${scala.version}</version>
 		</dependency>
-
+-->
 
 		<!-- UUID library -->
+<!-- Packaging - Mevan				
 		<dependency>
 			<groupId>com.eaio.uuid</groupId>
 			<artifactId>uuid</artifactId>
 			<version>${eaioUuid.version}</version>
 		</dependency>
-
+-->
 
 		<!-- Joda Time Library -->
 		<dependency>
@@ -579,14 +591,16 @@
 
 
 		<!-- JMS -->
+<!-- Packaging - Mevan		
 		<dependency>
 			<groupId>javax.jms</groupId>
 			<artifactId>jms</artifactId>
 			<version>${javaJms.version}</version>
 		</dependency>
-
+-->
 
 		<!-- Apache JCS -->
+		
 		<dependency>
 			<groupId>org.apache.jcs</groupId>
 			<artifactId>jcs</artifactId>
@@ -595,6 +609,7 @@
 
 
 		<!-- Apache Commons -->
+	
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-digester3</artifactId>
@@ -607,11 +622,13 @@
 			<version>${apacheCollections.version}</version>
 			<type>jar</type>
 		</dependency>
+		
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>${apacheHttp.version}</version>
 		</dependency>
+<!-- Packaging - Mevan			
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
@@ -627,9 +644,10 @@
 			<artifactId>commons-math</artifactId>
 			<version>${apacheMath.version}</version>
 		</dependency>
-
+-->
 
 		<!-- AspectJ -->
+<!-- Packaging - Mevan		
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
@@ -645,7 +663,7 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectj.version}</version>
 		</dependency>
-
+-->
 
 
 		<!-- Spring configuration required dependency: CGLIB -->
@@ -693,7 +711,7 @@
 		</dependency>
 
 
-		<!-- Lombok for Java Boilerplate -->
+		<!-- Lombok for Java Boilerplate -->		
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
