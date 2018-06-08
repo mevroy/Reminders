@@ -616,19 +616,21 @@
 
 
 		<!-- Apache Commons -->
-	
+<!-- Packaging - Mevan		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-digester3</artifactId>
 			<version>${apacheDigester.version}</version>
 			<type>jar</type>
 		</dependency>
+	
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>${apacheCollections.version}</version>
 			<type>jar</type>
 		</dependency>
+-->	
 		
 		<dependency>
 			<groupId>commons-httpclient</groupId>
@@ -674,12 +676,13 @@
 
 
 		<!-- Spring configuration required dependency: CGLIB -->
+<!-- Packaging - Mevan				
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>${cglib.version}</version>
 		</dependency>
-
+-->
 
 		<!-- Jackson JSON Processor -->
 		<dependency>
@@ -695,20 +698,23 @@
 
 
 		<!-- Xerces -->
+<!-- Packaging - Mevan				
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
 			<version>${xerces.version}</version>
 		</dependency>
+-->
 
 
 		<!-- Castor -->
+<!-- Packaging - Mevan				
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-xml</artifactId>
 			<version>${castor.version}</version>
 		</dependency>
-
+-->
 
 		<!-- XStream -->
 		<dependency>
@@ -749,12 +755,13 @@
 		</dependency>
 
 		<!-- Test -->
+<!-- Packaging - Mevan				
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 		</dependency>
-
+-->
 
 		<!-- Google Lib Phone -->
 		<dependency>
