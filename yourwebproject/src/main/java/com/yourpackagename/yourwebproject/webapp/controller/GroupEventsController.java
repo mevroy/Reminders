@@ -256,6 +256,19 @@ public class GroupEventsController extends BaseWebAppController {
 		return groupEmailTemplateService.findbyGroupCode(groupCode);
 	}
 
+	@RequestMapping(value = "/viewAllGroupSMSTemplates", method = RequestMethod.GET)
+	public String viewAllGroupSMSTemplates(Locale locale, Model model,
+			@PathVariable String groupCode) {
+		return "viewGroupSMSTemplates";
+	}
+
+	@RequestMapping(value = "/json/viewAllGroupSMSTemplates", method = RequestMethod.GET)
+	public @ResponseBody List<GroupSMSTemplate> viewAllGroupSMSTemplatesList(
+			Locale locale, Model model, @PathVariable String groupCode) {
+		return groupSMSTemplateService.findbyGroupCode(groupCode);
+	}
+
+	
 	@RequestMapping(value = "/json/viewGroupEmailTemplates", method = RequestMethod.GET)
 	public @ResponseBody HashMap<String, List<HashMap<String, Object>>> viewGroupEmailTemplates(
 			Locale locale, Model model, @PathVariable String groupCode,
