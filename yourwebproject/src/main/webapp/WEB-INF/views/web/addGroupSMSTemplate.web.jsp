@@ -129,7 +129,6 @@
 					class="btn btn-large">CANCEL</a>
 			</form:form>
 		</div>
-
 		<!-- Modal -->
 		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel" aria-hidden="true" align="center">
