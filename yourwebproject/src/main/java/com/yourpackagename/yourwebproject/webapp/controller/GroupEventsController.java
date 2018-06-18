@@ -173,12 +173,14 @@ public class GroupEventsController extends BaseWebAppController {
 	public String saveGroupSMSTemplate(
 			Locale locale,
 			Model model,
+			@PathVariable String groupCode,
 			@ModelAttribute("groupSMSTemplate") GroupSMSTemplate groupSMSTemplate,
 			BindingResult results) throws Exception {
 		if (results.hasErrors()) {
 			return "addGroupSMSTemplate";
 		} else {
 			groupSMSTemplate.setUpdatedAt(Calendar.getInstance().getTime());
+			groupSMSTemplate.setGroup(groupsService.findByGroupCode(groupCode));
 			GroupSMSTemplate groupSMSET = groupSMSTemplateService
 					.insertOrUpdate(groupSMSTemplate);
 			addSuccess("Email Template \"" + groupSMSET.getTemplateName()

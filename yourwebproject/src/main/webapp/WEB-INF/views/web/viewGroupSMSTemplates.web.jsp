@@ -47,7 +47,7 @@
 				index : 'templateName',
 				hidden : false,
 				editable : false,
-				width : 200,
+				width : 300,
 				formatter : editTemplateContent
 			}, {
 				label : 'ID',
@@ -71,7 +71,7 @@
 				editable : false,
 				sortable : true,
 				sorttype : 'string',
-				width : 80
+				width : 100
 			},  {
 				label : 'Mem. Category',
 				name : 'memberCategoryCode',
@@ -80,7 +80,7 @@
 				editable : false,
 				sortable : true,
 				sorttype : 'string',
-				width : 80
+				width : 100
 			} ],
 			height : 300,
 			rowNum : 100,
