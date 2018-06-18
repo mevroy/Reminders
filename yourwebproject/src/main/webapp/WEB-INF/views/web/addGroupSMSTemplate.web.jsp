@@ -43,19 +43,6 @@
 
 
 					<div class="span5">
-
-						<div class="control-group" id="htmlCtl">
-							<label class="control-label" for="html">HTML format</label>
-
-							<div class="controls">
-								<form:radiobutton path="html" cssClass="input-xlarge" id="html1"
-									value="true" />
-								YES&nbsp;&nbsp;
-								<form:radiobutton path="html" cssClass="input-xlarge" id="html2"
-									value="false" />
-								NO
-							</div>
-						</div>
 						<div id="moreDetails">
 							<div class="control-group" id="smsAccountCodeCtl">
 								<label class="control-label" for="smsAccountCode">SMS
