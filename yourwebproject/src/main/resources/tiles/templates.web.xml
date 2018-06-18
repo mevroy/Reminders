@@ -83,6 +83,11 @@
 		<put-attribute name="content"
 			value="/WEB-INF/views/web/addGroupEmailTemplate.web.jsp" />
 	</definition>
+	<definition name="addGroupSMSTemplate" extends="base">
+		<put-attribute name="title" value="Add Group SMS Template" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/web/addGroupSMSTemplate.web.jsp" />
+	</definition>	
 	<definition name="addGroupMemberCategory" extends="base">
 		<put-attribute name="title" value="Add Group Member Category" />
 		<put-attribute name="content"

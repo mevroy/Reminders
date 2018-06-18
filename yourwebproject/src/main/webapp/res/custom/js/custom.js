@@ -399,6 +399,27 @@ function buildGroupEmailAccountOptions(htmlSelectId) {
 	});
 }
 
+function buildGroupSMSAccountOptions(htmlSelectId) {
+	$.ajax({
+		type : 'GET',
+		url : "json/viewGroupSMSAccounts",
+		success : function(j) {
+			var options = '<option value="">Select One</option>"';
+			if (typeof j !== 'undefined' && typeof j[0] !== 'undefined') {
+				for (var i = 0; i < j.length; i++) {
+					options += '<option value="' + j[i].value + '">'
+							+ j[i].label + '</option>';
+				}
+
+			}
+			$("select#" + htmlSelectId).html(options);
+		},
+		dataType : 'json',
+		async : true
+	});
+}
+
+
 function postForm(formId, url) {
 	var data = $('#' + formId).serialize();
 	// $('input[type="submit"]').prop('disabled', true);

@@ -31,6 +31,7 @@ import com.yourpackagename.yourwebproject.service.GroupCronJobService;
 import com.yourpackagename.yourwebproject.service.GroupEmailTemplateService;
 import com.yourpackagename.yourwebproject.service.GroupEventsService;
 import com.yourpackagename.yourwebproject.service.GroupSMSTemplateService;
+import com.yourpackagename.yourwebproject.service.GroupsService;
 
 /**
  * @author mevan.d.souza
@@ -43,6 +44,7 @@ public class GroupEventsController extends BaseWebAppController {
 	private @Autowired GroupCronJobService groupCronJobService;
 	private @Autowired GroupEmailTemplateService groupEmailTemplateService;
 	private @Autowired GroupSMSTemplateService groupSMSTemplateService;
+	private @Autowired GroupsService groupsService;
 
 	@RequestMapping(value = "/addGroupEvent", method = RequestMethod.GET)
 	public String addGroupEvent(Locale locale, Model model,
@@ -153,6 +155,43 @@ public class GroupEventsController extends BaseWebAppController {
 		}
 	}
 
+	
+	@RequestMapping(value = "/addGroupSMSTemplate", method = RequestMethod.GET)
+	public String addGroupSMSTemplate(Locale locale, Model model,
+			@PathVariable String groupCode,
+			@RequestParam(required = false) Long id) throws Exception {
+		GroupSMSTemplate groupSMSTemplate = new GroupSMSTemplate();
+		groupSMSTemplate.setGroup(groupsService.findByGroupCode(groupCode));
+		if (id != null && id > 0) {
+			groupSMSTemplate = groupSMSTemplateService.findById(id);
+		}
+		model.addAttribute("groupSMSTemplate", groupSMSTemplate);
+		return "addGroupSMSTemplate";
+	}
+
+	@RequestMapping(value = "/saveGroupSMSTemplate", method = RequestMethod.POST)
+	public String saveGroupSMSTemplate(
+			Locale locale,
+			Model model,
+			@ModelAttribute("groupSMSTemplate") GroupSMSTemplate groupSMSTemplate,
+			BindingResult results) throws Exception {
+		if (results.hasErrors()) {
+			return "addGroupSMSTemplate";
+		} else {
+			groupSMSTemplate.setUpdatedAt(Calendar.getInstance().getTime());
+			GroupSMSTemplate groupSMSET = groupSMSTemplateService
+					.insertOrUpdate(groupSMSTemplate);
+			addSuccess("Email Template \"" + groupSMSET.getTemplateName()
+					+ "\" has been successfully added/updated.", model);
+			GroupSMSTemplate ge = new GroupSMSTemplate();
+			ge.setGroup(groupSMSET.getGroup());
+			model.addAttribute("groupSMSTemplate", ge);
+			return "addGroupSMSTemplate";
+		}
+	}
+
+	
+	
 	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN,
 			Role.SUPER_USER })
 	@RequestMapping(value = "/json/viewGroupEvents", method = RequestMethod.GET)
