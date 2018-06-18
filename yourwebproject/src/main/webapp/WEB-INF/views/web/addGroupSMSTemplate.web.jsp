@@ -49,8 +49,6 @@
 									Account Code</label>
 
 								<div class="controls">
-
-
 									<form:select path="smsAccountCode" cssClass="input-xlarge"
 										id="smsAccountCode">
 										<option value="">Select One</option>
