@@ -46,7 +46,7 @@ public class SmsApiServiceImpl implements SmsApiService {
 	public static final String CLIENT_ID = "yOGCxeErz2CZ3nDLa5wfb1Dxu9AwLAPK";
 	public static final String CLIENT_SECRET = "v4hYQE9QZ1U9ZgTX";
 	
-	public static final String SMS_STATUS_URL = "http://www.mevroy.info/app/MRD/postSmsStatusEvent";
+	public static final String SMS_STATUS_URL = "http://www.mevroy.online/app/MRD/postSmsStatusEvent";
 	// public static final String EMAIL_URL =
 	// "http://reminders-mrdapp.rhcloud.com/app/loadEmailWebversion/";
 

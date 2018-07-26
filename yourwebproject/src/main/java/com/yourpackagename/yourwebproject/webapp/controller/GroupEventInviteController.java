@@ -508,6 +508,7 @@ public class GroupEventInviteController extends BaseWebAppController {
 					modelMap.put("groupMember", groupMember);
 					modelMap.put("groupEventInvite", groupEventInvite);
 					modelMap.put("groupEvent", grpEvent);
+					modelMap.put("groupSMSTemplate", gSMSTemplate);
 					for (String phoneNumber : CommonUtils.convertStringToList(
 							groupMember.getMobilephone(), ",")) {
 						if (CommonUtils.isValidPhoneNumber(phoneNumber, "AU")) {
