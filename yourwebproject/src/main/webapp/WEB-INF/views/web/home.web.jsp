@@ -25,6 +25,7 @@
 						team will be in touch with you.
 					</p>
 					
+					
 					<a href="registerInterest?interestType=Join Group"  class="btn btn-primary btn-lg" >REGISTER INTEREST</a>&nbsp;<c:if test="${sessionScope.user eq null || empty sessionScope.user}" ><a href="login" class="btn btn-primary btn-lg" >LOGIN</a> </c:if>
 				<!-- 	<button type="button" id="myButton" data-loading-text="<span class='spinner'><i  class='icon-spin icon-repeat icon-play-circle'></i></span> Loading.." class="btn btn-primary btn-large has-spinner"  >
   Loading state
