@@ -143,6 +143,7 @@ public class GroupsController extends BaseWebAppController {
 		return eS;
 	}
 	
+	@CheckPermission(allowedRoles = { Role.SUPER_ADMIN, Role.ADMIN })
 	@RequestMapping(value = "/handleDeviceUpdates", method = RequestMethod.POST)
 	public @ResponseBody String handleDeviceUpdates(Locale locale, Model model,
 			@PathVariable String groupCode,

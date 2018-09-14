@@ -77,13 +77,14 @@ public class GroupEmailAccountController extends BaseWebAppController {
 		try {
 			GroupEmailAccount newgroupEmailAccount = groupEmailAccountService
 					.insert(groupEmailAccount);
+			addSuccess("Email Account has been successfully added/updated. Thanks",
+					model);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			addError("Error has Occured while saving the values", model);
 		}
-		addSuccess("Email Account has been successfully added/updated. Thanks",
-				model);
+
 		return "addGroupEmailAccount";
 	}
 

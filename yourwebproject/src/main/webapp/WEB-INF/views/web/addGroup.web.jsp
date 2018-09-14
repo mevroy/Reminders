@@ -37,7 +37,7 @@
 
 							<div class="controls">
 
-								<form:input path="groupCode" cssClass="input-xlarge" readonly="true"
+								<form:input path="groupCode" cssClass="input-xlarge" 
 									id="groupCode" placeholder="Enter 3 digit Group Code" />
 							</div>
 						</div>
