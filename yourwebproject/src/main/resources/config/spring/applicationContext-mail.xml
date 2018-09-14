@@ -34,7 +34,6 @@
   		</mail:inbound-channel-adapter>    -->
      <!--  <int:poller fixed-delay="6000" time-unit="SECONDS"/>  -->
 
-
  <mail:imap-idle-channel-adapter id="customAdapter"
       store-uri="imaps://${mail.user}:${mail.pass}@imap.googlemail.com:993/INBOX"
       channel="recieveEmailChannel"      
