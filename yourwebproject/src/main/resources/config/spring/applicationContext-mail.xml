@@ -32,6 +32,7 @@
  
        <int:poller max-messages-per-poll="5" cron="30 0/1 * 1/1 * ?"/>
   		</mail:inbound-channel-adapter>    
+  		
      <!--  <int:poller fixed-delay="6000" time-unit="SECONDS"/>  -->
 <!-- 
  <mail:imap-idle-channel-adapter id="customAdapter"
