@@ -79,4 +79,4 @@ INSERT INTO BATCH_JOB_EXECUTION_SEQ values(0);
 CREATE TABLE BATCH_JOB_SEQ (ID BIGINT NOT NULL) ENGINE=MYISAM;
 INSERT INTO BATCH_JOB_SEQ values(0);
 
-INSERT INTO groups (group_code, start_date, expiry_date, group_email_send, registration_email_send, group_long_name) values ('ADM',now(), DATE_ADD(now(), INTERVAL 1 YEAR), b'0', b'0', 'Admin');
+INSERT INTO groups (group_code, start_date, expiry_date, group_email_send, registration_email_send, group_long_name, avg_members_count) values ('ADM',now(), DATE_ADD(now(), INTERVAL 1 YEAR), b'0', b'0', 'Admin',0);
