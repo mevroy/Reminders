@@ -41,7 +41,7 @@ public class PushedApiServiceImpl implements PushedApiService{
 		params.set("content", content);
 		params.set("target_type", "app");
 		params.set("content_type","url");
-		params.set("content_extra", "http://reminders-mrdapp.rhcloud.com/app/loadEmailWebversion/"+groupEmailId);
+		params.set("content_extra", "http://mevroy-reminders.1d35.starter-us-east-1.openshiftapps.com/app/loadEmailWebversion/"+groupEmailId);
 
 		ResponseEntity<String> st = restTemplate.postForEntity(
 				REST_SERVICE_URI, params, String.class);
