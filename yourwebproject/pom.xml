@@ -118,6 +118,7 @@
                         <configuration>
                             <outputDirectory>deployments</outputDirectory>
                             <warName>app</warName>
+                            <packagingExcludes>WEB-INF/lib/javaee-web-api*.jar</packagingExcludes>
                         </configuration>
                     </plugin>
                 </plugins>
