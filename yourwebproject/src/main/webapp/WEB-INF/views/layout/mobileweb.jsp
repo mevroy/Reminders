@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/res/custom/images/email/generic/${sessionScope.groupCode}Logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     
-    <link href="${pageContext.request.contextPath}/res/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/res/bootstrap/3.3.6/css/${sessionScope.cssSelector}bootstrap.min.css" rel="stylesheet">
     <link href="data:text/css;charset=utf-8," data-href="${pageContext.request.contextPath}/res/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet" id="bs-theme-stylesheet">
     <link href="${pageContext.request.contextPath}/res/bootstrap/3.3.6/css/docs.min.css" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/res/bootstrap/css/datepicker.css"/>
